@@ -14,9 +14,10 @@ const userSchema = new Schema(
       type: String,
       required: true
     },
-  favoriteRecipes: [{ type: Schema.Types.ObjectId, ref: 'Recipe' }],
-  createdRecipes: [{ type: Schema.Types.ObjectId, ref: 'Recipe' }],
+    bookmarkedRecipes: [{ type: Schema.Types.ObjectId, ref: 'Recipe' }],
+    //createdRecipes: [{ type: Schema.Types.ObjectId, ref: 'Recipe' }],
+  },{
     timestamps: true
-});
+  });
 
 module.exports = model('User', userSchema);
