@@ -7,3 +7,9 @@ router.get('/', (req, res, next) => {
 });
 
 module.exports = router;
+
+// /  >> home
+// /signup
+// /profile
+// /my-bookmarks
+// /logout

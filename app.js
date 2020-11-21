@@ -10,6 +10,7 @@ const logger       = require('morgan');
 const path         = require('path');
 
 
+
 mongoose
   .connect('mongodb://localhost/recipes-project', {useNewUrlParser: true})
   .then(x => {
@@ -50,9 +51,10 @@ app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
 app.locals.title = 'Express - Generated with IronGenerator';
 
 
-
 const index = require('./routes/index');
 app.use('/', index);
 
+const recipes = require('./routes/recipes');
+app.use('/', recipes);
 
 module.exports = app;
