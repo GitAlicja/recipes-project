@@ -5,12 +5,12 @@ const router = express.Router();
 
 // /all-recipes 
 router.get('/recipes', (req, res, next) => {
-  
+
   recipe.find().then((recipeFromDB) => {
     console.log(recipeFromDB)
     res.render('welcome', { recipes: recipeFromDB })
-})
-    
+  })
+
 });
 
 
@@ -19,8 +19,6 @@ router.get('/recipes', (req, res, next) => {
 // /:id/details
 // /all-recipes/filteredBy... (?)
 // /create-new
-
-
 
 
 
