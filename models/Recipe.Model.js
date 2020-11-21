@@ -4,11 +4,11 @@ const { Schema, model } = mongoose;
 const recipeSchema = new Schema(
   {
     name: {
-      String,
+      type: String,
       required: [true]
     },
     instructions: {
-      String,
+      type: String,
       required: true
     },
     URL: String,
@@ -16,34 +16,36 @@ const recipeSchema = new Schema(
     prepTime: Number,
     cookTime: Number,
     totalTime: {
-      Number,
+      type: Number,
       required: true
     },
     typeOfMeal: [String],
     typeOfRecipe: [String],
     portions: Number,
     ingredients:
-      [
-        {
-        name: String,
-        required: true
-      },
+      [{
+        name: {
+          type: String,
+          required: true
+        },
 
-      {
-        quantity: Number,
-        required: true
-      },
-      {
-        unit: String,
-        required: true
-      },
-      ],
-  rating: Number,
-  createdBy: [{ type: Schema.Types.ObjectId, ref: 'User' }],
-  bookmarkedBy: [{ type: Schema.Types.ObjectId, ref: 'User' }],
-  numberOfBookmarks: Number,
-  createDate: Date,
-  timestamps: true,
+        quantity: {
+          type: Number,
+          required: true
+        },
+
+        unit: {
+          type: String,
+          required: true
+        },
+      }],
+    rating: Number,
+    createdBy: { type: Schema.Types.ObjectId, ref: 'User' },
+    //bookmarkedBy: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+    //numberOfBookmarks: Number,
+    //createDate: Date,
+  }, {
+    timestamps: true
   })
 
 module.exports = model('Recipe', recipeSchema);
