@@ -8,4 +8,6 @@
 <p>Type of Meal: {{typeOfMeal}}</p>
 <p>Type of Recipe: {{typeOfRecipe}}</p>
 <p>Portion: {{portions}}</p>
-{{!-- <p>Ingredients: {{ingredients}}</p> HELP --}}
+<p>Ingredients: {{#each ingredients}} <ul> 
+  <li>{{this.quantity}} {{this.unit}} {{this.name}}</li>
+</ul> {{/each}}</p> 
