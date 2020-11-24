@@ -12,11 +12,19 @@ router.get('/recipes', (req, res, next) => {
   })
 
 });
+// /:id/details
+
+router.get('/recipes/:id', (req, res, next) => {
+  const { id } = req.params;
+  recipe.findById(id)
+    .then(recipeDetails => {
+      res.render('details', recipeDetails);
+    })
+});
 
 
 
 // /:id/edit
-// /:id/details
 // /all-recipes/filteredBy... (?)
 // /create-new
 
