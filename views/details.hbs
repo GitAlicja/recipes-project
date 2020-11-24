@@ -1,0 +1,13 @@
+<h2>Recipe Details</h2>
+<p>Name: {{name}}</p>
+<p>Instructions: {{instructions}}</p>
+<p>Source: {{URL}}</p>
+<p>Preparation Time: {{prepTime}}</p>
+<p>Cook Time: {{cookTime}}</p>
+<p>Total Time: {{totalTime}}</p>
+<p>Type of Meal: {{typeOfMeal}}</p>
+<p>Type of Recipe: {{typeOfRecipe}}</p>
+<p>Portion: {{portions}}</p>
+<p>Ingredients: {{#each ingredients}} <ul> 
+  <li>{{this.quantity}} {{this.unit}} {{this.name}}</li>
+</ul> {{/each}}</p> 
