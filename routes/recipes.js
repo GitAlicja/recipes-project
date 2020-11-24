@@ -26,6 +26,15 @@ router.get('/recipes/:id', (req, res, next) => {
 
 // /:id/edit
 // /all-recipes/filteredBy... (?)
+router.get('/search', (req, response) => {
+  console.log("searchInput", req.query.searchInput)
+  let query = { name: { $regex: ".*" + req.query.searchInput + ".*" } }
+  console.log(query)
+  recipe.find(query).then((recipesFromDB) => {
+    console.log(recipesFromDB);
+    response.render('recipes-search-results', {recipesFromDB})
+  })
+})
 // /create-new
 
 
