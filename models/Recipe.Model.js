@@ -44,7 +44,8 @@ const recipeSchema = new Schema(
     //bookmarkedBy: [{ type: Schema.Types.ObjectId, ref: 'User' }],
     //numberOfBookmarks: Number,
     //createDate: Date,
-  }, {
+  },
+  {
     timestamps: true
   })
 

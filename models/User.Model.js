@@ -1,4 +1,5 @@
-const { Schema, model } = require('mongoose');
+const mongoose = require('mongoose');
+const { Schema, model } = mongoose;
 
 const userSchema = new Schema(
   {
@@ -8,7 +9,11 @@ const userSchema = new Schema(
     },
     email: {
       type: String,
-      required: true
+      required: true,
+      match: [/^\S+@\S+\.\S+$/, 'Please use a valid email address.'],
+      unique: true,
+      lowercase: true,
+      trim: true
     },
     passwordHash: {
       type: String,
@@ -16,8 +21,10 @@ const userSchema = new Schema(
     },
     bookmarkedRecipes: [{ type: Schema.Types.ObjectId, ref: 'Recipe' }],
     //createdRecipes: [{ type: Schema.Types.ObjectId, ref: 'Recipe' }],
-  },{
+  },
+  {
     timestamps: true
-  });
+  }
+);
 
 module.exports = model('User', userSchema);
