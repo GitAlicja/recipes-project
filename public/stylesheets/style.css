@@ -6,3 +6,17 @@ a {
   color: #00B7FF; }
 
 /*# sourceMappingURL=style.css.map */
+
+.profile-image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 130px;
+  width: 130px;
+  border: 1px solid grey;
+  border-radius: 50%;
+}
+
+.profile-image img {
+  width: 80%;
+}

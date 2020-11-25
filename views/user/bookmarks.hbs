@@ -1,0 +1,10 @@
+{{> navigationalBar}}
+
+<h2>My bookmarks</h2>
+
+{{#each this.bookmarkedRecipes}}
+  <p>{{this.name}}</p>
+  <p>{{this.image}}</p>
+  <p>{{this.createdBy.username}}</p>
+  <p><a href="/recipes/{{this._id}}">Go to Recipe</a></p>
+  {{/each}}

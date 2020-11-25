@@ -1,0 +1,21 @@
+{{> navigationalBar}}
+
+<div class="profile-image">
+  <img src="{{#if this.user.profileImg}}{{this.user.profileImg}}{{else}}/images/user.png{{/if}}">
+</div>
+<div>
+  <h3>Hello, {{this.user.username}}!</h3>
+  <a href="/user/profile/edit">Edit profile</a> <br>
+  <a href="">Create recipe</a>
+  <a href="/user/bookmarks">Bookmarks</a>
+  
+</div>
+
+<div>
+  <h2>Your recipes</h2>
+  {{#each this.recipes}}
+  <p>{{this.name}}</p>
+  <p>{{this.image}}</p>
+  <p><a href="/recipes/{{this._id}}">Go to Recipe</a></p>
+  {{/each}}
+</div>

@@ -1,22 +1,23 @@
 
 const express = require('express');
-const recipe = require('../models/Recipe.model');
+const Recipe = require('../models/Recipe.Model');
 const router = express.Router();
 
-// /all-recipes 
+// /recipes 
 router.get('/recipes', (req, res, next) => {
 
-  recipe.find().then((recipeFromDB) => {
-    console.log(recipeFromDB)
+  Recipe.find().then((recipeFromDB) => {
+    // console.log(recipeFromDB)
     res.render('welcome', { recipes: recipeFromDB })
   })
 
 });
-// /:id/details
 
+
+// /:id/details
 router.get('/recipes/:id', (req, res, next) => {
   const { id } = req.params;
-  recipe.findById(id)
+  Recipe.findById(id)
     .then(recipeDetails => {
       res.render('details', recipeDetails);
     })
@@ -25,7 +26,7 @@ router.get('/recipes/:id', (req, res, next) => {
 
 
 // /:id/edit
-// /all-recipes/filteredBy... (?)
+// /recipes/filteredBy... (?)
 // /create-new
 
 
