@@ -8,7 +8,16 @@
   <a href="/user/profile/edit">Edit profile</a> <br>
   <a href="">Create recipe</a>
   <a href="/user/bookmarks">Bookmarks</a>
-  
+
+</div>
+<br>
+<div>
+  <form action="/user/profile" method="GET">
+
+    <input type="text" name="query" placeholder="Find recipes..." value="{{this.query}}">
+    <button type="submit" id="search-button">Search</button>
+  </form>
+
 </div>
 
 <div>

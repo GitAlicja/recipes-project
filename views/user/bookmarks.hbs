@@ -2,11 +2,21 @@
 
 <h2>My bookmarks</h2>
 
+<br>
+<div>
+  <form action="/user/bookmarks" method="GET">
+
+    <input type="text" name="query" placeholder="Find recipes..." value="{{this.query}}">
+    <button type="submit" id="search-button">Search</button>
+  </form>
+
+</div>
+
 
 {{!-- 'this' is the user object --}}
-{{#each this.bookmarkedRecipes}}
-  <p>{{this.name}}</p>
-  <p>{{this.image}}</p>
-  <p>Created by: {{this.createdBy.username}}</p>
-  <p><a href="/recipes/{{this._id}}">Go to Recipe</a></p>
-  {{/each}}
+{{#each this.user.bookmarkedRecipes}}
+<p>{{this.name}}</p>
+<p>{{this.image}}</p>
+<p>Created by: {{this.createdBy.username}}</p>
+<p><a href="/recipes/{{this._id}}">Go to Recipe</a></p>
+{{/each}}

@@ -15,9 +15,22 @@ router.get('/profile', (req, res, next) => {
     // userId is the name of the property (of the object session) in the database
     // find the user who is logged in
     User.findById(req.session.userId).then(userFromDB => {
-      Recipe.find({ createdBy: req.session.userId }, null, { sort: { createdAt: 0 } }).then(recipesFromDB => {
-        console.log({ user: userFromDB, recipes: recipesFromDB }) // this is one object
-        res.render('user/profile', { user: userFromDB, recipes: recipesFromDB });
+
+      let recipesPromise;
+      // if the query IS set
+      if (req.query.query) {
+        recipesPromise = Recipe.find({
+          $and: [
+            { createdBy: req.session.userId }, { $or: [{ name: new RegExp(req.query.query, "i") }, { instructions: new RegExp(req.query.query, "i") }] }]
+        }, null, { sort: { createdAt: 0 } });
+        // if the query IS NOT set find all recipes created by the user
+      } else {
+        recipesPromise = Recipe.find({ createdBy: req.session.userId }, null, { sort: { createdAt: 0 } });
+      }
+
+      recipesPromise.then(recipesFromDB => {
+        // console.log({ user: userFromDB, recipes: recipesFromDB }) this is one object with two properties
+        res.render('user/profile', { query: req.query.query, user: userFromDB, recipes: recipesFromDB });
       });
     });
   }
@@ -73,16 +86,24 @@ router.get('/bookmarks', (req, res, next) => {
   if (!req.session.userId) {
     res.redirect('/');
   } else {
+
+    let queryMatch = undefined;
+    if (req.query.query) {
+      queryMatch = { $or: [{ name: new RegExp(req.query.query, "i") }, { instructions: new RegExp(req.query.query, "i") }] };
+    }
     User.findById(req.session.userId)
-    //.populate('bookmarkedRecipes')
-    .populate({
-      path: 'bookmarkedRecipes',
-      populate: {path: 'createdBy'}
-    })
-    .then(userFromDB => {
-      res.render('user/bookmarks', userFromDB)
-    });
+      //.populate('bookmarkedRecipes')
+      .populate({
+        path: 'bookmarkedRecipes',
+        populate: { path: 'createdBy' },
+        match: queryMatch
+      })
+      .then(userFromDB => {
+        res.render('user/bookmarks', { query: req.query.query, user: userFromDB })
+      });
   }
 });
+
+
 
 module.exports = router; 
