@@ -65,6 +65,7 @@ app.set('view engine', 'hbs');
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
 
+hbs.registerPartials(__dirname + "/views/partials");
 
 
 // default value for title local
@@ -75,5 +76,8 @@ app.use('/', index);
 
 const recipes = require('./routes/recipes');
 app.use('/', recipes);
+
+const user = require('./routes/user');
+app.use('/user', user);
 
 module.exports = app;
