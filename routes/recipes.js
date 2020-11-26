@@ -3,17 +3,22 @@ const express = require('express');
 const Recipe = require('../models/Recipe.Model');
 const router = express.Router();
 
-// /all-recipes 
+// /recipes 
 router.get('/recipes', (req, res, next) => {
 
   Recipe.find().then((recipeFromDB) => {
+<<<<<<< HEAD
     console.log(recipeFromDB)
+=======
+    // console.log(recipeFromDB)
+>>>>>>> 0f6b88fe4dd87e0457f93ce7560b7be32d78844f
     res.render('welcome', { recipes: recipeFromDB })
   })
 
 });
-// /:id/details
 
+
+// /:id/details
 router.get('/recipes/:id', (req, res, next) => {
   const { id } = req.params;
   Recipe.findById(id)
@@ -72,6 +77,17 @@ router.post('/recipes/:id/delete', (req, res) => {
 
 // /all-recipes/filteredBy... (?)
 
+router.get('/search', (req, response) => {
+  console.log("searchInput", req.query.searchInput)
+  let query = { name: { $regex: ".*" + req.query.searchInput + ".*" } }
+  console.log(query)
+  Recipe.find(query).then((recipesFromDB) => {
+    console.log(recipesFromDB);
+    response.render('recipes-search-results', {recipesFromDB})
+  })
+})
+// /recipes/filteredBy... (?)
+// /create-new
 
 
 

@@ -1,9 +1,8 @@
 const mongoose = require('mongoose');
 const Recipe = require('../models/Recipe.Model');
 
- 
 const DB_NAME = "recipes-project";
- 
+
 mongoose.connect(`mongodb://localhost/${DB_NAME}`, {
   useCreateIndex: true,
   useNewUrlParser: true,
@@ -22,8 +21,9 @@ const recipes = [
     typeOfRecipe: ['vegan', 'healthy', 'quick'],
     portions: 1,
     ingredients:
-      [ { name:'frozen raspberries', quantity: 150, unit:'g' }, {name: 'coconut milk (from a carton, not tinned)', quantity: 100, unit: 'ml'}, {name: 'almond butter', quantity: 1, unit: 'tablespoon'}, {name: 'large frozen banana', quantity: 1, unit: 'piece/s'}, {name: 'coconut chips', quantity: 1, unit: 'handful'}
+      [{ name: 'frozen raspberries', quantity: 150, unit: 'g' }, { name: 'coconut milk (from a carton, not tinned)', quantity: 100, unit: 'ml' }, { name: 'almond butter', quantity: 1, unit: 'tablespoon' }, { name: 'large frozen banana', quantity: 1, unit: 'piece/s' }, { name: 'coconut chips', quantity: 1, unit: 'handful' }
       ],
+    //createDate: Date.parse('2020-11-23')
   },
 
   {
@@ -37,16 +37,17 @@ const recipes = [
     typeOfRecipe: ['vegan', 'quick', 'healthy'],
     portions: 2,
     ingredients:
-      [ { name:'pasta', quantity: 2, unit:'portions' }, {name: 'courgette', quantity: 1, unit: 'piece/s'}, {name: 'garlic cloves', quantity: 2, unit: 'piece/s'}, {name: 'lemon juice', quantity: 0.5, unit: 'lemon'}, { name:'spinach', quantity: 200, unit:'g' }, { name:'almond milk', quantity: 125, unit:'ml' }, { name:'peas, frozen or fresh', quantity: 150, unit:'g' }, { name:'olive oil', quantity: 1, unit:'teaspoon' }, { name:'sea salt', quantity: 1, unit:'pinch' }
+      [{ name: 'pasta', quantity: 2, unit: 'portions' }, { name: 'courgette', quantity: 1, unit: 'piece/s' }, { name: 'garlic cloves', quantity: 2, unit: 'piece/s' }, { name: 'lemon juice', quantity: 0.5, unit: 'lemon' }, { name: 'spinach', quantity: 200, unit: 'g' }, { name: 'almond milk', quantity: 125, unit: 'ml' }, { name: 'peas, frozen or fresh', quantity: 150, unit: 'g' }, { name: 'olive oil', quantity: 1, unit: 'teaspoon' }, { name: 'sea salt', quantity: 1, unit: 'pinch' }
       ],
+    //createDate: Date.parse('2020-11-23')
   },
 
-  ];
+];
 
-  Recipe.create(recipes)
+Recipe.create(recipes)
   .then(recipesFromDB => {
     console.log(`Created ${recipesFromDB.length} recipes`);
- 
+
     // Once created, close the DB connection
     mongoose.connection.close();
   })

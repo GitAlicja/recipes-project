@@ -1,5 +1,18 @@
 <h1>Welcome {{username}} !</h1>
 
+<h2>Search recipes</h2>
+<form action="/search" method="get">
+ <input type="text" name="searchInput" placeholder="Search..">
+ <button type="submit">Search</button>
+
+</form>
+
+ <h2>Breakfast recipes</h2>
+ <p><a href="/recipes/FILTER">Go to breakfast recipes</a></p>
+
+
+
+
 {{#each recipes}}
 <p>{{this.name}}</p>
 <p>{{this.image}}</p>
