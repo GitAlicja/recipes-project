@@ -2,9 +2,11 @@
 
 <h2>My bookmarks</h2>
 
+
+{{!-- 'this' is the user object --}}
 {{#each this.bookmarkedRecipes}}
   <p>{{this.name}}</p>
   <p>{{this.image}}</p>
-  <p>{{this.createdBy.username}}</p>
+  <p>Created by: {{this.createdBy.username}}</p>
   <p><a href="/recipes/{{this._id}}">Go to Recipe</a></p>
   {{/each}}

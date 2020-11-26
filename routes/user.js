@@ -13,6 +13,7 @@ router.get('/profile', (req, res, next) => {
     res.redirect('/');
   } else {
     // userId is the name of the property (of the object session) in the database
+    // find the user who is logged in
     User.findById(req.session.userId).then(userFromDB => {
       Recipe.find({ createdBy: req.session.userId }, null, { sort: { createdAt: 0 } }).then(recipesFromDB => {
         console.log({ user: userFromDB, recipes: recipesFromDB }) // this is one object
