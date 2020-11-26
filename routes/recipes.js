@@ -7,11 +7,7 @@ const router = express.Router();
 router.get('/recipes', (req, res, next) => {
 
   Recipe.find().then((recipeFromDB) => {
-<<<<<<< HEAD
     console.log(recipeFromDB)
-=======
-    // console.log(recipeFromDB)
->>>>>>> 0f6b88fe4dd87e0457f93ce7560b7be32d78844f
     res.render('welcome', { recipes: recipeFromDB })
   })
 
