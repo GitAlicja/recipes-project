@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
-const Recipe = require('../models/Recipe.model');
-const User = require('../models/User.model');
+const Recipe = require('../models/Recipe.Model');
+const User = require('../models/User.Model');
 
  
 const DB_NAME = "recipes-project";
