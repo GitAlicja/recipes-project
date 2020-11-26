@@ -1,0 +1,54 @@
+
+
+<h2>Create a new recipe</h2>
+<p>!!removed ingredients and createdBy fields for now!!</p>
+<form action="/create" method="post">
+
+<ul>
+  <li><label for="name-input">Name:</label>
+  <input type="text" name="name" id="name-input" /> </li>
+
+ <li> <label for="instructions-input">Instructions:</label>
+  <textarea name="instructions" id="instructions-input" cols="30" rows="4"></textarea></li> 
+
+ <li><label for="source-input">Source:</label>
+  <input type="text" name="URL" id="source-input" /></li> 
+
+  <li> <label for="image-input">Image:</label>
+  <input type="text" name="image" id="image-input" /></li> 
+
+  <li> <label for="prepTime-input">Preparation Time:</label>
+  <input type="number" name="prepTime" id="prepTime-input" /></li> 
+
+   <li><label for="cookTime-input">Cooking Time:</label>
+  <input type="number" name="cookTime" id="cookTime-input" /></li> 
+
+   <li><label for="totalTime-input">Total Time:</label>
+  <input type="number" name="totalTime" id="totalTime-input" /></li> 
+
+   <li><label for="typeOfMeal-input">Type of Meal:</label>
+  <input type="text" name="typeOfMeal" id="typeOfMeal-input" /></li> 
+
+   <li><label for="typeOfRecipe-input">Type of Recipe:</label>
+  <input type="text" name="typeOfRecipe" id="typeOfRecipe-input" /></li> 
+
+   <li><label for="portions-input">Portion:</label>
+  <input type="number" name="portions" id="portions-input" /></li> 
+{{#each ingredients}}
+   <li>  <label for="ingredients-input"> Ingredients: {{this.name}} </label>
+  <input type="text" name="ingredients[]" id="ingredients-input" /></li> 
+{{/each}}
+   <li><label for="rating-input">Rating:</label>
+  <input type="number" name="rating" id="rating-input" /></li> 
+
+  <li>  <label for="createdBy-input">Created By: </label>
+ <input type="text" name="createdBy" id="createdBy-input" value="{{this.id}}"/> </li> 
+
+
+  <button type="submit">Create</button>
+
+
+</ul>
+
+
+</form>

@@ -8,6 +8,14 @@
 <p>Type of Meal: {{typeOfMeal}}</p>
 <p>Type of Recipe: {{typeOfRecipe}}</p>
 <p>Portion: {{portions}}</p>
-<p>Ingredients: {{#each ingredients}} <ul> 
+<p>Ingredients: {{#each ingredients}}
+<ul>
   <li>{{this.quantity}} {{this.unit}} {{this.name}}</li>
-</ul> {{/each}}</p> 
+</ul> {{/each}}</p>
+
+<p><a href="{{this._id}}/edit">Edit</a> </p>
+
+<form action="/recipes/{{_id}}/delete" method="POST">
+  <button>Delete</button>
+
+  </form>

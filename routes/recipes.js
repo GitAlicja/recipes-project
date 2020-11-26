@@ -1,12 +1,12 @@
 
 const express = require('express');
-const recipe = require('../models/Recipe.model');
+const Recipe = require('../models/Recipe.Model');
 const router = express.Router();
 
 // /all-recipes 
 router.get('/recipes', (req, res, next) => {
 
-  recipe.find().then((recipeFromDB) => {
+  Recipe.find().then((recipeFromDB) => {
     console.log(recipeFromDB)
     res.render('welcome', { recipes: recipeFromDB })
   })
@@ -16,17 +16,62 @@ router.get('/recipes', (req, res, next) => {
 
 router.get('/recipes/:id', (req, res, next) => {
   const { id } = req.params;
-  recipe.findById(id)
+  Recipe.findById(id)
     .then(recipeDetails => {
       res.render('details', recipeDetails);
     })
 });
 
+// /create-new
 
+router.get('/create', (req, res) => res.render('create'));
+
+//post route to save new recipe to DB ** Removed ingredients and createdBy fields!!**
+router.post('/create', (req, res) => {
+  console.log(req.body)
+  const { name, instructions, URL, image, prepTime, totalTime, typeOfMeal, typeOfRecipe, portions, rating } = req.body;
+
+  Recipe.create({ name, instructions, URL, image, prepTime, totalTime, typeOfMeal, typeOfRecipe, portions, ingredients: [req.body.ingredients], rating, userID: req.session.user._id })
+    .then(() => res.redirect('/recipes'))
+});
 
 // /:id/edit
+
+//How to give permission to the creator of the recipe??//
+
+router.get('/recipes/:id/edit', (req, res, next) => {
+  // if (!req.session.user && createdBy._id === req.session.user) {
+  //   res.redirect('/login');
+  // } else {
+  const { id } = req.params
+  Recipe.findById(id).then(recipeToEdit => {
+    res.render('edit', recipeToEdit)
+  })
+
+});
+
+router.post('/recipes/:id/edit', (req, res) => {
+  const { id } = req.params;
+  const { name, instructions, URL, image, prepTime, totalTime, typeOfMeal, typeOfRecipe, portions, rating } = req.body;
+
+  Recipe.findByIdAndUpdate(id, { name, instructions, URL, image, prepTime, totalTime, typeOfMeal, typeOfRecipe, portions, rating }, { new: true })
+    .then(() => res.redirect('/recipes'))
+
+});
+
+//:id/delete
+
+router.post('/recipes/:id/delete', (req, res) => {
+  const { id } = req.params;
+ 
+  Recipe.findByIdAndDelete(id)
+    .then(() => res.redirect('/recipes'))
+});
+
+
+
 // /all-recipes/filteredBy... (?)
-// /create-new
+
 
 
 
