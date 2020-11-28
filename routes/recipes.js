@@ -1,11 +1,14 @@
 
 const express = require('express');
 const Recipe = require('../models/Recipe.Model');
-
+const User = require('../models/User.Model');
 const router = express.Router();
 
 // /recipes 
 router.get('/recipes', (req, res, next) => {
+  // if (!req.session.userId) {
+  //  res.redirect('/login');
+  // } else {
   let MealType = ["breakfast", "lunch", "dinner", "soup", "snacks", "dessert", "cake"]
   let RecipeType = ["vegetarian", "vegan", "gluten-free", "meat", "fish", "seafood", "low-carb"]
   Recipe.find().then((recipeFromDB) => {
@@ -66,16 +69,24 @@ router.post('/recipes/:id/save-rating', (req, res, next) => {
 
 // /create-new
 
-router.get('/create', (req, res) => res.render('create'));
+// router.get('/create', (req, res) => res.render('create', {recipes: recipeFromDB, MealType: MealType }));
 
-//post route to save new recipe to DB ** Removed ingredients and createdBy fields!!**
+router.get('/create', (req, res, next) => {
+  let MealType = ["breakfast", "lunch", "dinner", "soup", "snacks", "dessert", "cake"]
+  Recipe.find().then((recipeFromDB) => {
+    res.render('create', { ingredients: [null, null, null, null], recipes: recipeFromDB, MealType: MealType,  })
+  })
+// user: userFromDB
+});
+//post route to save new recipe to DB 
 router.post('/create', (req, res) => {
   console.log(req.body)
-  const { name, instructions, URL, image, prepTime, totalTime, typeOfMeal, typeOfRecipe, portions } = req.body;
+  const { name, instructions, URL, image, prepTime, totalTime, typeOfMeal, typeOfRecipe, portions, ingredients } = req.body;
 
-  Recipe.create({ name, instructions, URL, image, prepTime, totalTime, typeOfMeal, typeOfRecipe, portions, ingredients: [req.body.ingredients], userID: req.session.user._id, ratings: [], avgRating: 0 })
+  Recipe.create({ name, instructions, URL, image, prepTime, totalTime, typeOfMeal, typeOfRecipe, portions, ingredients,ratings: [], avgRating: 0 })
     .then(() => res.redirect('/recipes'))
 });
+// userID: req.session.user._id
 
 // /:id/edit
 
@@ -85,18 +96,18 @@ router.get('/recipes/:id/edit', (req, res, next) => {
   // if (!req.session.user && createdBy._id === req.session.user) {
   //   res.redirect('/login');
   // } else {
+  let MealType = ["breakfast", "lunch", "dinner", "soup", "snacks", "dessert", "cake"]
   const { id } = req.params
   Recipe.findById(id).then(recipeToEdit => {
-    res.render('edit', recipeToEdit)
+    res.render('edit', { recipeToEdit: recipeToEdit, MealType: MealType })
   })
-
 });
 
 router.post('/recipes/:id/edit', (req, res) => {
   const { id } = req.params;
-  const { name, instructions, URL, image, prepTime, totalTime, typeOfMeal, typeOfRecipe, portions, rating } = req.body;
+  const { name, instructions, URL, image, prepTime, totalTime, typeOfMeal, typeOfRecipe, portions, ingredients } = req.body;
 
-  Recipe.findByIdAndUpdate(id, { name, instructions, URL, image, prepTime, totalTime, typeOfMeal, typeOfRecipe, portions, rating }, { new: true })
+  Recipe.findByIdAndUpdate(id, { name, instructions, URL, image, prepTime, totalTime, typeOfMeal, typeOfRecipe, portions, ingredients }, { new: true })
     .then(() => res.redirect('/recipes'))
 
 });

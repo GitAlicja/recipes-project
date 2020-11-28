@@ -8,10 +8,9 @@
 <p>Type of Meal: {{recipeDetails.typeOfMeal}}</p>
 <p>Type of Recipe: {{recipeDetails.typeOfRecipe}}</p>
 <p>Portion: {{recipeDetails.portions}}</p>
-<p>Ingredients: {{#each recipeDetails.ingredients}}
-<ul>
-  <li>{{this.quantity}} {{this.unit}} {{this.name}}</li>
-</ul> {{/each}}</p>
+<p>Ingredients: {{#each recipeDetails.ingredients}} <li>{{this}}</li>{{/each}}</p>
+
+<p>Created By: {{this.user.username}}</p>
 
 
 <p>Current rating: {{recipeDetails.avgRating}}</p>
