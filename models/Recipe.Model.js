@@ -22,23 +22,23 @@ const recipeSchema = new Schema(
     typeOfMeal: [String],
     typeOfRecipe: [String],
     portions: Number,
-    ingredients:
-      [{
-        name: {
-          type: String,
-          required: true
-        },
+    ingredients:[String],
+      // [{
+      //   name: {
+      //     type: String,
+      //     required: true
+      //   },
 
-        quantity: {
-          type: Number,
-          required: true
-        },
+      //   quantity: {
+      //     type: Number,
+      //     required: true
+      //   },
 
-        unit: {
-          type: String,
-          required: true
-        },
-      }],
+      //   unit: {
+      //     type: String,
+      //     required: true
+      //   },
+      // }],
     rating: Number,
     createdBy: { type: Schema.Types.ObjectId, ref: 'User' },
     //bookmarkedBy: [{ type: Schema.Types.ObjectId, ref: 'User' }],

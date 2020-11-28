@@ -8,10 +8,12 @@
 <p>Type of Meal: {{typeOfMeal}}</p>
 <p>Type of Recipe: {{typeOfRecipe}}</p>
 <p>Portion: {{portions}}</p>
-<p>Ingredients: {{#each ingredients}}
+<p>Ingredients: {{#each ingredients}} <li>{{this}}</li>{{/each}}</p>
+{{!-- <p>Ingredients: {{#each ingredients}}
 <ul>
   <li>{{this.quantity}} {{this.unit}} {{this.name}}</li>
-</ul> {{/each}}</p>
+</ul> {{/each}}</p> --}}
+<p>Created By: {{user.username}}</p>
 
 <p><a href="{{this._id}}/edit">Edit</a> </p>
 
