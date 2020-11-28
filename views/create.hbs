@@ -37,29 +37,23 @@
 
     <li><label for="portions-input">Portion:</label>
       <input type="number" name="portions" id="portions-input" /></li>
-   
-    {{!-- {{#each ingredients}}
-    <li> <label for="ingredients-input"> Ingredients:</label>
-      <input type="text" name="ingredients[]" id="ingredients-input" /></li>
-    {{/each}} --}}
 
+    {{#each ingredients}}
     <li> <label for="ingredients-input"> Ingredients: </label>
       <input type="text" name="ingredients" id="ingredients-input" /></li>
+    {{/each}}
 
-    {{!-- <li> <label for="ingredients-input"> Ingredients: </label>
-      <input type="text" name="ingredients" id="ingredients-input" /></li>
+    <li>
+      <label for="" level-input"">Level:</label>
+      <select id="level-input" name="level">
+        <option value="easy">Easy</option>
+        <option value="medium">Medium</option>
+        <option value="hard">Hard</option>
+      </select>
+    </li>
 
-    <li> <label for="ingredients-input"> Ingredients: </label>
-      <input type="text" name="ingredients" id="ingredients-input" /></li>
-
-    <li> <label for="ingredients-input"> Ingredients: </label>
-      <input type="text" name="ingredients" id="ingredients-input" /></li> --}}
-
-    {{!-- <li><label for="rating-input">Rating:</label>
-      <input type="number" name="rating" id="rating-input" /></li> --}}
-
-    <li> <label for="createdBy-input">Created By: </label>
-      <input type="text" name="createdBy" id="createdBy-input" value="{{this.id}}" /> </li>
+    <li> <label for="createdBy-input">Created By: {{this.user.username}} </label>
+      {{!-- <input type="text" name="createdBy" id="createdBy-input" value="{{createdBy}}" /> </li> --}}
 
 
     <button type="submit">Create</button>

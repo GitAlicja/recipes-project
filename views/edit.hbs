@@ -1,13 +1,13 @@
 <h2>Edit your recipe</h2>
 
-<form action="/recipes/{{_id}}/edit" method="post">
+<form action="/recipes/{{recipeToEdit.id}}/edit" method="post">
   <ul>
     <li><label for="name-input">Name:</label>
       <input type="text" name="name" id="name-input" value="{{recipeToEdit.name}}" /> </li>
 
     <li> <label for="instructions-input">Instructions:</label>
       <textarea name="instructions" id="instructions-input" cols="30"
-        rows="4">{{recipeToEdit.instructions}} </textarea>/></li>
+        rows="4">{{recipeToEdit.instructions}} </textarea></li>
 
     <li><label for="source-input">Source:</label>
       <input type="url" name="URL" id="source-input" value="{{recipeToEdit.URL}}" /></li>
@@ -40,16 +40,14 @@
       <input type="number" name="portions" id="portions-input" value="{{recipeToEdit.portions}}" /></li>
 
     
-    <li><label for="ingredients-input"> Ingredients:</label>
-      <input type="text" name="ingredients" id="ingredients-input" value="{{recipeToEdit.ingredients}}" /></li>
+    {{!-- <li><label for="ingredients-input"> Ingredients:</label>
+      <input type="text" name="ingredients" id="ingredients-input" value="{{recipeToEdit.ingredients}}" /></li> --}}
+      {{#each recipeToEdit.ingredients}}
 
-    
+    <li> <label for="ingredients-input"> Ingredients: </label>
+      <input type="text" name="ingredients" id="ingredients-input" value="{{this}}" /></li>
+    {{/each}}
 
-    {{!-- <li><label for="rating-input">Rating:</label>
-      <input type="number" name="rating" id="rating-input" value="{{rating}}" /></li> --}}
-
-    {{!-- <li>  <label for="createdBy-input">Created By: </label>
- <input type="text" name="createdBy" id="createdBy-input" value="{{this.id}}"/> </li>  --}}
 
 
     <button type="submit">Finished</button>

@@ -6,7 +6,7 @@ const router = express.Router();
 
 // /recipes 
 router.get('/recipes', (req, res, next) => {
-  // if (!req.session.user) {
+  // if (!req.session.userId) {
   //  res.redirect('/login');
   // } else {
   let MealType = ["breakfast", "lunch", "dinner", "soup", "snacks", "dessert", "cake"]
@@ -34,21 +34,19 @@ router.get('/recipes/:id', (req, res, next) => {
 router.get('/create', (req, res, next) => {
   let MealType = ["breakfast", "lunch", "dinner", "soup", "snacks", "dessert", "cake"]
   Recipe.find().then((recipeFromDB) => {
-    // console.log("Meal type ================================>", MealType)
-    res.render('create', { recipes: recipeFromDB, MealType: MealType })
+    res.render('create', { ingredients: [null, null, null, null], recipes: recipeFromDB, MealType: MealType,  })
   })
-
+// user: userFromDB
 });
 //post route to save new recipe to DB 
 router.post('/create', (req, res) => {
-   console.log(req.body)
-  const { name, instructions, URL, image, prepTime, totalTime, typeOfMeal, typeOfRecipe, portions, rating } = req.body;
+   console.log("======>", req.body)
+  const { name, instructions, URL, image, prepTime, totalTime, typeOfMeal, typeOfRecipe, portions, ingredients } = req.body;
 
-  Recipe.create({ name, instructions, URL, image, prepTime, totalTime, typeOfMeal, typeOfRecipe, portions, ingredients: [req.body.ingredients], rating })
+  Recipe.create({ name, instructions, URL, image, prepTime, totalTime, typeOfMeal, typeOfRecipe, portions, ingredients })
     .then(() => res.redirect('/recipes'))
 });
 
-// userID: req.session.user._id
 
 // /:id/edit
 
@@ -69,7 +67,7 @@ router.post('/recipes/:id/edit', (req, res) => {
   const { id } = req.params;
   const { name, instructions, URL, image, prepTime, totalTime, typeOfMeal, typeOfRecipe, portions, ingredients } = req.body;
 
-  Recipe.findByIdAndUpdate(id, { name, instructions, URL, image, prepTime, totalTime, typeOfMeal, typeOfRecipe, portions }, { new: true })
+  Recipe.findByIdAndUpdate(id, { name, instructions, URL, image, prepTime, totalTime, typeOfMeal, typeOfRecipe, portions, ingredients }, { new: true })
     .then(() => res.redirect('/recipes'))
 
 });
