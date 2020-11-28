@@ -4,6 +4,7 @@ const router = express.Router();
 const User = require('../models/User.Model');
 const Recipe = require('../models/Recipe.Model');
 
+const fileUploader = require('../configs/cloudinary.config');
 
 // GET /user/profile
 
@@ -50,8 +51,8 @@ router.get('/profile/edit', (req, res, next) => {
 });
 
 // POST /user/profile/edit
-
-router.post('/profile/edit', (req, res, next) => {
+// image is a parameter, the name attribute of the input field with the type of file
+router.post('/profile/edit', fileUploader.single('image'), (req, res, next) => {
 
   if (!req.session.userId) {
     res.redirect('/');
@@ -63,7 +64,7 @@ router.post('/profile/edit', (req, res, next) => {
       return;
     }
 
-    User.findByIdAndUpdate(req.session.userId, { username: req.body.username.trim(), email: req.body.email.trim() }).then(() => {
+    User.findByIdAndUpdate(req.session.userId, { username: req.body.username.trim(), email: req.body.email.trim(), profileImg: req.file.path }).then(() => {
       res.redirect('/user/profile');
     })
       .catch(error => {
