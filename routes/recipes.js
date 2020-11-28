@@ -1,14 +1,15 @@
 
 const express = require('express');
 const Recipe = require('../models/Recipe.Model');
+
 const router = express.Router();
 
 // /recipes 
 router.get('/recipes', (req, res, next) => {
-
+  let MealType = ["breakfast", "lunch", "dinner", "soup", "snacks", "dessert", "cake"]
   Recipe.find().then((recipeFromDB) => {
-    console.log(recipeFromDB)
-    res.render('welcome', { recipes: recipeFromDB })
+    console.log("Meal type ================================>", MealType)
+    res.render('welcome', { recipes: recipeFromDB, MealType: MealType })
   })
 
 });
@@ -64,7 +65,7 @@ router.post('/recipes/:id/edit', (req, res) => {
 
 router.post('/recipes/:id/delete', (req, res) => {
   const { id } = req.params;
- 
+
   Recipe.findByIdAndDelete(id)
     .then(() => res.redirect('/recipes'))
 });
@@ -74,15 +75,28 @@ router.post('/recipes/:id/delete', (req, res) => {
 // /all-recipes/filteredBy... (?)
 
 router.get('/search', (req, response) => {
-  console.log("searchInput", req.query.searchInput)
+  // console.log("searchInput", req.query.searchInput)
   let query = { name: { $regex: ".*" + req.query.searchInput + ".*" } }
-  console.log(query)
+  // console.log(query)
   Recipe.find(query).then((recipesFromDB) => {
-    console.log(recipesFromDB);
-    response.render('recipes-search-results', {recipesFromDB})
+    // console.log(recipesFromDB);
+    response.render('recipes-search-results', { recipesFromDB })
   })
 })
 // /recipes/filteredBy... (?)
+router.get('/filter', (req, res) => {
+  Recipe.find({typeOfMeal:{$in: req.query.typeOfMeal}}).then((recipesFromDB) => {
+    if(recipesFromDB.length === 0){
+      res.send("there is nothing base on ur filter")
+    }
+    console.log("pleaseee worrrrrkkkkk",recipesFromDB)
+    res.render('recipes-search-results', { recipesFromDB })
+  }).catch(error => {
+    console.log("something went wrong to get filters fromdb", error)
+  })
+})
+
+
 // /create-new
 
 

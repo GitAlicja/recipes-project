@@ -2,15 +2,22 @@
 
 <h2>Search recipes</h2>
 <form action="/search" method="get">
- <input type="text" name="searchInput" placeholder="Search..">
- <button type="submit">Search</button>
+  <input type="text" name="searchInput" placeholder="Search..">
+  <button type="submit">Search</button>
 
 </form>
 
- <h2>Breakfast recipes</h2>
- <p><a href="/recipes/FILTER">Go to breakfast recipes</a></p>
-
-
+<h2>Filter recipes</h2>
+<form action="/filter" method="get">
+  Type of meal:
+  <select name="typeOfMeal" multiple>
+    {{#each MealType}}
+    <option value="{{this}}">{{this}}</option>
+    {{/each}}
+  </select>
+  <br>
+  <button type="submit">Filter</button>
+</form>
 
 
 {{#each recipes}}
