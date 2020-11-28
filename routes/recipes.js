@@ -7,9 +7,10 @@ const router = express.Router();
 // /recipes 
 router.get('/recipes', (req, res, next) => {
   let MealType = ["breakfast", "lunch", "dinner", "soup", "snacks", "dessert", "cake"]
+  let RecipeType = ["vegetarian", "vegan", "gluten-free", "meat", "fish", "seafood", "low-carb"]
   Recipe.find().then((recipeFromDB) => {
     console.log("Meal type ================================>", MealType)
-    res.render('welcome', { recipes: recipeFromDB, MealType: MealType })
+    res.render('welcome', { recipes: recipeFromDB, MealType: MealType, RecipeType: RecipeType })
   })
 
 });
@@ -85,16 +86,23 @@ router.get('/search', (req, response) => {
 })
 // /recipes/filteredBy... (?)
 router.get('/filter', (req, res) => {
-  Recipe.find({typeOfMeal:{$in: req.query.typeOfMeal}}).then((recipesFromDB) => {
-    if(recipesFromDB.length === 0){
+  Recipe.find({
+    $and: [
+      { $or: [{ typeOfRecipe: { $in: req.query.typeOfRecipe } }] },
+      { $or: [{ typeOfMeal: { $in: req.query.typeOfMeal } }] }
+    ]
+  }).then((recipesFromDB) => {
+    if (recipesFromDB.length === 0) {
       res.send("there is nothing base on ur filter")
     }
-    console.log("pleaseee worrrrrkkkkk",recipesFromDB)
     res.render('recipes-search-results', { recipesFromDB })
   }).catch(error => {
     console.log("something went wrong to get filters fromdb", error)
   })
 })
+
+
+
 
 
 // /create-new
