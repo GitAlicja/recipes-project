@@ -17,12 +17,12 @@ router.get('/recipes', (req, res, next) => {
 
 // /:id/details
 router.get('/recipes/:id', (req, res, next) => {
-  // array of possible scores added
+  // array of possible scores to rate the recipes
   let possibleScores = [1, 2, 3, 4, 5];
   const { id } = req.params;
   Recipe.findById(id)
     .then(recipeDetails => {
-      // passing the array possibleScores
+      // passing the array of possibleScores added 
       res.render('details', { recipeDetails, possibleScores });
     })
 });
@@ -57,9 +57,6 @@ router.post('/recipes/:id/save-rating', (req, res, next) => {
 
           res.redirect('/recipes/' + req.params.id);
         })
-
-
-
 
 
     });
