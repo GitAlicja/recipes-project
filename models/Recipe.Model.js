@@ -39,7 +39,14 @@ const recipeSchema = new Schema(
           required: true
         },
       }],
-    rating: Number,
+    ratings: [{
+      user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+      rating: {
+        type: Number,
+        required: true
+      }
+    }],
+    avgRating: Number,
     createdBy: { type: Schema.Types.ObjectId, ref: 'User' },
     //bookmarkedBy: [{ type: Schema.Types.ObjectId, ref: 'User' }],
     //numberOfBookmarks: Number,

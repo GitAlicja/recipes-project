@@ -23,6 +23,8 @@ const recipes = [
     ingredients:
       [{ name: 'frozen raspberries', quantity: 150, unit: 'g' }, { name: 'coconut milk (from a carton, not tinned)', quantity: 100, unit: 'ml' }, { name: 'almond butter', quantity: 1, unit: 'tablespoon' }, { name: 'large frozen banana', quantity: 1, unit: 'piece/s' }, { name: 'coconut chips', quantity: 1, unit: 'handful' }
       ],
+      avgRating: 0,
+      ratings: []
     //createDate: Date.parse('2020-11-23')
   },
 
@@ -39,6 +41,8 @@ const recipes = [
     ingredients:
       [{ name: 'pasta', quantity: 2, unit: 'portions' }, { name: 'courgette', quantity: 1, unit: 'piece/s' }, { name: 'garlic cloves', quantity: 2, unit: 'piece/s' }, { name: 'lemon juice', quantity: 0.5, unit: 'lemon' }, { name: 'spinach', quantity: 200, unit: 'g' }, { name: 'almond milk', quantity: 125, unit: 'ml' }, { name: 'peas, frozen or fresh', quantity: 150, unit: 'g' }, { name: 'olive oil', quantity: 1, unit: 'teaspoon' }, { name: 'sea salt', quantity: 1, unit: 'pinch' }
       ],
+      avgRating: 0,
+      ratings: []
     //createDate: Date.parse('2020-11-23')
   },
 
