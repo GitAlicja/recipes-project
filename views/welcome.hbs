@@ -15,10 +15,15 @@
     <option value="{{this}}">{{this}}</option>
     {{/each}}
   </select>
+   Type of recipe:
+  <select name="typeOfRecipe">
+    {{#each RecipeType}}
+    <option value="{{this}}">{{this}}</option>
+    {{/each}}
+  </select>
   <br>
   <button type="submit">Filter</button>
 </form>
-
 
 {{#each recipes}}
 <p>{{this.name}}</p>
