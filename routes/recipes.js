@@ -93,7 +93,7 @@ router.get('/filter', (req, res) => {
     ]
   }).then((recipesFromDB) => {
     if (recipesFromDB.length === 0) {
-      res.send("there is nothing base on ur filter")
+      res.send("There are no recipes that meet your criteria. Sorry! :(")
     }
     res.render('recipes-search-results', { recipesFromDB })
   }).catch(error => {
