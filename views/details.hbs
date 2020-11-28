@@ -1,21 +1,38 @@
 <h2>Recipe Details</h2>
-<p>Name: {{name}}</p>
-<p>Instructions: {{instructions}}</p>
-<p>Source: {{URL}}</p>
-<p>Preparation Time: {{prepTime}}</p>
-<p>Cook Time: {{cookTime}}</p>
-<p>Total Time: {{totalTime}}</p>
-<p>Type of Meal: {{typeOfMeal}}</p>
-<p>Type of Recipe: {{typeOfRecipe}}</p>
-<p>Portion: {{portions}}</p>
-<p>Ingredients: {{#each ingredients}}
+<p>Name: {{recipeDetails.name}}</p>
+<p>Instructions: {{recipeDetails.instructions}}</p>
+<p>Source: {{recipeDetails.URL}}</p>
+<p>Preparation Time: {{recipeDetails.prepTime}}</p>
+<p>Cook Time: {{recipeDetails.cookTime}}</p>
+<p>Total Time: {{recipeDetails.totalTime}}</p>
+<p>Type of Meal: {{recipeDetails.typeOfMeal}}</p>
+<p>Type of Recipe: {{recipeDetails.typeOfRecipe}}</p>
+<p>Portion: {{recipeDetails.portions}}</p>
+<p>Ingredients: {{#each recipeDetails.ingredients}}
 <ul>
   <li>{{this.quantity}} {{this.unit}} {{this.name}}</li>
 </ul> {{/each}}</p>
 
-<p><a href="{{this._id}}/edit">Edit</a> </p>
 
-<form action="/recipes/{{_id}}/delete" method="POST">
+<p>Rating: {{recipeDetails.avgRating}}</p>
+
+<p>
+<form action="{{this.recipeDetails._id}}/save-rating" method="POST">
+  <label for="rating-select">Add rating</label>
+  <select name="newRating" id="rating-select">
+
+    {{#each possibleScores}}
+    <option value="{{this}}">{{this}}</option>
+    {{/each}}
+  </select>
+
+  <button class="save-button" type="submit">Save</button>
+</form>
+</p>
+
+<p><a href="{{this.recipeDetails._id}}/edit">Edit</a> </p>
+
+<form action="/recipes/{{this.recipeDetails._id}}/delete" method="POST">
   <button>Delete</button>
 
-  </form>
+</form>
