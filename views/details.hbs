@@ -9,25 +9,25 @@
 <p>Type of Recipe: {{recipeDetails.typeOfRecipe}}</p>
 <p>Portion: {{recipeDetails.portions}}</p>
 <p>Ingredients: {{#each recipeDetails.ingredients}} <li>{{this}}</li>{{/each}}</p>
+<p>Created By: {{recipeDetails.createdBy.username}}</p>
 
-<p>Created By: {{this.user.username}}</p>
-
-
-<p>Current rating: {{recipeDetails.avgRating}}</p>
-
+<p>Average Rating: {{recipeDetails.avgRating}} <span>| Number of Ratings: {{recipeDetails.ratings.length}}</span></p>
 <p>
 <form action="{{this.recipeDetails._id}}/save-rating" method="POST">
-  <label for="rating-select">Add rating</label>
+  <label for="rating-select">Rate this Recipe</label>
   <select name="newRating" id="rating-select">
-
     {{#each possibleScores}}
     <option value="{{this}}">{{this}}</option>
     {{/each}}
   </select>
 
   <button class="save-button" type="submit">Save</button>
+
+  {{#if selfRatingError}}<span>You can't rate your own recipe!</span>{{/if}}
 </form>
 </p>
+
+
 
 <p><a href="{{this.recipeDetails._id}}/edit">Edit</a> </p>
 

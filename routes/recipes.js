@@ -6,34 +6,40 @@ const router = express.Router();
 
 // /recipes 
 router.get('/recipes', (req, res, next) => {
-  // if (!req.session.userId) {
-  //  res.redirect('/login');
-  // } else {
-  let MealType = ["breakfast", "lunch", "dinner", "soup", "snacks", "dessert", "cake"]
-  let RecipeType = ["vegetarian", "vegan", "gluten-free", "meat", "fish", "seafood", "low-carb"]
-  Recipe.find().then((recipeFromDB) => {
-    // console.log("Meal type ================================>", MealType)
-    res.render('welcome', { recipes: recipeFromDB, MealType: MealType, RecipeType: RecipeType })
-  })
-
+  // only looged in user can see this page
+  if (!req.session.userId) {
+    res.redirect('/'); // redirect to the homepage where the login form is
+  } else {
+    let MealType = ["breakfast", "lunch", "dinner", "soup", "snacks", "dessert", "cake"]
+    let RecipeType = ["vegetarian", "vegan", "gluten-free", "meat", "fish", "seafood", "low-carb"]
+    Recipe.find().then((recipeFromDB) => {
+      // console.log("Meal type ================================>", MealType)
+      res.render('welcome', { recipes: recipeFromDB, MealType: MealType, RecipeType: RecipeType })
+    });
+  }
 });
 
 
 // /:id/details
 router.get('/recipes/:id', (req, res, next) => {
-  // array of possible scores to rate the recipes
-  let possibleScores = [1, 2, 3, 4, 5];
-  const { id } = req.params;
-  Recipe.findById(id)
-    .then(recipeDetails => {
-      // passing the array of possibleScores added 
-      res.render('details', { recipeDetails, possibleScores });
-    })
+
+  if (!req.session.userId) {
+    res.redirect('/'); // redirect to the homepage where the login form is
+  } else {
+    // array of possible scores to rate the recipe
+    let possibleScores = [1, 2, 3, 4, 5];
+    const { id } = req.params;
+    Recipe.findById(id)
+      .populate('createdBy')
+      .then(recipeDetails => {
+        // passing the array of possibleScores added 
+        res.render('details', { recipeDetails, possibleScores, selfRatingError: req.query.selfRatingError });
+      });
+  }
 });
 
 
 // /:id/save-rating
-
 router.post('/recipes/:id/save-rating', (req, res, next) => {
 
   if (!req.session.userId) {
@@ -41,28 +47,32 @@ router.post('/recipes/:id/save-rating', (req, res, next) => {
   } else {
 
     Recipe.findById(req.params.id).then(recipe => {
-      // check first if the user have already rated the recipe
-      // 'ratings' is the property name from the Recipes.Model
-      // 'user' is the property of the 'ratings' object from the Recipes.Model
+
+      if (recipe.createdBy == req.session.userId) {
+        res.redirect(`/recipes/${req.params.id}?selfRatingError=true`);
+        return;
+      }
+      // check first if the user has already rated this recipe (is the logged in user same user who has already rated this recipe)
+      // 'ratings' is the name of the array with ratings from the Recipes.Model
+      // 'user' is the property of a rating in the 'ratings' array from the Recipes.Model
       const existingRating = recipe.ratings.find(rating => rating.user == req.session.userId);
       if (existingRating) {
+        // if yes, than replace previous rating with the new one (from the same user)
         existingRating.rating = req.body.newRating;
       } else {
         const newRating = { user: req.session.userId, rating: req.body.newRating };
+        // add the new rating to the array with all ratings
         recipe.ratings.push(newRating);
       }
 
       recipe.avgRating = recipe.ratings.reduce((sum, entry) => sum + entry.rating, 0) / recipe.ratings.length;
 
-      
+
       Recipe.update({ _id: recipe._id }, { ratings: recipe.ratings, avgRating: recipe.avgRating })
         .exec()
         .then(() => {
-
           res.redirect('/recipes/' + req.params.id);
         })
-
-
     });
   }
 });
@@ -74,16 +84,16 @@ router.post('/recipes/:id/save-rating', (req, res, next) => {
 router.get('/create', (req, res, next) => {
   let MealType = ["breakfast", "lunch", "dinner", "soup", "snacks", "dessert", "cake"]
   Recipe.find().then((recipeFromDB) => {
-    res.render('create', { ingredients: [null, null, null, null], recipes: recipeFromDB, MealType: MealType,  })
+    res.render('create', { ingredients: [null, null, null, null], recipes: recipeFromDB, MealType: MealType, })
   })
-// user: userFromDB
+  // user: userFromDB
 });
 //post route to save new recipe to DB 
 router.post('/create', (req, res) => {
   console.log(req.body)
   const { name, instructions, URL, image, prepTime, totalTime, typeOfMeal, typeOfRecipe, portions, ingredients } = req.body;
 
-  Recipe.create({ name, instructions, URL, image, prepTime, totalTime, typeOfMeal, typeOfRecipe, portions, ingredients,ratings: [], avgRating: 0 })
+  Recipe.create({ name, instructions, URL, image, prepTime, totalTime, typeOfMeal, typeOfRecipe, portions, ingredients, ratings: [], avgRating: 0 })
     .then(() => res.redirect('/recipes'))
 });
 // userID: req.session.user._id
