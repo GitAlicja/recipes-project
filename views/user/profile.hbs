@@ -17,6 +17,24 @@
     <input type="text" name="query" placeholder="Find recipes..." value="{{this.query}}">
     <button type="submit" id="search-button">Search</button>
   </form>
+  <br>
+  
+  <h4>Filter recipes</h4>
+  <form action="/user/profile" method="GET">
+    Type of meal:
+    <select name="typeOfMeal" multiple>
+      {{#each this.MealType}}
+      <option value="{{this}}">{{this}}</option>
+      {{/each}}
+    </select>
+    Type of recipe:
+    <select name="typeOfRecipe">
+      {{#each this.RecipeType}}
+      <option value="{{this}}">{{this}}</option>
+      {{/each}}
+    </select>
+    <button type="submit">Filter</button>
+  </form>
 
 </div>
 

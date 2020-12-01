@@ -6,6 +6,9 @@ const Recipe = require('../models/Recipe.Model');
 
 const fileUploader = require('../configs/cloudinary.config');
 
+const MealType = ["breakfast", "lunch", "dinner", "soup", "snacks", "dessert", "cake"];
+const RecipeType = ["vegetarian", "vegan", "gluten-free", "meat", "fish", "seafood", "low-carb"];
+
 // GET /user/profile
 
 router.get('/profile', (req, res, next) => {
@@ -25,13 +28,26 @@ router.get('/profile', (req, res, next) => {
             { createdBy: req.session.userId }, { $or: [{ name: new RegExp(req.query.query, "i") }, { instructions: new RegExp(req.query.query, "i") }] }]
         }, null, { sort: { createdAt: 0 } });
         // if the query IS NOT set find all recipes created by the user
-      } else {
+      }
+
+      // user recipes filter by tag added
+      else if (req.query.typeOfRecipe || req.query.typeOfMeal) {
+        recipesPromise = Recipe.find({
+          $and: [
+            { $or: [{ typeOfRecipe: { $in: req.query.typeOfRecipe } }] },
+            { $or: [{ typeOfMeal: { $in: req.query.typeOfMeal } }] }
+          ]
+        })
+      }
+
+      // 2nd statement before adding feature filter by tag
+      else {
         recipesPromise = Recipe.find({ createdBy: req.session.userId }, null, { sort: { createdAt: 0 } });
       }
 
       recipesPromise.then(recipesFromDB => {
         // console.log({ user: userFromDB, recipes: recipesFromDB }) this is one object with two properties
-        res.render('user/profile', { query: req.query.query, user: userFromDB, recipes: recipesFromDB });
+        res.render('user/profile', { query: req.query.query, user: userFromDB, recipes: recipesFromDB, MealType: MealType, RecipeType: RecipeType });
       });
     });
   }
