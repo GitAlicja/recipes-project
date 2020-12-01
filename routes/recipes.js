@@ -4,6 +4,9 @@ const Recipe = require('../models/Recipe.Model');
 const User = require('../models/User.Model');
 const router = express.Router();
 
+// array of possible scores to rate the recipe
+const possibleScores = [1, 2, 3, 4, 5];
+
 // /recipes 
 router.get('/recipes', (req, res, next) => {
   // only looged in user can see this page
@@ -26,8 +29,6 @@ router.get('/recipes/:id', (req, res, next) => {
   if (!req.session.userId) {
     res.redirect('/'); // redirect to the homepage where the login form is
   } else {
-    // array of possible scores to rate the recipe
-    let possibleScores = [1, 2, 3, 4, 5];
     const { id } = req.params;
     Recipe.findById(id)
       .populate('createdBy')
@@ -52,9 +53,33 @@ router.post('/recipes/:id/save-rating', (req, res, next) => {
         res.redirect(`/recipes/${req.params.id}?selfRatingError=true`);
         return;
       }
+
+      // // 1st version
+      // let found = false;
+      // for (let i = 0; i < possibleScores.length; i++) {
+      //   let score = possibleScores[i];
+      //   found = found || score == req.body.newRating;
+      //   // example: false || 1 == "6"
+      // }
+
+
+      // // 2nd version
+      // if (!possibleScores.includes(req.body.newRating)) {
+      //   res.redirect('/recipes/' + req.params.id);
+      //   return;
+      // }
+
+      // 3rd version
+      const validValue = possibleScores.reduce((found, score) => found || score == req.body.newRating, false);
+
+      if (!validValue) {
+        res.redirect('/recipes/' + req.params.id);
+        return;
+      }
+
       // check first if the user has already rated this recipe (is the logged in user same user who has already rated this recipe)
       // 'ratings' is the name of the array with ratings from the Recipes.Model
-      // 'user' is the property of a rating in the 'ratings' array from the Recipes.Model
+      // 'user' is the name of the property of a single rating in the 'ratings' array from the Recipes.Model
       const existingRating = recipe.ratings.find(rating => rating.user == req.session.userId);
       if (existingRating) {
         // if yes, than replace previous rating with the new one (from the same user)
