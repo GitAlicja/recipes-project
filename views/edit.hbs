@@ -1,5 +1,5 @@
-{{!-- Checks to see if it is the user --}}
-{{!-- {{#if user}} --}}
+{{> navigationalBar}}
+
 
 <h2>Edit your recipe</h2>
 
@@ -9,8 +9,8 @@
       <input type="text" name="name" id="name-input" value="{{recipeToEdit.name}}" /> </li>
 
     <li> <label for="instructions-input">Instructions:</label>
-      <textarea name="instructions" id="instructions-input" cols="30"
-        rows="4">{{recipeToEdit.instructions}} </textarea></li>
+      <textarea name="instructions" id="instructions-input" cols="30" rows="4">{{recipeToEdit.instructions}} </textarea>
+    </li>
 
     <li><label for="source-input">Source:</label>
       <input type="url" name="URL" id="source-input" value="{{recipeToEdit.URL}}" /></li>
@@ -37,19 +37,19 @@
       </select></li>
 
 
- <li>Type of Recipe: <select name="typeOfRecipe" multiple>
+    <li>Type of Recipe: <select name="typeOfRecipe" multiple>
         {{#each RecipeType}}
         <option value="{{this}}">{{this}}</option>
         {{/each}}
       </select></li>
-      
+
 
     <li><label for="portions-input">Portion:</label>
       <input type="number" name="portions" id="portions-input" value="{{recipeToEdit.portions}}" /></li>
 
     {{!-- <li><label for="ingredients-input"> Ingredients:</label>
       <input type="text" name="ingredients" id="ingredients-input" value="{{recipeToEdit.ingredients}}" /></li> --}}
-      {{#each recipeToEdit.ingredients}}
+    {{#each recipeToEdit.ingredients}}
 
     <li> <label for="ingredients-input"> Ingredients: </label>
       <input type="text" name="ingredients" id="ingredients-input" value="{{this}}" /></li>
