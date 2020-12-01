@@ -10,7 +10,6 @@
 <p>Portion: {{recipeDetails.portions}}</p>
 <p>Ingredients: {{#each recipeDetails.ingredients}} <li>{{this}}</li>{{/each}}</p>
 <p>Created By: {{recipeDetails.createdBy.username}}</p>
-
 <p>Average Rating: {{recipeDetails.avgRating}} <span>| Number of Ratings: {{recipeDetails.ratings.length}}</span></p>
 <p>
 <form action="{{this.recipeDetails._id}}/save-rating" method="POST">

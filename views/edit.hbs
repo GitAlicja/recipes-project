@@ -1,3 +1,6 @@
+{{!-- Checks to see if it is the user --}}
+{{!-- {{#if user}} --}}
+
 <h2>Edit your recipe</h2>
 
 <form action="/recipes/{{recipeToEdit.id}}/edit" method="post">
@@ -33,13 +36,17 @@
         {{/each}}
       </select></li>
 
-    <li><label for="typeOfRecipe-input">Type of Recipe:</label>
-      <input type="text" name="typeOfRecipe" id="typeOfRecipe-input" value="{{typeOfRecipe}}" /></li>
+
+ <li>Type of Recipe: <select name="typeOfRecipe" multiple>
+        {{#each RecipeType}}
+        <option value="{{this}}">{{this}}</option>
+        {{/each}}
+      </select></li>
+      
 
     <li><label for="portions-input">Portion:</label>
       <input type="number" name="portions" id="portions-input" value="{{recipeToEdit.portions}}" /></li>
 
-    
     {{!-- <li><label for="ingredients-input"> Ingredients:</label>
       <input type="text" name="ingredients" id="ingredients-input" value="{{recipeToEdit.ingredients}}" /></li> --}}
       {{#each recipeToEdit.ingredients}}
@@ -48,12 +55,10 @@
       <input type="text" name="ingredients" id="ingredients-input" value="{{this}}" /></li>
     {{/each}}
 
-
-
     <button type="submit">Finished</button>
-
-
   </ul>
-
-
 </form>
+
+{{!-- {{else}}
+ <h1><a href="/">Login</a></h1>
+ {{/if}} --}}

@@ -1,4 +1,9 @@
 <h2>Create a new recipe</h2>
+ <p> {{this.user.username}}</p>
+<p>Upload your recipe photo</p>
+<input type="file" name="image" id="" />
+
+
 <form action="/create" method="post">
 
   <ul>
@@ -32,8 +37,11 @@
         {{/each}}
       </select></li>
 
-    <li><label for="typeOfRecipe-input">Type of Recipe:</label>
-      <input type="text" name="typeOfRecipe" id="typeOfRecipe-input" /></li>
+        <li>Type of Recipe: <select name="typeOfRecipe" multiple>
+        {{#each RecipeType}}
+        <option value="{{this}}">{{this}}</option>
+        {{/each}}
+      </select></li>
 
     <li><label for="portions-input">Portion:</label>
       <input type="number" name="portions" id="portions-input" /></li>
@@ -43,7 +51,6 @@
       <input type="text" name="ingredients" id="ingredients-input" /></li>
     {{/each}}
 
-
     <li>
       <label for="level-input">Level:</label>
       <select id="level-input" name="level">
@@ -52,9 +59,6 @@
         <option value="hard">Hard</option>
       </select>
     </li>
-
-    <li> <label for="createdBy-input">Created By: {{this.user.username}} </label>
-      {{!-- <input type="text" name="createdBy" id="createdBy-input" value="{{createdBy}}" /> </li> --}}
 
 
     <button type="submit">Create</button>
