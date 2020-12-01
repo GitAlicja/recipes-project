@@ -9,10 +9,7 @@
 <p>Type of Recipe: {{recipeDetails.typeOfRecipe}}</p>
 <p>Portion: {{recipeDetails.portions}}</p>
 <p>Ingredients: {{#each recipeDetails.ingredients}} <li>{{this}}</li>{{/each}}</p>
-
-<p>Created By: {{this.user.username}}</p>
-
-
+<p>Created By: {{recipeDetails.createdBy.username}}</p>
 <p>Current rating: {{recipeDetails.avgRating}}</p>
 
 <p>
