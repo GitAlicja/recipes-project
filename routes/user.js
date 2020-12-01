@@ -29,11 +29,17 @@ router.get('/profile', (req, res, next) => {
       }
 
       // user recipes filter by tag added
+
       else if (req.query.typeOfRecipe || req.query.typeOfMeal) {
+        console.log("req.query.typeOfRecipe", req.query.typeOfRecipe)
+        console.log("req.query.typeOfMeal", req.query.typeOfMeal)
+        const filterByRecipeType = req.query.typeOfRecipe ? req.query.typeOfRecipe : RecipeType
+        const filterByMealType = req.query.typeOfMeal ? req.query.typeOfMeal : MealType
         recipesPromise = Recipe.find({
           $and: [
-            { $or: [{ typeOfRecipe: { $in: req.query.typeOfRecipe } }] },
-            { $or: [{ typeOfMeal: { $in: req.query.typeOfMeal } }] }
+            { createdBy: req.session.userId },
+            { typeOfRecipe: { $in: filterByRecipeType } },
+            { typeOfMeal: { $in: filterByMealType } }
           ]
         })
       }
