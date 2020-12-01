@@ -1,9 +1,7 @@
 const express = require('express');
 const router = express.Router();
-
 const User = require('../models/User.Model');
 const Recipe = require('../models/Recipe.Model');
-
 const fileUploader = require('../configs/cloudinary.config');
 
 const MealType = ["breakfast", "lunch", "dinner", "soup", "snacks", "dessert", "cake"];

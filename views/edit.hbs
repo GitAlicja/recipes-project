@@ -1,53 +1,64 @@
+{{!-- Checks to see if it is the user --}}
+{{!-- {{#if user}} --}}
+
 <h2>Edit your recipe</h2>
-<p>!!removed ingredients and createdBy fields for now!!</p>
 
-<form action="/recipes/{{_id}}/edit" method="post">
+<form action="/recipes/{{recipeToEdit.id}}/edit" method="post">
+  <ul>
+    <li><label for="name-input">Name:</label>
+      <input type="text" name="name" id="name-input" value="{{recipeToEdit.name}}" /> </li>
 
-<ul>
-  <li><label for="name-input">Name:</label>
-  <input type="text" name="name" id="name-input" value ="{{name}}" /> </li>
+    <li> <label for="instructions-input">Instructions:</label>
+      <textarea name="instructions" id="instructions-input" cols="30"
+        rows="4">{{recipeToEdit.instructions}} </textarea></li>
 
- <li> <label for="instructions-input">Instructions:</label>
-  <textarea name="instructions" id="instructions-input" cols="30" rows="4">{{instructions}} </textarea>/></li> 
+    <li><label for="source-input">Source:</label>
+      <input type="url" name="URL" id="source-input" value="{{recipeToEdit.URL}}" /></li>
 
- <li><label for="source-input">Source:</label>
-  <input type="text" name="URL" id="source-input" value ="{{URL}}" /></li> 
+    <li> <label for="image-input">Image:</label>
+      <input type="text" name="image" id="image-input" value="{{recipeToEdit.image}}" /></li>
 
-  <li> <label for="image-input">Image:</label>
-  <input type="text" name="image" id="image-input" value ="{{image}}"/></li> 
+    <li> <label for="prepTime-input">Preparation Time:</label>
+      <input type="number" name="prepTime" id="prepTime-input" value="{{recipeToEdit.prepTime}}" /></li>
 
-  <li> <label for="prepTime-input">Preparation Time:</label>
-  <input type="number" name="prepTime" id="prepTime-input" value ="{{prepTime}}"/></li> 
+    <li><label for="cookTime-input">Cooking Time:</label>
+      <input type="number" name="cookTime" id="cookTime-input" value="{{recipeToEdit.cookTime}}" /></li>
 
-   <li><label for="cookTime-input">Cooking Time:</label>
-  <input type="number" name="cookTime" id="cookTime-input" value ="{{cookTime}}"/></li> 
+    <li><label for="totalTime-input">Total Time:</label>
+      <input type="number" name="totalTime" id="totalTime-input" value="{{recipeToEdit.totalTime}}" /></li>
 
-   <li><label for="totalTime-input">Total Time:</label>
-  <input type="number" name="totalTime" id="totalTime-input" value ="{{totalTime}}"/></li> 
+    {{!-- <li><label for="typeOfMeal-input">Type of Meal:</label>
+      <input type="text" name="typeOfMeal" id="typeOfMeal-input" value="{{typeOfMeal}}" /></li> --}}
 
-   <li><label for="typeOfMeal-input">Type of Meal:</label>
-  <input type="text" name="typeOfMeal" id="typeOfMeal-input" value ="{{typeOfMeal}}"/></li> 
-
-   <li><label for="typeOfRecipe-input">Type of Recipe:</label>
-  <input type="text" name="typeOfRecipe" id="typeOfRecipe-input" value ="{{typeOfRecipe}}"/></li> 
-
-   <li><label for="portions-input">Portion:</label>
-  <input type="number" name="portions" id="portions-input" value ="{{portions}}"/></li> 
-
-   {{!-- <li><label for="ingredients-input"> Ingredients:</label>
-  <input type="text" name="ingredients" id="ingredients-input" /></li>  --}}
-
-   <li><label for="rating-input">Rating:</label>
-  <input type="number" name="rating" id="rating-input" value ="{{rating}}"/></li> 
-
-  {{!-- <li>  <label for="createdBy-input">Created By: </label>
- <input type="text" name="createdBy" id="createdBy-input" value="{{this.id}}"/> </li>  --}}
-
- 
-  <button type="submit">Finished</button>
+    <li>Type of Meal: <select name="typeOfMeal" multiple>
+        {{#each MealType}}
+        <option value="{{this}}">{{this}}</option>
+        {{/each}}
+      </select></li>
 
 
-</ul>
+ <li>Type of Recipe: <select name="typeOfRecipe" multiple>
+        {{#each RecipeType}}
+        <option value="{{this}}">{{this}}</option>
+        {{/each}}
+      </select></li>
+      
 
+    <li><label for="portions-input">Portion:</label>
+      <input type="number" name="portions" id="portions-input" value="{{recipeToEdit.portions}}" /></li>
 
+    {{!-- <li><label for="ingredients-input"> Ingredients:</label>
+      <input type="text" name="ingredients" id="ingredients-input" value="{{recipeToEdit.ingredients}}" /></li> --}}
+      {{#each recipeToEdit.ingredients}}
+
+    <li> <label for="ingredients-input"> Ingredients: </label>
+      <input type="text" name="ingredients" id="ingredients-input" value="{{this}}" /></li>
+    {{/each}}
+
+    <button type="submit">Finished</button>
+  </ul>
 </form>
+
+{{!-- {{else}}
+ <h1><a href="/">Login</a></h1>
+ {{/if}} --}}
