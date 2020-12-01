@@ -26,7 +26,15 @@
 </form>
 </p>
 
+<form action="{{this.recipeDetails._id}}/save-bookmark" method="POST">
+  <p>Bookmark this Recipe</p>
+  <button class="save-button" type="submit">Save</button>
+</form>
 
+<form action="{{this.recipeDetails._id}}/remove-bookmark" method="POST">
+  <p>Remove Bookmark for this Recipe</p>
+  <button class="save-button" type="submit">Remove</button>
+</form>
 
 <p><a href="{{this.recipeDetails._id}}/edit">Edit</a> </p>
 

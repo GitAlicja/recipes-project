@@ -40,6 +40,43 @@ router.get('/recipes/:id', (req, res, next) => {
   }
 });
 
+///:id/save-bookmarks
+router.post('/recipes/:id/save-bookmark', (req, res, next) => {
+  if (!req.session.userId) {
+    res.redirect('/'); // redirect to the homepage where the login form is
+  } else {
+    User.findById(req.session.userId).then(user => {
+    const newBookmark = req.params.id;
+    // console.log(">>>>>>>>>>>>>>>>>bookmark: ", newBookmark)
+    // console.log(">>>>>>>>>>>>>>>>>>>user: ", user)
+    // add the new bookmark to the array with all the user's bookmarks
+    user.bookmarkedRecipes.push(newBookmark);
+    user.save().then(
+      res.redirect('/user/bookmarks')
+    );
+  })
+}
+})
+
+// /:id/remove-bookmarks
+router.post('/recipes/:id/remove-bookmark', (req, res, next) => {
+  if (!req.session.userId) {
+    res.redirect('/'); // redirect to the homepage where the login form is
+  } else {
+    User.findById(req.session.userId).then(user => {
+    const bookmarkedRecipes = user.bookmarkedRecipes
+    const bookmarkToBeRemoved = req.params.id;
+    // console.log(">>>>>>>>>>>>>>>>>bookmark: ", bookmarkToBeRemoved)
+    // console.log(">>>>>>>>>>>>>>>>>>>user: ", user)
+    const index = bookmarkedRecipes.indexOf(bookmarkToBeRemoved)
+if (index > -1) { bookmarkedRecipes.splice(index, 1) }
+    user.save().then(
+      res.redirect('/user/bookmarks')
+    );
+  })
+}
+})
+
 
 // /:id/save-rating
 router.post('/recipes/:id/save-rating', (req, res, next) => {
