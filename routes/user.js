@@ -3,6 +3,7 @@ const router = express.Router();
 const User = require('../models/User.Model');
 const Recipe = require('../models/Recipe.Model');
 const fileUploader = require('../configs/cloudinary.config');
+const { route } = require('./recipes');
 
 const MealType = ["breakfast", "lunch", "dinner", "soup", "snacks", "dessert", "cake"];
 const RecipeType = ["vegetarian", "vegan", "gluten-free", "meat", "fish", "seafood", "low-carb"];
@@ -19,20 +20,19 @@ router.get('/profile', (req, res, next) => {
     User.findById(req.session.userId).then(userFromDB => {
 
       let recipesPromise;
+
       // if the query IS set
       if (req.query.query) {
         recipesPromise = Recipe.find({
           $and: [
             { createdBy: req.session.userId }, { $or: [{ name: new RegExp(req.query.query, "i") }, { instructions: new RegExp(req.query.query, "i") }] }]
         }, null, { sort: { createdAt: 0 } });
-        // if the query IS NOT set find all recipes created by the user
       }
 
-      // user recipes filter by tag added
-
+      // user recipes filter by tag
       else if (req.query.typeOfRecipe || req.query.typeOfMeal) {
-        console.log("req.query.typeOfRecipe", req.query.typeOfRecipe)
-        console.log("req.query.typeOfMeal", req.query.typeOfMeal)
+        // console.log("req.query.typeOfRecipe", req.query.typeOfRecipe)
+        // console.log("req.query.typeOfMeal", req.query.typeOfMeal)
         const filterByRecipeType = req.query.typeOfRecipe ? req.query.typeOfRecipe : RecipeType
         const filterByMealType = req.query.typeOfMeal ? req.query.typeOfMeal : MealType
         recipesPromise = Recipe.find({
@@ -41,10 +41,10 @@ router.get('/profile', (req, res, next) => {
             { typeOfRecipe: { $in: filterByRecipeType } },
             { typeOfMeal: { $in: filterByMealType } }
           ]
-        })
+        });
       }
 
-      // 2nd statement before adding feature filter by tag
+      // if the query and filters ARE NOT set find all recipes created by the user
       else {
         recipesPromise = Recipe.find({ createdBy: req.session.userId }, null, { sort: { createdAt: 0 } });
       }
@@ -126,5 +126,59 @@ router.get('/bookmarks', (req, res, next) => {
 });
 
 
+// GET /user/shopping-list
+
+router.get('/shopping-list', (req, res, next) => {
+
+  if (!req.session.userId) {
+    res.redirect('/');
+  } else {
+    User.findById(req.session.userId)
+      .populate('shoppingList')
+      .then(userFromDB => {
+        res.render('user/shopping-list', userFromDB);
+      });
+  }
+
+});
+
+
+// POST /user/shopping-list/add/:id
+
+router.post('/shopping-list/:id/add', (req, res, next) => {
+
+  if (!req.session.userId) {
+    res.redirect('/');
+  } else {
+
+    /*
+// test if id set / valid
+
+    // test if exists
+
+
+    Recipe.findById(req.params.id).then(r => {}).catch(e => {
+      // not found
+    }) 
+    
+    
+    
+    
+    */
+
+    User.findById(req.session.userId).then(userFromDB => {
+      // id the array shoppingList DOES NOT include this recipe ID, add the ID to it 
+      if (!userFromDB.shoppingList.includes(req.params.id)) {
+        userFromDB.shoppingList.push(req.params.id);
+      }
+      // update user in the database 
+      User.update({_id: userFromDB._id}, { shoppingList: userFromDB.shoppingList })
+      .exec()
+      .then(() => {
+        res.redirect('/user/shopping-list');
+      });
+    });
+  }
+});
 
 module.exports = router; 

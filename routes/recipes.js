@@ -1,7 +1,6 @@
 
 const express = require('express');
 const Recipe = require('../models/Recipe.Model');
-const User = require('../models/User.Model');
 const router = express.Router();
 const fileUploader = require('../configs/cloudinary.config');
 
@@ -11,8 +10,8 @@ const possibleScores = [1, 2, 3, 4, 5];
 
 // /recipes 
 router.get('/recipes', (req, res, next) => {
-  // only looged in user can see this page
 
+  // only looged in user can see this page
   if (!req.session.userId) {
     res.redirect('/');
   } else {
@@ -24,6 +23,8 @@ router.get('/recipes', (req, res, next) => {
     });
   }
 });
+
+
 // /:id/details
 router.get('/recipes/:id', (req, res, next) => {
 
@@ -125,9 +126,9 @@ router.get('/create', (req, res, next) => {
 //post route to save new recipe to DB 
 router.post('/create', fileUploader.single('image'), (req, res) => {
   // console.log(req.body)
-  const { name, instructions, URL, image, prepTime, totalTime, typeOfMeal, typeOfRecipe, portions, ingredients } = req.body;
+  const { name, instructions, URL, image, prepTime, cookTime, totalTime, typeOfMeal, typeOfRecipe, portions, ingredients } = req.body;
 
-  Recipe.create({ name, instructions, URL, image, prepTime, totalTime, typeOfMeal, typeOfRecipe, portions, ingredients, ratings: [], avgRating: 0, createdBy: req.session.userId, })
+  Recipe.create({ name, instructions, URL, image, prepTime, cookTime, totalTime, typeOfMeal, typeOfRecipe, portions, ingredients, ratings: [], avgRating: 0, createdBy: req.session.userId, })
     .then(() => res.redirect('/recipes'))
 });
 // recipeImage: req.file.path 
@@ -154,9 +155,9 @@ router.get('/recipes/:id/edit', (req, res, next) => {
 
 router.post('/recipes/:id/edit', (req, res) => {
   const { id } = req.params;
-  const { name, instructions, URL, image, prepTime, totalTime, typeOfMeal, typeOfRecipe, portions, ingredients } = req.body;
+  const { name, instructions, URL, image, prepTime, cookTime, totalTime, typeOfMeal, typeOfRecipe, portions, ingredients } = req.body;
 
-  Recipe.findByIdAndUpdate(id, { name, instructions, URL, image, prepTime, totalTime, typeOfMeal, typeOfRecipe, portions, ingredients }, { new: true })
+  Recipe.findByIdAndUpdate(id, { name, instructions, URL, image, prepTime, cookTime, totalTime, typeOfMeal, typeOfRecipe, portions, ingredients }, { new: true })
     .then(() => res.redirect('/recipes'))
 
 });

@@ -1,0 +1,15 @@
+{{> navigationalBar}}
+
+<h2>Your Shopping List</h2>
+
+{{#each shoppingList}}
+{{name}}
+<p>
+Ingredients:
+<ul>
+  {{#each ingredients}}
+  <li>{{this}}</li>
+  {{/each}}
+</ul>
+</p>
+{{/each}}

@@ -1,10 +1,14 @@
 <h2>Create a new recipe</h2>
- <p> {{this.user.username}}</p>
-<p>Upload your recipe photo</p>
-<input type="file" name="image" id="" />
+
+<p> {{this.user.username}}</p>
 
 
 <form action="/create" method="post">
+
+  <p>
+    <label for="input-file">Upload your recipe photo</label>
+    <input type="file" name="image" id="input-file" />
+  </p>
 
   <ul>
     <li><label for="name-input">Name:</label>
@@ -15,9 +19,6 @@
 
     <li><label for="source-input">Source:</label>
       <input type="text" name="URL" id="source-input" /></li>
-
-    <li> <label for="image-input">Image:</label>
-      <input type="text" name="image" id="image-input" /></li>
 
     <li> <label for="prepTime-input">Preparation Time:</label>
       <input type="number" name="prepTime" id="prepTime-input" /></li>
@@ -37,7 +38,7 @@
         {{/each}}
       </select></li>
 
-        <li>Type of Recipe: <select name="typeOfRecipe" multiple>
+    <li>Type of Recipe: <select name="typeOfRecipe" multiple>
         {{#each RecipeType}}
         <option value="{{this}}">{{this}}</option>
         {{/each}}

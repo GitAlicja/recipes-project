@@ -1,7 +1,7 @@
 <h2>Recipe Details</h2>
 <p>Name: {{recipeDetails.name}}</p>
 <p>Instructions: {{recipeDetails.instructions}}</p>
-<p>Source: {{recipeDetails.URL}}</p>
+<p>Source: <a href="{{recipeDetails.URL}}" target="_blank">{{recipeDetails.URL}}</a></p>
 <p>Preparation Time: {{recipeDetails.prepTime}}</p>
 <p>Cook Time: {{recipeDetails.cookTime}}</p>
 <p>Total Time: {{recipeDetails.totalTime}}</p>
@@ -26,6 +26,10 @@
 </form>
 </p>
 
+<form action="/user/shopping-list/{{this.recipeDetails._id}}/add" method="POST">
+  Add Recipe to Your Shopping List
+  <button class="save-button" type="submit">Add</button>
+</form>
 
 
 <p><a href="{{this.recipeDetails._id}}/edit">Edit</a> </p>
