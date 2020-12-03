@@ -1,6 +1,7 @@
 
 const express = require('express');
 const Recipe = require('../models/Recipe.Model');
+const User = require('../models/User.Model')
 const router = express.Router();
 const fileUploader = require('../configs/cloudinary.config');
 

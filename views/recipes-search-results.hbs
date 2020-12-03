@@ -1,5 +1,17 @@
+
+<div>
+  <h2>Recipes</h2>
+
+  {{#if this.recipesFromDB}}
+
 {{#each recipesFromDB }}
 <div>
     <p>Name: {{name}}</p>
 </div>
 {{/each}}
+
+{{else}}
+  <p>There are no results matching your query!</p>
+  {{/if}}
+</div>
+
