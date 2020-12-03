@@ -179,15 +179,18 @@ router.post('/create', fileUploader.single('image'), (req, res) => {
 router.get('/recipes/:id/edit', (req, res, next) => {
   if (!req.session.userId) {
     res.redirect('/');
-  } else {
-
+  }
+  else {
     let MealType = ["breakfast", "lunch", "dinner", "soup", "snacks", "dessert", "cake"]
     let RecipeType = ["vegetarian", "vegan", "gluten-free", "meat", "fish", "seafood", "low-carb"]
 
     const { id } = req.params
     Recipe.findById(id).then(recipeToEdit => {
-      res.render('edit', { recipeToEdit: recipeToEdit, MealType: MealType, RecipeType: RecipeType })
-
+      if (req.session.userID !== recipeToEdit.createdBy) {
+        res.render('details', { errorMessage: 'You do not have permission to edit this recipe' })
+      } else {
+        res.render('edit', { recipeToEdit: recipeToEdit, MealType: MealType, RecipeType: RecipeType })
+      }
     })
   }
 });
@@ -198,49 +201,53 @@ router.post('/recipes/:id/edit', (req, res) => {
 
   Recipe.findByIdAndUpdate(id, { name, instructions, URL, image, prepTime, cookTime, totalTime, typeOfMeal, typeOfRecipe, portions, ingredients }, { new: true })
     .then(() => res.redirect('/recipes'))
-
 });
 
 //:id/delete
-
 router.post('/recipes/:id/delete', (req, res) => {
-  const { id } = req.params;
-
-  Recipe.findByIdAndDelete(id)
-    .then(() => res.redirect('/recipes'))
-});
-
-
-
-// /all-recipes/filteredBy... (?)
-
-router.get('/search', (req, response) => {
-  // console.log("searchInput", req.query.searchInput)
-  let query = { name: { $regex: ".*" + req.query.searchInput + ".*" } }
-  // console.log(query)
-  Recipe.find(query).then((recipesFromDB) => {
-    // console.log(recipesFromDB);
-    response.render('recipes-search-results', { recipesFromDB })
-  })
-})
-// /recipes/filteredBy... (?)
-router.get('/filter', (req, res) => {
-  Recipe.find({
-    $and: [
-      { $or: [{ typeOfRecipe: { $in: req.query.typeOfRecipe } }] },
-      { $or: [{ typeOfMeal: { $in: req.query.typeOfMeal } }] }
-    ]
-  }).then((recipesFromDB) => {
-    if (recipesFromDB.length === 0) {
-      res.send("There are no recipes that meet your criteria. Sorry! :(")
+  if (!req.session.userId) {
+    res.redirect('/');
+  } else {
+    const { id } = req.params;
+    Recipe.findByIdAndDelete(id)
+ .then(recipeToDelete => {
+        if (req.session.userID !== recipeToDelete.createdBy) {
+          res.render('details', { recipeToDelete: recipeToDelete, errorMessage1: 'You do not have permission to delete this recipe' })
+        } else {
+          res.redirect('/recipes')
+        }
+      })
     }
-    res.render('recipes-search-results', { recipesFromDB })
-  }).catch(error => {
-    console.log("something went wrong to get filters fromdb", error)
-  })
-})
+      });
+    // /all-recipes/filteredBy... (?)
+
+    router.get('/search', (req, response) => {
+      // console.log("searchInput", req.query.searchInput)
+      let query = { name: { $regex: ".*" + req.query.searchInput + ".*" } }
+      // console.log(query)
+      Recipe.find(query).then((recipesFromDB) => {
+        // console.log(recipesFromDB);
+        response.render('recipes-search-results', { recipesFromDB })
+      })
+    })
+    // /recipes/filteredBy... (?)
+    router.get('/filter', (req, res) => {
+      Recipe.find({
+        $and: [
+          { $or: [{ typeOfRecipe: { $in: req.query.typeOfRecipe } }] },
+          { $or: [{ typeOfMeal: { $in: req.query.typeOfMeal } }] }
+        ]
+      }).then((recipesFromDB) => {
+        if (recipesFromDB.length === 0) {
+          res.send("There are no recipes that meet your criteria. Sorry! :(")
+        }
+        res.render('recipes-search-results', { recipesFromDB })
+      }).catch(error => {
+        console.log("something went wrong to get filters fromdb", error)
+      })
+    })
 
 
 
 
-module.exports = router;
+    module.exports = router;

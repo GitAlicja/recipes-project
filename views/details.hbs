@@ -1,3 +1,5 @@
+{{> navigationalBar}}
+
 <h2>Recipe Details</h2>
 <p>Name: {{recipeDetails.name}}</p>
 <p>Instructions: {{recipeDetails.instructions}}</p>
@@ -23,6 +25,10 @@
   <button class="save-button" type="submit">Save</button>
 
   {{#if selfRatingError}}<span>You can't rate your own recipe!</span>{{/if}}
+
+{{#if errorMessage}}<p>{{errorMessage}}</p>{{/if}}
+
+{{#if errorMessage1}}<p>{{errorMessage1}}</p>{{/if}}
 </form>
 </p>
 
