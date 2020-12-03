@@ -1,17 +1,34 @@
-
 <div>
-  <h2>Recipes</h2>
+    <h2>Recipes</h2>
+    {{!-- <h2>Filter recipes</h2>
+    <form action="/filter" method="get">
+        Type of meal:
+        <select name="typeOfMeal" multiple>
+            {{#each MealType}}
+            <option value="{{this}}">{{this}}</option>
+            {{/each}}
+        </select>
+        Type of recipe:
+        <select name="typeOfRecipe">
+            {{#each RecipeType}}
+            <option value="{{this}}">{{this}}</option>
+            {{/each}}
+        </select>
+        <br>
+        <button type="submit">Filter</button>
+    </form> --}}
 
-  {{#if this.recipesFromDB}}
+    {{#if this.recipesFromDB}}
 
-{{#each recipesFromDB }}
-<div>
-    <p>Name: {{name}}</p>
+    {{#each recipesFromDB }}
+    <div>
+        <p>Name: {{name}}</p>
+    </div>
+    {{/each}}
+
+
+
+    {{else}}
+    <p>There are no results matching your query!</p>
+    {{/if}}
 </div>
-{{/each}}
-
-{{else}}
-  <p>There are no results matching your query!</p>
-  {{/if}}
-</div>
-

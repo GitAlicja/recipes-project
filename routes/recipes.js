@@ -4,6 +4,8 @@ const Recipe = require('../models/Recipe.Model');
 const User = require('../models/User.Model')
 const router = express.Router();
 const fileUploader = require('../configs/cloudinary.config');
+let MealType = ["breakfast", "lunch", "dinner", "soup", "snacks", "dessert", "cake"]
+let RecipeType = ["vegetarian", "vegan", "gluten-free", "meat", "fish", "seafood", "low-carb"]
 
 
 // array of possible scores to rate the recipe
@@ -16,8 +18,8 @@ router.get('/recipes', (req, res, next) => {
   if (!req.session.userId) {
     res.redirect('/');
   } else {
-    let MealType = ["breakfast", "lunch", "dinner", "soup", "snacks", "dessert", "cake"]
-    let RecipeType = ["vegetarian", "vegan", "gluten-free", "meat", "fish", "seafood", "low-carb"]
+    // let MealType = ["breakfast", "lunch", "dinner", "soup", "snacks", "dessert", "cake"]
+    // let RecipeType = ["vegetarian", "vegan", "gluten-free", "meat", "fish", "seafood", "low-carb"]
     Recipe.find().then((recipeFromDB) => {
       // console.log("Meal type ================================>", MealType)
       res.render('welcome', { recipes: recipeFromDB, MealType: MealType, RecipeType: RecipeType })
@@ -50,19 +52,20 @@ router.post('/recipes/:id/save-bookmark', (req, res, next) => {
     res.redirect('/'); // redirect to the homepage where the login form is
   } else {
     User.findById(req.session.userId).then(user => {
-    const newBookmark = req.params.id;
-    // console.log(">>>>>>>>>>>>>>>>>bookmark: ", newBookmark)
-    // console.log(">>>>>>>>>>>>>>>>>>>user: ", user)
-    // add the new bookmark to the array with all the user's bookmarks
-    if (!user.bookmarkedRecipes.includes(newBookmark)) {
-    user.bookmarkedRecipes.push(newBookmark);
-    user.save().then(
-      res.redirect('/user/bookmarks'))}
-      else {res.redirect('/user/bookmarks')}  ;
-})
+      const newBookmark = req.params.id;
+      // console.log(">>>>>>>>>>>>>>>>>bookmark: ", newBookmark)
+      // console.log(">>>>>>>>>>>>>>>>>>>user: ", user)
+      // add the new bookmark to the array with all the user's bookmarks
+      if (!user.bookmarkedRecipes.includes(newBookmark)) {
+        user.bookmarkedRecipes.push(newBookmark);
+        user.save().then(
+          res.redirect('/user/bookmarks'))
+      }
+      else { res.redirect('/user/bookmarks') };
+    })
   }
 })
-  
+
 
 // /:id/remove-bookmarks
 router.post('/recipes/:id/remove-bookmark', (req, res, next) => {
@@ -70,17 +73,17 @@ router.post('/recipes/:id/remove-bookmark', (req, res, next) => {
     res.redirect('/'); // redirect to the homepage where the login form is
   } else {
     User.findById(req.session.userId).then(user => {
-    const bookmarkedRecipes = user.bookmarkedRecipes
-    const bookmarkToBeRemoved = req.params.id;
-    // console.log(">>>>>>>>>>>>>>>>>bookmark: ", bookmarkToBeRemoved)
-    // console.log(">>>>>>>>>>>>>>>>>>>user: ", user)
-    const index = bookmarkedRecipes.indexOf(bookmarkToBeRemoved)
-if (index > -1) { bookmarkedRecipes.splice(index, 1) }
-    user.save().then(
-      res.redirect('/user/bookmarks')
-    );
-  })
-}
+      const bookmarkedRecipes = user.bookmarkedRecipes
+      const bookmarkToBeRemoved = req.params.id;
+      // console.log(">>>>>>>>>>>>>>>>>bookmark: ", bookmarkToBeRemoved)
+      // console.log(">>>>>>>>>>>>>>>>>>>user: ", user)
+      const index = bookmarkedRecipes.indexOf(bookmarkToBeRemoved)
+      if (index > -1) { bookmarkedRecipes.splice(index, 1) }
+      user.save().then(
+        res.redirect('/user/bookmarks')
+      );
+    })
+  }
 })
 
 
@@ -213,49 +216,45 @@ router.post('/recipes/:id/delete', (req, res) => {
   } else {
     const { id } = req.params;
     Recipe.findByIdAndDelete(id)
- .then(recipeToDelete => {
+      .then(recipeToDelete => {
         if (req.session.userID !== recipeToDelete.createdBy) {
           res.render('details', { recipeToDelete: recipeToDelete, errorMessage1: 'You do not have permission to delete this recipe' })
         } else {
           res.redirect('/recipes')
         }
       })
-    }
-      });
-    // /all-recipes/filteredBy... (?)
+  }
+});
+// /all-recipes/filteredBy... (?)
 
-    router.get('/search', (req, response) => {
-      // console.log("searchInput", req.query.searchInput)
-      let query = { name: { $regex: ".*" + req.query.searchInput + ".*" } }
-      // console.log(query)
-      Recipe.find(query).then((recipesFromDB) => {
-        // console.log(recipesFromDB);
-        response.render('recipes-search-results', { recipesFromDB })
-      })
-    })
-    // /recipes/filteredBy... (?)
-    router.get('/filter', (req, res) => {
-      Recipe.find({
-        $and: [
-          { $or: [{ typeOfRecipe: { $in: req.query.typeOfRecipe } }] },
-          { $or: [{ typeOfMeal: { $in: req.query.typeOfMeal } }] }
-        ]
-      }).then((recipesFromDB) => {
-        // if (recipesFromDB.length === 0) {
-        //   res.send("There are no recipes that meet your criteria. Sorry! :(")
-        // }
-        // > trying to display no search results message on welcome page, but doesn't work 
-        // if (recipesFromDB.length === 0) {
-        //   let noResults = true;
-        //   res.render('welcome', { noResults })
-        // }
-        res.render('recipes-search-results', { recipesFromDB })
-      }).catch(error => {
-        console.log("something went wrong to get filters fromdb", error)
-      })
-    })
+router.get('/search', (req, response) => {
+  // console.log("searchInput", req.query.searchInput)
+  let query = { name: { $regex: ".*" + req.query.searchInput + ".*" } }
+  // console.log(query)
+  Recipe.find(query).then((recipesFromDB) => {
+    // console.log(recipesFromDB);
+    response.render('recipes-search-results', { recipesFromDB })
+  })
+})
+// /recipes/filteredBy... (?)
+router.get('/filter', (req, res) => {
+  Recipe.find({
+    $and: [
+      { $or: [{ typeOfRecipe: { $in: req.query.typeOfRecipe } }] },
+      { $or: [{ typeOfMeal: { $in: req.query.typeOfMeal } }] }
+    ]
+  }).then((recipesFromDB) => {
+
+    // let MealType = ["breakfast", "lunch", "dinner", "soup", "snacks", "dessert", "cake"]
+    // let RecipeType = ["vegetarian", "vegan", "gluten-free", "meat", "fish", "seafood", "low-carb"]
+    //onsole.log("MealType", MealType)
+    res.render('recipes-search-results', { recipesFromDB: recipesFromDB, MealType: MealType, RecipeType: RecipeType })
+  }).catch(error => {
+    console.log("something went wrong to get filters fromdb", error)
+  })
+})
 
 
 
 
-    module.exports = router;
+module.exports = router;
