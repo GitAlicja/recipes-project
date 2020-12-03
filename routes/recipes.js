@@ -54,13 +54,15 @@ router.post('/recipes/:id/save-bookmark', (req, res, next) => {
     // console.log(">>>>>>>>>>>>>>>>>bookmark: ", newBookmark)
     // console.log(">>>>>>>>>>>>>>>>>>>user: ", user)
     // add the new bookmark to the array with all the user's bookmarks
+    if (!user.bookmarkedRecipes.includes(newBookmark)) {
     user.bookmarkedRecipes.push(newBookmark);
     user.save().then(
-      res.redirect('/user/bookmarks')
-    );
-  })
-}
+      res.redirect('/user/bookmarks'))}
+      else {res.redirect('/user/bookmarks')}  ;
 })
+  }
+})
+  
 
 // /:id/remove-bookmarks
 router.post('/recipes/:id/remove-bookmark', (req, res, next) => {
@@ -239,9 +241,14 @@ router.post('/recipes/:id/delete', (req, res) => {
           { $or: [{ typeOfMeal: { $in: req.query.typeOfMeal } }] }
         ]
       }).then((recipesFromDB) => {
-        if (recipesFromDB.length === 0) {
-          res.send("There are no recipes that meet your criteria. Sorry! :(")
-        }
+        // if (recipesFromDB.length === 0) {
+        //   res.send("There are no recipes that meet your criteria. Sorry! :(")
+        // }
+        // > trying to display no search results message on welcome page, but doesn't work 
+        // if (recipesFromDB.length === 0) {
+        //   let noResults = true;
+        //   res.render('welcome', { noResults })
+        // }
         res.render('recipes-search-results', { recipesFromDB })
       }).catch(error => {
         console.log("something went wrong to get filters fromdb", error)
