@@ -3,13 +3,19 @@
 <h2>Your Shopping List</h2>
 
 {{#each shoppingList}}
-{{name}}
+{{this.name}}
 <p>
 Ingredients:
 <ul>
-  {{#each ingredients}}
+  {{#each this.ingredients}}
   <li>{{this}}</li>
   {{/each}}
 </ul>
 </p>
+
+<form action="/user/shopping-list/{{this._id}}/delete" method="POST">
+  <button>Delete</button>
+</form>
+
+<hr>
 {{/each}}

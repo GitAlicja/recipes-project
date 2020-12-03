@@ -20,7 +20,9 @@ router.post('/signup', (req, res, next) => {
 
   // make sure fields are not empty
   if (!req.body.username || !req.body.email || !req.body.password) {
-    res.render('signup', { errorMessage: 'All fields are mandatory. Please provide your username, email and password.' });
+    res
+    .status(500)
+    .render('signup', { errorMessage: 'All fields are mandatory. Please provide your username, email and password.' });
     return;
   }
 

@@ -143,42 +143,73 @@ router.get('/shopping-list', (req, res, next) => {
 });
 
 
-// POST /user/shopping-list/add/:id
+// POST /user/shopping-list/:id/add
 
 router.post('/shopping-list/:id/add', (req, res, next) => {
 
   if (!req.session.userId) {
     res.redirect('/');
-  } else {
+    return;
+  }
 
-    /*
-// test if id set / valid
-
-    // test if exists
-
-
-    Recipe.findById(req.params.id).then(r => {}).catch(e => {
-      // not found
-    }) 
-    
-    
-    
-    
-    */
+  Recipe.findById(req.params.id).then(recipe => {
 
     User.findById(req.session.userId).then(userFromDB => {
-      // id the array shoppingList DOES NOT include this recipe ID, add the ID to it 
-      if (!userFromDB.shoppingList.includes(req.params.id)) {
-        userFromDB.shoppingList.push(req.params.id);
+
+      // if the array shoppingList DOES NOT include this recipe ID, add the ID to it 
+      if (!userFromDB.shoppingList.includes(recipe._id)) {
+        userFromDB.shoppingList.push(recipe._id);
       }
+
       // update user in the database 
-      User.update({_id: userFromDB._id}, { shoppingList: userFromDB.shoppingList })
-      .exec()
-      .then(() => {
-        res.redirect('/user/shopping-list');
-      });
+      User.update({ _id: userFromDB._id }, { shoppingList: userFromDB.shoppingList })
+        .exec()
+        .then(() => {
+          res.redirect('/user/shopping-list');
+        });
     });
-  }
+
+  }).catch(error => {
+    if (error.code === 11000) {
+      res
+        .status(500)
+        .redirect('/recipes/{req.params.id}');
+    } else if (!req.params.id) {
+      res
+        .status(500)
+        .redirect('/recipes/{req.params.id}');
+
+    } else {
+      next(error);
+    }
+  });
 });
+
+
+// POST /user/shopping-list/:id/delete
+
+router.post('/shopping-list/:id/delete', (req, res, next) => {
+
+  Recipe.findByIdAndDelete(req.params.id)
+    .exec()
+    .then(listEntry => {
+
+      User.findById(req.session.userId).then(userFromDB => {
+
+        // update user in the database 
+        User.update({ _id: userFromDB._id }, { $pull: { shoppingList: listEntry._id } })
+          .exec()
+          .then(() => {
+            res.redirect('/user/shopping-list');
+          });
+
+
+      })
+
+
+    })
+
+});
+
 
 module.exports = router; 
