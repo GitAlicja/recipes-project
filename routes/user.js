@@ -186,13 +186,11 @@ router.post('/shopping-list/:id/add', (req, res, next) => {
 });
 
 
-// POST /user/shopping-list/:id/delete
+// POST /user/shopping-list/:id/delete-from-list
 
-router.post('/shopping-list/:id/delete', (req, res, next) => {
+router.post('/shopping-list/:id/delete-from-list', (req, res, next) => {
 
-  Recipe.findByIdAndDelete(req.params.id)
-    .exec()
-    .then(listEntry => {
+  Recipe.findById(req.params.id).then(listEntry => {
 
       User.findById(req.session.userId).then(userFromDB => {
 
@@ -202,14 +200,27 @@ router.post('/shopping-list/:id/delete', (req, res, next) => {
           .then(() => {
             res.redirect('/user/shopping-list');
           });
-
-
-      })
-
-
-    })
-
+      });
+    });
 });
 
+
+// POST /user/shopping-list/delete-all-from-list
+
+router.post('/shopping-list/delete-all-from-list', (req, res, next) => {
+
+  Recipe.find().then(listEntries => {
+
+      User.findById(req.session.userId).then(userFromDB => {
+
+        // update user in the database 
+        User.update({ _id: userFromDB._id }, { $pullAll: { shoppingList: listEntries } })
+          .exec()
+          .then(() => {
+            res.redirect('/user/shopping-list');
+          });
+      });
+    });
+});
 
 module.exports = router; 
