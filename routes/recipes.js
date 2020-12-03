@@ -40,7 +40,9 @@ router.get('/recipes/:id', (req, res, next) => {
   }
 });
 
-///:id/save-bookmarks
+
+
+///:id/save-bookmarks >>> missing: should only be able to add to bookmarks ONCE per recipe
 router.post('/recipes/:id/save-bookmark', (req, res, next) => {
   if (!req.session.userId) {
     res.redirect('/'); // redirect to the homepage where the login form is
