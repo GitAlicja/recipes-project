@@ -21,7 +21,8 @@ const userSchema = new Schema(
     },
     bookmarkedRecipes: [{ type: Schema.Types.ObjectId, ref: 'Recipe' }],
     //createdRecipes: [{ type: Schema.Types.ObjectId, ref: 'Recipe' }],
-    profileImg: String
+    profileImg: String,
+    shoppingList: [{ type: Schema.Types.ObjectId, ref: 'Recipe' }]
   },
   {
     timestamps: true

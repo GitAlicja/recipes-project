@@ -5,9 +5,10 @@
 </div>
 <div>
   <h3>Hello, {{this.user.username}}!</h3>
-  <a href="/user/profile/edit">Edit profile</a> <br>
-  <a href="">Create recipe</a>
-  <a href="/user/bookmarks">Bookmarks</a>
+  <a href="/user/profile/edit">Edit Profile</a> <br>
+  <a href="/recipes/create">Create Recipe</a> <br>
+  <a href="/user/bookmarks">Your Bookmarks</a> <br>
+  <a href="/user/shopping-list">Your Shopping List</a>
 
 </div>
 <br>
@@ -17,14 +18,40 @@
     <input type="text" name="query" placeholder="Find recipes..." value="{{this.query}}">
     <button type="submit" id="search-button">Search</button>
   </form>
+  <br>
+  
+  <h4>Filter recipes</h4>
+  <form action="/user/profile" method="GET">
+    Type of meal:
+    <select name="typeOfMeal" multiple>
+      {{#each this.MealType}}
+      <option value="{{this}}">{{this}}</option>
+      {{/each}}
+    </select>
+    Type of recipe:
+    <select name="typeOfRecipe">
+      <option value="">none</option>
+      {{#each this.RecipeType}}
+      <option value="{{this}}">{{this}}</option>
+      {{/each}}
+    </select>
+    <button type="submit">Filter</button>
+  </form>
 
 </div>
 
 <div>
   <h2>Your recipes</h2>
+
+  {{#if this.recipes}}
+
   {{#each this.recipes}}
   <p>{{this.name}}</p>
   <p>{{this.image}}</p>
   <p><a href="/recipes/{{this._id}}">Go to Recipe</a></p>
   {{/each}}
+
+  {{else}}
+  <p>There are no results matching your query!</p>
+  {{/if}}
 </div>
