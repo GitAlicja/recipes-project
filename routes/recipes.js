@@ -224,7 +224,8 @@ router.post('/recipes/:id/delete', (req, res) => {
 
     router.get('/search', (req, response) => {
       // console.log("searchInput", req.query.searchInput)
-      let query = { name: { $regex: ".*" + req.query.searchInput + ".*" } }
+      // let query = { name: { $regex: ".*" + req.query.searchInput + ".*" } }
+      let query = { $or: [{ name: new RegExp(req.query.searchInput, "i") }, { instructions: new RegExp(req.query.searchInput, "i") }] }
       // console.log(query)
       Recipe.find(query).then((recipesFromDB) => {
         // console.log(recipesFromDB);
