@@ -20,6 +20,7 @@ router.get('/profile', (req, res, next) => {
     User.findById(req.session.userId).then(userFromDB => {
 
       let recipesPromise;
+      let filterQuery  = true;
 
       // if the query IS set
       if (req.query.query) {
@@ -47,11 +48,15 @@ router.get('/profile', (req, res, next) => {
       // if the query and filters ARE NOT set find all recipes created by the user
       else {
         recipesPromise = Recipe.find({ createdBy: req.session.userId }, null, { sort: { createdAt: 0 } });
+        filterQuery  = false;
       }
 
       recipesPromise.then(recipesFromDB => {
         // console.log({ user: userFromDB, recipes: recipesFromDB }) this is one object with two properties
-        res.render('user/profile', { query: req.query.query, user: userFromDB, recipes: recipesFromDB, MealType: MealType, RecipeType: RecipeType });
+
+        
+
+        res.render('user/profile', { query: req.query.query, user: userFromDB, recipes: recipesFromDB, MealType: MealType, RecipeType: RecipeType , filterQuery });
       });
     });
   }

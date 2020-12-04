@@ -1,12 +1,11 @@
 {{> navigationalBar}}
 
-<h1>Welcome {{username}} !</h1>
+<h1>Welcome {{user.username}}!</h1>
 
 <h2>Search recipes</h2>
 <form action="/search" method="get">
   <input type="text" name="searchInput" placeholder="Search..">
   <button type="submit">Search</button>
-
 </form>
 
 <h2>Filter recipes</h2>
@@ -27,6 +26,10 @@
   <button type="submit">Filter</button>
 </form>
 
+<br>
+<p><a href="/recipes/create"> Create Recipe</a></p>
+<br>
+
 {{#each recipes}}
 <p>{{this.name}}</p>
 <p>{{this.image}}</p>
@@ -34,4 +37,3 @@
 
 {{/each}}
 
-<p><a href="/create"> Create Recipe</a></p>

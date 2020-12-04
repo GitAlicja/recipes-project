@@ -17,6 +17,11 @@ a {
   border-radius: 50%;
 }
 
-.profile-image img {
+.profile-image > img {
   width: 80%;
+}
+
+.required-field::after {
+  content: "*";
+  color: red;
 }

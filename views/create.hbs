@@ -2,7 +2,7 @@
 
 <h2>Create a new recipe</h2>
 
-<form action="/create" method="post" enctype="multipart/form-data">
+<form action="/recipes/create" method="post" enctype="multipart/form-data">
 
   <p>
     <label for="input-file">Upload your recipe photo</label>
@@ -10,22 +10,22 @@
   </p>
 
   <ul>
-    <li><label for="name-input">Name*:</label>
+    <li><label for="name-input">Name:<span class="required-field"></span></label>
       <input type="text" name="name" id="name-input" /> </li>
 
-    <li> <label for="instructions-input">Instructions*:</label>
+    <li> <label for="instructions-input">Instructions:<span class="required-field"></span></label>
       <textarea name="instructions" id="instructions-input" cols="30" rows="4"></textarea></li>
 
     <li><label for="source-input">Source:</label>
       <input type="text" name="URL" id="source-input" /></li>
 
-    <li> <label for="prepTime-input">Preparation Time*:</label>
+    <li> <label for="prepTime-input">Preparation Time:<span class="required-field"></span></label>
       <input type="number" name="prepTime" id="prepTime-input" /></li>
 
-    <li><label for="cookTime-input">Cooking Time*:</label>
+    <li><label for="cookTime-input">Cooking Time:<span class="required-field"></span></label>
       <input type="number" name="cookTime" id="cookTime-input" /></li>
 
-    <li><label for="totalTime-input">Total Time*:</label>
+    <li><label for="totalTime-input">Total Time:<span class="required-field"></span></label>
       <input type="number" name="totalTime" id="totalTime-input" /></li>
 
     {{!-- <li><label for="typeOfMeal-input">Type of Meal:</label>
@@ -43,11 +43,11 @@
         {{/each}}
       </select></li>
 
-    <li><label for="portions-input">Portion*:</label>
+    <li><label for="portions-input">Portion:<span class="required-field"></span></label>
       <input type="number" name="portions" id="portions-input" /></li>
 
     {{#each ingredients}}
-    <li> <label for="ingredients-input"> Ingredients*: </label>
+    <li> <label for="ingredients-input"> Ingredients:<span class="required-field"></span></label>
       <input type="text" name="ingredients" id="ingredients-input" /></li>
     {{/each}}
 
@@ -59,12 +59,9 @@
         <option value="hard">Hard</option>
       </select>
     </li>
-
-
-    <button type="submit">Create</button>
-
-
   </ul>
 
-
+  <button type="submit">Create</button>
 </form>
+
+<p><span class="required-field"></span> Required fields. Please add all required informations to create a recipe!</p>
