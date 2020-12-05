@@ -16,7 +16,7 @@
 {{!-- 'this' is the user object --}}
 {{#each this.user.bookmarkedRecipes}}
 <p>{{this.name}}</p>
-<p>{{this.image}}</p>
+<img src="{{this.recipeImage}}">
 <p>Created by: {{this.createdBy.username}}</p>
 <p><a href="/recipes/{{this._id}}">Go to Recipe</a></p>
 {{/each}}
