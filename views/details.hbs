@@ -1,60 +1,77 @@
 {{> navigationalBar}}
 
-<h2>Recipe Details</h2>
-<h1>{{#if errorMessage}}<p>{{errorMessage}}</p>{{/if}}</h1>
 <div>
-  <img src="{{#if recipeDetails.recipeImage}}{{recipeDetails.recipeImage}}{{else}}/images/food.jpg{{/if}}">
-</div>
-<div>
-<p>Name: {{recipeDetails.name}}</p>
-<p>Instructions: {{recipeDetails.instructions}}</p>
-<p>Source: <a href="{{recipeDetails.URL}}" target="_blank">{{recipeDetails.URL}}</a></p>
-<p>Preparation Time: {{recipeDetails.prepTime}}</p>
-<p>Cook Time: {{recipeDetails.cookTime}}</p>
-<p>Total Time: {{recipeDetails.totalTime}}</p>
-<p>Type of Meal: {{recipeDetails.typeOfMeal}}</p>
-<p>Type of Recipe: {{recipeDetails.typeOfRecipe}}</p>
-<p>Portion: {{recipeDetails.portions}}</p>
-<p>Ingredients: {{#each recipeDetails.ingredients}} <li>{{this}}</li>{{/each}}</p>
-<p>Created By: {{recipeDetails.createdBy.username}}</p>
-<p>Average Rating: {{recipeDetails.avgRating}} <span>| Number of Ratings: {{recipeDetails.ratings.length}}</span></p>
-<p>
-<form action="{{this.recipeDetails._id}}/save-rating" method="POST">
-  <label for="rating-select">Rate this Recipe</label>
-  <select name="newRating" id="rating-select">
-    {{#each possibleScores}}
-    <option value="{{this}}">{{this}}</option>
-    {{/each}}
-  </select>
+  <div>
+    <h4>{{recipeDetails.name}}</h4>
+    <p>Created on {{date}} by {{recipeDetails.createdBy.username}}</p>
 
-  <button class="save-button" type="submit">Save</button>
+    <p>AVG. RATING: {{recipeDetails.avgRating}} <span>| NO. OF RATINGS: {{recipeDetails.ratings.length}}</span>
+    </p>
 
-  {{#if selfRatingError}}<span>You can't rate your own recipe!</span>{{/if}}
+    <p>MEAL TYPE: {{recipeDetails.typeOfMeal}}</p>
+    <p>RECIPE TYPE: {{recipeDetails.typeOfRecipe}}</p>
+
+    <img src="{{#if recipeDetails.recipeImage}}{{recipeDetails.recipeImage}}{{else}}/images/food.jpg{{/if}}">
+  </div>
+
+  <div>
+
+    <div>
+      <p>Preparation Time: {{recipeDetails.prepTime}}</p>
+      <p>Cook Time: {{recipeDetails.cookTime}}</p>
+      <p>Total Time: {{recipeDetails.totalTime}}</p>
+
+    </div>
+
+    <p>Serves: {{recipeDetails.portions}}</p>
+    <p>Ingredients: {{#each recipeDetails.ingredients}} <li>{{this}}</li>{{/each}}</p>
 
 
+    <p>Instructions: {{recipeDetails.instructions}}</p>
+    <p>Source: <a href="{{recipeDetails.URL}}" target="_blank">{{recipeDetails.URL}}</a></p>
 
-{{#if errorMessage1}}<p>{{errorMessage1}}</p>{{/if}}
-</form>
-</p>
 
-<form action="/user/shopping-list/{{this.recipeDetails._id}}/add" method="POST">
-  Add Recipe to Your Shopping List
-  <button class="save-button" type="submit">Add</button>
-</form>
 
-<form action="{{this.recipeDetails._id}}/save-bookmark" method="POST">
-  <p>Bookmark this Recipe</p>
-  <button class="save-button" type="submit">Save</button>
-</form>
 
-<form action="{{this.recipeDetails._id}}/remove-bookmark" method="POST">
-  <p>Remove Bookmark for this Recipe</p>
-  <button class="save-button" type="submit">Remove</button>
-</form>
+    <p>
+    <form action="{{this.recipeDetails._id}}/save-rating" method="POST">
+      <label for="rating-select">Rate this Recipe</label>
+      <select name="newRating" id="rating-select">
+        {{#each possibleScores}}
+        <option value="{{this}}">{{this}}</option>
+        {{/each}}
+      </select>
 
-<p><a href="{{this.recipeDetails._id}}/edit">Edit</a> </p>
+      <button class="save-button" type="submit">Save</button>
 
-<form action="/recipes/{{this.recipeDetails._id}}/delete" method="POST">
-  <button>Delete</button>
+      {{#if selfRatingError}}<span>You can't rate your own recipe!</span>{{/if}}
 
-</form>
+
+
+      {{#if errorMessage1}}<p>{{errorMessage1}}</p>{{/if}}
+    </form>
+    </p>
+
+    <form action="/user/shopping-list/{{this.recipeDetails._id}}/add" method="POST">
+      Add Recipe to Your Shopping List
+      <button class="save-button" type="submit">Add</button>
+    </form>
+
+    <form action="{{this.recipeDetails._id}}/save-bookmark" method="POST">
+      <p>Bookmark this Recipe</p>
+      <button class="save-button" type="submit">Save</button>
+    </form>
+
+    <form action="{{this.recipeDetails._id}}/remove-bookmark" method="POST">
+      <p>Remove Bookmark for this Recipe</p>
+      <button class="save-button" type="submit">Remove</button>
+    </form>
+
+    <p><a href="{{this.recipeDetails._id}}/edit">Edit</a> </p>
+
+    <form action="/recipes/{{this.recipeDetails._id}}/delete" method="POST">
+      <button>Delete</button>
+
+    </form>
+
+  </div>
