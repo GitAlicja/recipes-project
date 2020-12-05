@@ -5,13 +5,8 @@
 
 <form action="/recipes/{{recipeToEdit.id}}/edit" method="post" enctype="multipart/form-data">
 
-
-  <input type="file" name="image" id="input-file" />
-<div class="form-group">
-        <label for="input-file">Recipe Image</label>
-        <input type="file" name="image" id="image-input" class="form-control-file" />
-        <input type="text" name="existingImage" hidden id="" value="{{recipeImageEdit}}">
-      </div>
+ <label for="input-file">Recipe Image </label>
+  <input type="file" name="image" id="input-file" value="{{recipeToEdit.recipeImage}}"/>    
   <ul>
     <li><label for="name-input">Name:</label>
       <input type="text" name="name" id="name-input" value="{{recipeToEdit.name}}" /> </li>
@@ -40,14 +35,15 @@
 
     <li>Type of Meal: <select name="typeOfMeal" multiple>
         {{#each MealType}}
-        <option value="{{this}}">{{this}}</option>
+        <option value="{{this.name}}" {{#if this.selected}} selected = "selected" {{/if}}>{{this.name}}</option>
         {{/each}}
       </select></li>
 
+    {{!-- <option value="{{this.celebrity._id}}"{{#if this.selected}} selected="selected"{{/if}}>{{this.celebrity.name}}</option>  --}}
 
     <li>Type of Recipe: <select name="typeOfRecipe" multiple>
         {{#each RecipeType}}
-        <option value="{{this}}">{{this}}</option>
+        <option value="{{this.name}}" {{#if this.selected}} selected = "selected" {{/if}}> {{this.name}}</option>
         {{/each}}
       </select></li>
 
