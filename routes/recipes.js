@@ -4,7 +4,9 @@ const Recipe = require('../models/Recipe.Model');
 const User = require('../models/User.Model')
 const router = express.Router();
 const fileUploader = require('../configs/cloudinary.config');
-const User = require('../models/User.Model');
+let MealType = ["breakfast", "lunch", "dinner", "soup", "snacks", "dessert", "cake"]
+let RecipeType = ["vegetarian", "vegan", "gluten-free", "meat", "fish", "seafood", "low-carb"]
+
 
 // array of possible scores to rate the recipe
 const possibleScores = [1, 2, 3, 4, 5];
@@ -16,8 +18,8 @@ router.get('/recipes', (req, res, next) => {
   if (!req.session.userId) {
     res.redirect('/');
   } else {
-    let MealType = ["breakfast", "lunch", "dinner", "soup", "snacks", "dessert", "cake"]
-    let RecipeType = ["vegetarian", "vegan", "gluten-free", "meat", "fish", "seafood", "low-carb"]
+    // let MealType = ["breakfast", "lunch", "dinner", "soup", "snacks", "dessert", "cake"]
+    // let RecipeType = ["vegetarian", "vegan", "gluten-free", "meat", "fish", "seafood", "low-carb"]
     Recipe.find().then((recipeFromDB) => {
       // console.log("Meal type ================================>", MealType)
       res.render('welcome', { recipes: recipeFromDB, MealType: MealType, RecipeType: RecipeType })
@@ -54,13 +56,16 @@ router.post('/recipes/:id/save-bookmark', (req, res, next) => {
       // console.log(">>>>>>>>>>>>>>>>>bookmark: ", newBookmark)
       // console.log(">>>>>>>>>>>>>>>>>>>user: ", user)
       // add the new bookmark to the array with all the user's bookmarks
-      user.bookmarkedRecipes.push(newBookmark);
-      user.save().then(
-        res.redirect('/user/bookmarks')
-      );
+      if (!user.bookmarkedRecipes.includes(newBookmark)) {
+        user.bookmarkedRecipes.push(newBookmark);
+        user.save().then(
+          res.redirect('/user/bookmarks'))
+      }
+      else { res.redirect('/user/bookmarks') };
     })
   }
 })
+
 
 // /:id/remove-bookmarks
 router.post('/recipes/:id/remove-bookmark', (req, res, next) => {
@@ -242,10 +247,15 @@ router.get('/filter', (req, res) => {
       { $or: [{ typeOfMeal: { $in: req.query.typeOfMeal } }] }
     ]
   }).then((recipesFromDB) => {
-    if (recipesFromDB.length === 0) {
-      res.send("There are no recipes that meet your criteria. Sorry! :(")
-    }
-    res.render('recipes-search-results', { recipesFromDB })
+    // if (recipesFromDB.length === 0) {
+    //   res.send("There are no recipes that meet your criteria. Sorry! :(")
+    // }
+    // res.render('recipes-search-results', { recipesFromDB })
+
+    // let MealType = ["breakfast", "lunch", "dinner", "soup", "snacks", "dessert", "cake"]
+    // let RecipeType = ["vegetarian", "vegan", "gluten-free", "meat", "fish", "seafood", "low-carb"]
+    //onsole.log("MealType", MealType)
+    res.render('recipes-search-results', { recipesFromDB: recipesFromDB, MealType: MealType, RecipeType: RecipeType })
   }).catch(error => {
     console.log("something went wrong to get filters fromdb", error)
   })
