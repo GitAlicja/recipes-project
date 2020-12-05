@@ -1,27 +1,37 @@
-<div>
-  <div>
-    <img src="" alt="">
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <div>
+        <h2 class="display-3">Welcome to Recipe Club</h2>
+        <br>
+        <h3>Try our recipe management app to find and organize your favourite recipes!</h3>
+        <br>
+        <form class="pull-left" class="container" class="mx-auto" style="width: 200px;" action="/" method="post">
+
+          <label for="input-email">Email</label>
+          <input type="email" name="email" id="input-email" placeholder="Your email" />
+          <br>
+          <br>
+          <label for="input-password">Password</label>
+          <input type="password" name="password" id="input-password" placeholder="********" />
+          <br>
+          <br>
+          <div>
+            <button type="submit" class="btn btn-primary">LOGIN</button>
+          </div>
+          {{#if errorMessage}}
+          <p>{{errorMessage}}</p>
+          {{/if}}
+        </form>
+        <br>
+        <div class="pull-left" class="mx-auto" style="width: 400px;">
+          <p> No account yet? <a href="/signup">Sign up to browse recipes!</a> </p>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div>
+        <img src="/images/login.png" alt="Recipe image" class="img-fluid" alt="Responsive image">
+      </div>
+    </div>
   </div>
-  <div>
-    <h2>Welcome to Recipe Club</h2>
-    <p>Try our recipe management app to find and organize your favourite recipes!</p>
-    <form action="/" method="post">
-
-      <label for="input-email">Email</label>
-      <input type="email" name="email" id="input-email" placeholder="Your email" />
-
-      <label for="input-password">Password</label>
-      <input type="password" name="password" id="input-password" placeholder="********" />
-
-      <button type="submit">LOGIN</button>
-
-      <br>
-      <p>No account yet? Sign up to browse recipes!</p>
-      <a href="/signup">SIGN UP</a>
-
-      {{#if errorMessage}}
-      <p>{{errorMessage}}</p>
-      {{/if}}
-    </form>
-  </div>
-</div>
