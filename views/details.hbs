@@ -1,6 +1,11 @@
 {{> navigationalBar}}
 
 <h2>Recipe Details</h2>
+<h1>{{#if errorMessage}}<p>{{errorMessage}}</p>{{/if}}</h1>
+<div class="profile-image">
+  <img src="{{#if recipeDetails.recipeImage}}{{recipeDetails.recipeImage}}{{else}}/images/food.jpg{{/if}}">
+</div>
+<div>
 <p>Name: {{recipeDetails.name}}</p>
 <p>Instructions: {{recipeDetails.instructions}}</p>
 <p>Source: <a href="{{recipeDetails.URL}}" target="_blank">{{recipeDetails.URL}}</a></p>
@@ -26,7 +31,7 @@
 
   {{#if selfRatingError}}<span>You can't rate your own recipe!</span>{{/if}}
 
-{{#if errorMessage}}<p>{{errorMessage}}</p>{{/if}}
+
 
 {{#if errorMessage1}}<p>{{errorMessage1}}</p>{{/if}}
 </form>

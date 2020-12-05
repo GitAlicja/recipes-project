@@ -1,6 +1,6 @@
 {{> navigationalBar}}
 
-<h1>Welcome {{username}} !</h1>
+<h1>Welcome {{user.username}} !</h1>
 
 <h2>Search recipes</h2>
 <form action="/search" method="get">
@@ -29,7 +29,7 @@
 
 {{#each recipes}}
 <p>{{this.name}}</p>
-<p>{{this.image}}</p>
+<img src="{{this.recipeImage}}">
 <p><a href="/recipes/{{this._id}}">Go to Recipe</a></p>
 
 {{/each}}
