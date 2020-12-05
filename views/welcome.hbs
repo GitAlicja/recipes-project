@@ -1,12 +1,11 @@
 {{> navigationalBar}}
 
-<h1>Welcome {{user.username}} !</h1>
+<h1>Welcome {{user.username}}!</h1>
 
 <h2>Search recipes</h2>
 <form action="/search" method="get">
   <input type="text" name="searchInput" placeholder="Search..">
   <button type="submit">Search</button>
-
 </form>
 
 <h2>Filter recipes</h2>
@@ -17,7 +16,7 @@
     <option value="{{this}}">{{this}}</option>
     {{/each}}
   </select>
-   Type of recipe:
+  Type of recipe:
   <select name="typeOfRecipe">
     {{#each RecipeType}}
     <option value="{{this}}">{{this}}</option>
@@ -27,10 +26,14 @@
   <button type="submit">Filter</button>
 </form>
 
-{{!-- this doesn't work --}} 
+{{!-- this doesn't work --}}
 {{!-- {{#if noResults}}
  <p>There are no results matching your filters!</p>
    {{/if}} --}}
+
+<br>
+<p><a href="/recipes/create"> Create Recipe</a></p>
+<br>
 
 {{#each recipes}}
 <p>{{this.name}}</p>
@@ -38,5 +41,3 @@
 <p><a href="/recipes/{{this._id}}">Go to Recipe</a></p>
 
 {{/each}}
-
-<p><a href="/create"> Create Recipe</a></p>

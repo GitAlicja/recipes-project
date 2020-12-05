@@ -4,12 +4,13 @@ const Recipe = require('../models/Recipe.Model');
 const User = require('../models/User.Model')
 const router = express.Router();
 const fileUploader = require('../configs/cloudinary.config');
+
 let MealType = ["breakfast", "lunch", "dinner", "soup", "snacks", "dessert", "cake"]
 let RecipeType = ["vegetarian", "vegan", "gluten-free", "meat", "fish", "seafood", "low-carb"]
 
-
 // array of possible scores to rate the recipe
 const possibleScores = [1, 2, 3, 4, 5];
+
 
 // /recipes 
 router.get('/recipes', (req, res, next) => {
@@ -21,11 +22,55 @@ router.get('/recipes', (req, res, next) => {
     // let MealType = ["breakfast", "lunch", "dinner", "soup", "snacks", "dessert", "cake"]
     // let RecipeType = ["vegetarian", "vegan", "gluten-free", "meat", "fish", "seafood", "low-carb"]
     Recipe.find().then((recipeFromDB) => {
-      // console.log("Meal type ================================>", MealType)
-      res.render('welcome', { recipes: recipeFromDB, MealType: MealType, RecipeType: RecipeType })
+
+      User.findById(req.session.userId).then((user) => {
+        res.render('welcome', { recipes: recipeFromDB, MealType: MealType, RecipeType: RecipeType, user })
+      });
     });
   }
 });
+
+
+// /recipes/create
+
+// router.get('recipes/create', (req, res) => res.render('create', {recipes: recipeFromDB, MealType: MealType }));
+
+router.get('/recipes/create', (req, res, next) => {
+  if (!req.session.userId) {
+    res.redirect('/');
+  } else {
+    let MealType = ["breakfast", "lunch", "dinner", "soup", "snacks", "dessert", "cake"]
+    let RecipeType = ["vegetarian", "vegan", "gluten-free", "meat", "fish", "seafood", "low-carb"]
+
+    Recipe.find()
+      .populate('createdBy')
+      .then((recipeFromDB) => {
+        res.render('create', { ingredients: [null, null, null, null, null, null, null, null], recipes: recipeFromDB, MealType: MealType, RecipeType: RecipeType })
+      })
+    // user: userFromDB
+  }
+});
+
+// //post route to save new recipe to DB 
+// router.post('/recipes/create', fileUploader.single('image'), (req, res) => {
+//   // console.log(req.body)
+//   const { name, instructions, URL, image, prepTime, cookTime, totalTime, typeOfMeal, typeOfRecipe, portions, ingredients } = req.body;
+
+//   Recipe.create({ name, instructions, URL, image, prepTime, cookTime, totalTime, typeOfMeal, typeOfRecipe, portions, ingredients, ratings: [], avgRating: 0, createdBy: req.session.userId, })
+//     .then(() => res.redirect('/recipes'))
+// });
+// // recipeImage: req.file.path 
+
+router.post('/recipes/create', fileUploader.single('image'), (req, res) => {
+  if (!req.file) {
+    res.send("file not found")
+  }
+  const { name, instructions, URL, prepTime, cookTime, totalTime, typeOfMeal, typeOfRecipe, portions, ingredients } = req.body;
+
+  Recipe.create({ name, instructions, URL, prepTime, cookTime, totalTime, typeOfMeal, typeOfRecipe, portions, ingredients, ratings: [], avgRating: 0, createdBy: req.session.userId, recipeImage: req.file.path })
+    .then(() => res.redirect('/recipes'))
+});
+
 
 
 // /:id/details
@@ -149,36 +194,38 @@ router.post('/recipes/:id/save-rating', (req, res, next) => {
   }
 });
 
-// /create-new
+// // /create-new
 
-// router.get('/create', (req, res) => res.render('create', {recipes: recipeFromDB, MealType: MealType }));
+// // router.get('/create', (req, res) => res.render('create', {recipes: recipeFromDB, MealType: MealType }));
 
-router.get('/create', (req, res, next) => {
-  if (!req.session.userId) {
-    res.redirect('/');
-  } else {
-    let MealType = ["breakfast", "lunch", "dinner", "soup", "snacks", "dessert", "cake"]
-    let RecipeType = ["vegetarian", "vegan", "gluten-free", "meat", "fish", "seafood", "low-carb"]
+// router.get('/create', (req, res, next) => {
+//   if (!req.session.userId) {
+//     res.redirect('/');
+//   } else {
+//     let MealType = ["breakfast", "lunch", "dinner", "soup", "snacks", "dessert", "cake"]
+//     let RecipeType = ["vegetarian", "vegan", "gluten-free", "meat", "fish", "seafood", "low-carb"]
 
-    Recipe.find()
-      .populate('createdBy')
-      .then((recipeFromDB) => {
-        res.render('create', { ingredients: [null, null, null, null], recipes: recipeFromDB, MealType: MealType, RecipeType: RecipeType })
-      })
-    // user: userFromDB
-  }
-});
-//post route to save new recipe to DB 
-router.post('/create', fileUploader.single('image'), (req, res) => {
-  if (!req.file) {
-    res.send("file not found")
-  }
-  const { name, instructions, URL, image, prepTime, cookTime, totalTime, typeOfMeal, typeOfRecipe, portions, ingredients } = req.body;
+//     Recipe.find()
+//       .populate('createdBy')
+//       .then((recipeFromDB) => {
+//         res.render('create', { ingredients: [null, null, null, null], recipes: recipeFromDB, MealType: MealType, RecipeType: RecipeType })
+//       })
+//     // user: userFromDB
+//   }
+// });
+// //post route to save new recipe to DB 
+// router.post('/create', fileUploader.single('image'), (req, res) => {
+//   if (!req.file) {
+//     res.send("file not found")
+//   }
+//   const { name, instructions, URL, image, prepTime, cookTime, totalTime, typeOfMeal, typeOfRecipe, portions, ingredients } = req.body;
 
-  Recipe.create({ name, instructions, URL, image, prepTime, cookTime, totalTime, typeOfMeal, typeOfRecipe, portions, ingredients, ratings: [], avgRating: 0, createdBy: req.session.userId, recipeImage: req.file.path })
-    .then(() => res.redirect('/recipes'))
-});
+//   Recipe.create({ name, instructions, URL, image, prepTime, cookTime, totalTime, typeOfMeal, typeOfRecipe, portions, ingredients, ratings: [], avgRating: 0, createdBy: req.session.userId, recipeImage: req.file.path })
+//     .then(() => res.redirect('/recipes'))
+// });
+
 // recipeImage: req.file.path 
+
 
 // /:id/edit
 //How to give permission to the creator of the recipe??//
@@ -220,7 +267,7 @@ router.post('/recipes/:id/delete', (req, res) => {
     const { id } = req.params;
     Recipe.findByIdAndDelete(id)
       .then(recipeToDelete => {
-        if (req.session.userID !== recipeToDelete.createdBy) {
+        if (req.session.userId != recipeToDelete.createdBy) {
           res.render('details', { recipeToDelete: recipeToDelete, errorMessage1: 'You do not have permission to delete this recipe' })
         } else {
           res.redirect('/recipes')
@@ -228,17 +275,22 @@ router.post('/recipes/:id/delete', (req, res) => {
       })
   }
 });
+
+
 // /all-recipes/filteredBy... (?)
 
 router.get('/search', (req, response) => {
   // console.log("searchInput", req.query.searchInput)
-  let query = { name: { $regex: ".*" + req.query.searchInput + ".*" } }
+  // let query = { name: { $regex: ".*" + req.query.searchInput + ".*" } }
+  let query = { $or: [{ name: new RegExp(req.query.searchInput, "i") }, { instructions: new RegExp(req.query.searchInput, "i") }] }
   // console.log(query)
   Recipe.find(query).then((recipesFromDB) => {
     // console.log(recipesFromDB);
     response.render('recipes-search-results', { recipesFromDB })
   })
 })
+
+
 // /recipes/filteredBy... (?)
 router.get('/filter', (req, res) => {
   Recipe.find({
@@ -250,18 +302,11 @@ router.get('/filter', (req, res) => {
     // if (recipesFromDB.length === 0) {
     //   res.send("There are no recipes that meet your criteria. Sorry! :(")
     // }
-    // res.render('recipes-search-results', { recipesFromDB })
-
-    // let MealType = ["breakfast", "lunch", "dinner", "soup", "snacks", "dessert", "cake"]
-    // let RecipeType = ["vegetarian", "vegan", "gluten-free", "meat", "fish", "seafood", "low-carb"]
-    //onsole.log("MealType", MealType)
-    res.render('recipes-search-results', { recipesFromDB: recipesFromDB, MealType: MealType, RecipeType: RecipeType })
+    res.render('recipes-search-results', { recipesFromDB })
   }).catch(error => {
     console.log("something went wrong to get filters fromdb", error)
   })
 })
-
-
 
 
 module.exports = router;

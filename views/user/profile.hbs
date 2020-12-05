@@ -4,9 +4,8 @@
   <img src="{{#if this.user.profileImg}}{{this.user.profileImg}}{{else}}/images/user.png{{/if}}">
 </div>
 <div>
-  <h3>Hello, {{this.user.username}}!</h3>
+  <h3>Hello {{this.user.username}}!</h3>
   <a href="/user/profile/edit">Edit Profile</a> <br>
-  <a href="/create">Create Recipe</a> <br>
   <a href="/user/bookmarks">Your Bookmarks</a> <br>
   <a href="/user/shopping-list">Your Shopping List</a>
 
@@ -52,6 +51,6 @@
   {{/each}}
 
   {{else}}
-  <p>There are no results matching your query!</p>
+  <p>{{#if filterQuery}}There are no results matching your query!{{else}}You haven't created any recipes yet!{{/if}}</p>
   {{/if}}
 </div>

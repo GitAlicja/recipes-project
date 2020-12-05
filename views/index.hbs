@@ -3,7 +3,8 @@
     <img src="" alt="">
   </div>
   <div>
-    <h2>Welcome to [name of the app]</h2>
+    <h2>Welcome to Recipe Club</h2>
+    <p>Try our recipe management app to find and organize your favourite recipes!</p>
     <form action="/" method="post">
 
       <label for="input-email">Email</label>
@@ -15,7 +16,8 @@
       <button type="submit">LOGIN</button>
 
       <br>
-      <a href="/signup">SIGNUP</a>
+      <p>No account yet? Sign up to browse recipes!</p>
+      <a href="/signup">SIGN UP</a>
 
       {{#if errorMessage}}
       <p>{{errorMessage}}</p>

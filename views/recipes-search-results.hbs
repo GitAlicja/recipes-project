@@ -1,3 +1,5 @@
+{{> navigationalBar}}
+
 <div>
     <h2>Recipes</h2>
     {{!-- <h2>Filter recipes</h2>
@@ -19,13 +21,19 @@
     </form> --}}
 
     {{#if this.recipesFromDB}}
-
+{{!-- 
     {{#each recipesFromDB }}
     <div>
         <p>Name: {{name}}</p>
     </div>
-    {{/each}}
+    {{/each}} --}}
 
+    {{#each recipesFromDB }}
+    <div>
+        <p>Name: {{this.name}}</p>
+        <p><a href="/recipes/{{this._id}}">Go to Recipe</a></p>
+    </div>
+    {{/each}}
 
 
     {{else}}
