@@ -204,11 +204,17 @@ router.get('/recipes/:id/edit', (req, res, next) => {
   }
 });
 
-router.post('/recipes/:id/edit', (req, res) => {
+router.post('/recipes/:id/edit', fileUploader.single('image'), (req, res) => {
   const { id } = req.params;
   const { name, instructions, URL, image, prepTime, cookTime, totalTime, typeOfMeal, typeOfRecipe, portions, ingredients } = req.body;
 
-  Recipe.findByIdAndUpdate(id, { name, instructions, URL, image, prepTime, cookTime, totalTime, typeOfMeal, typeOfRecipe, portions, ingredients }, { new: true })
+  let recipeImageEdit;
+  if (req.file) {
+    recipeImageEdit = req.file.path;
+  } else {
+    recipeImageEdit = req.body.existingImage;
+  }
+  Recipe.findByIdAndUpdate(id, { name, instructions, URL, image, prepTime, cookTime, totalTime, typeOfMeal, typeOfRecipe, portions, ingredients, recipeImageEdit }, { new: true })
     .then(() => res.redirect('/recipes'))
 });
 
