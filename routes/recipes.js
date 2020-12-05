@@ -4,7 +4,7 @@ const Recipe = require('../models/Recipe.Model');
 const User = require('../models/User.Model')
 const router = express.Router();
 const fileUploader = require('../configs/cloudinary.config');
-
+const User = require('../models/User.Model');
 
 // array of possible scores to rate the recipe
 const possibleScores = [1, 2, 3, 4, 5];
@@ -50,16 +50,16 @@ router.post('/recipes/:id/save-bookmark', (req, res, next) => {
     res.redirect('/'); // redirect to the homepage where the login form is
   } else {
     User.findById(req.session.userId).then(user => {
-    const newBookmark = req.params.id;
-    // console.log(">>>>>>>>>>>>>>>>>bookmark: ", newBookmark)
-    // console.log(">>>>>>>>>>>>>>>>>>>user: ", user)
-    // add the new bookmark to the array with all the user's bookmarks
-    user.bookmarkedRecipes.push(newBookmark);
-    user.save().then(
-      res.redirect('/user/bookmarks')
-    );
-  })
-}
+      const newBookmark = req.params.id;
+      // console.log(">>>>>>>>>>>>>>>>>bookmark: ", newBookmark)
+      // console.log(">>>>>>>>>>>>>>>>>>>user: ", user)
+      // add the new bookmark to the array with all the user's bookmarks
+      user.bookmarkedRecipes.push(newBookmark);
+      user.save().then(
+        res.redirect('/user/bookmarks')
+      );
+    })
+  }
 })
 
 // /:id/remove-bookmarks
@@ -68,17 +68,17 @@ router.post('/recipes/:id/remove-bookmark', (req, res, next) => {
     res.redirect('/'); // redirect to the homepage where the login form is
   } else {
     User.findById(req.session.userId).then(user => {
-    const bookmarkedRecipes = user.bookmarkedRecipes
-    const bookmarkToBeRemoved = req.params.id;
-    // console.log(">>>>>>>>>>>>>>>>>bookmark: ", bookmarkToBeRemoved)
-    // console.log(">>>>>>>>>>>>>>>>>>>user: ", user)
-    const index = bookmarkedRecipes.indexOf(bookmarkToBeRemoved)
-if (index > -1) { bookmarkedRecipes.splice(index, 1) }
-    user.save().then(
-      res.redirect('/user/bookmarks')
-    );
-  })
-}
+      const bookmarkedRecipes = user.bookmarkedRecipes
+      const bookmarkToBeRemoved = req.params.id;
+      // console.log(">>>>>>>>>>>>>>>>>bookmark: ", bookmarkToBeRemoved)
+      // console.log(">>>>>>>>>>>>>>>>>>>user: ", user)
+      const index = bookmarkedRecipes.indexOf(bookmarkToBeRemoved)
+      if (index > -1) { bookmarkedRecipes.splice(index, 1) }
+      user.save().then(
+        res.redirect('/user/bookmarks')
+      );
+    })
+  }
 })
 
 
@@ -165,10 +165,12 @@ router.get('/create', (req, res, next) => {
 });
 //post route to save new recipe to DB 
 router.post('/create', fileUploader.single('image'), (req, res) => {
-  // console.log(req.body)
+  if (!req.file) {
+    res.send("file not found")
+  }
   const { name, instructions, URL, image, prepTime, cookTime, totalTime, typeOfMeal, typeOfRecipe, portions, ingredients } = req.body;
 
-  Recipe.create({ name, instructions, URL, image, prepTime, cookTime, totalTime, typeOfMeal, typeOfRecipe, portions, ingredients, ratings: [], avgRating: 0, createdBy: req.session.userId, })
+  Recipe.create({ name, instructions, URL, image, prepTime, cookTime, totalTime, typeOfMeal, typeOfRecipe, portions, ingredients, ratings: [], avgRating: 0, createdBy: req.session.userId, recipeImage: req.file.path })
     .then(() => res.redirect('/recipes'))
 });
 // recipeImage: req.file.path 
@@ -178,6 +180,7 @@ router.post('/create', fileUploader.single('image'), (req, res) => {
 // req.session.userID != recipes.createdBy)
 
 router.get('/recipes/:id/edit', (req, res, next) => {
+
   if (!req.session.userId) {
     res.redirect('/');
   }
@@ -187,7 +190,7 @@ router.get('/recipes/:id/edit', (req, res, next) => {
 
     const { id } = req.params
     Recipe.findById(id).then(recipeToEdit => {
-      if (req.session.userID !== recipeToEdit.createdBy) {
+      if (req.session.userId != recipeToEdit.createdBy) {
         res.render('details', { errorMessage: 'You do not have permission to edit this recipe' })
       } else {
         res.render('edit', { recipeToEdit: recipeToEdit, MealType: MealType, RecipeType: RecipeType })
@@ -211,44 +214,44 @@ router.post('/recipes/:id/delete', (req, res) => {
   } else {
     const { id } = req.params;
     Recipe.findByIdAndDelete(id)
- .then(recipeToDelete => {
+      .then(recipeToDelete => {
         if (req.session.userID !== recipeToDelete.createdBy) {
           res.render('details', { recipeToDelete: recipeToDelete, errorMessage1: 'You do not have permission to delete this recipe' })
         } else {
           res.redirect('/recipes')
         }
       })
+  }
+});
+// /all-recipes/filteredBy... (?)
+
+router.get('/search', (req, response) => {
+  // console.log("searchInput", req.query.searchInput)
+  let query = { name: { $regex: ".*" + req.query.searchInput + ".*" } }
+  // console.log(query)
+  Recipe.find(query).then((recipesFromDB) => {
+    // console.log(recipesFromDB);
+    response.render('recipes-search-results', { recipesFromDB })
+  })
+})
+// /recipes/filteredBy... (?)
+router.get('/filter', (req, res) => {
+  Recipe.find({
+    $and: [
+      { $or: [{ typeOfRecipe: { $in: req.query.typeOfRecipe } }] },
+      { $or: [{ typeOfMeal: { $in: req.query.typeOfMeal } }] }
+    ]
+  }).then((recipesFromDB) => {
+    if (recipesFromDB.length === 0) {
+      res.send("There are no recipes that meet your criteria. Sorry! :(")
     }
-      });
-    // /all-recipes/filteredBy... (?)
-
-    router.get('/search', (req, response) => {
-      // console.log("searchInput", req.query.searchInput)
-      let query = { name: { $regex: ".*" + req.query.searchInput + ".*" } }
-      // console.log(query)
-      Recipe.find(query).then((recipesFromDB) => {
-        // console.log(recipesFromDB);
-        response.render('recipes-search-results', { recipesFromDB })
-      })
-    })
-    // /recipes/filteredBy... (?)
-    router.get('/filter', (req, res) => {
-      Recipe.find({
-        $and: [
-          { $or: [{ typeOfRecipe: { $in: req.query.typeOfRecipe } }] },
-          { $or: [{ typeOfMeal: { $in: req.query.typeOfMeal } }] }
-        ]
-      }).then((recipesFromDB) => {
-        if (recipesFromDB.length === 0) {
-          res.send("There are no recipes that meet your criteria. Sorry! :(")
-        }
-        res.render('recipes-search-results', { recipesFromDB })
-      }).catch(error => {
-        console.log("something went wrong to get filters fromdb", error)
-      })
-    })
+    res.render('recipes-search-results', { recipesFromDB })
+  }).catch(error => {
+    console.log("something went wrong to get filters fromdb", error)
+  })
+})
 
 
 
 
-    module.exports = router;
+module.exports = router;

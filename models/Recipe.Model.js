@@ -12,11 +12,11 @@ const recipeSchema = new Schema(
       required: true
     },
     URL: String,
-    image: String,
-    prepTime: Number,
-    cookTime: Number,
+    recipeImage: String,
+    prepTime: String,
+    cookTime: String,
     totalTime: {
-      type: Number,
+      type: String,
       required: true
     },
     typeOfMeal: [String],
