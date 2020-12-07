@@ -1,5 +1,5 @@
 body {
-  padding: 50px;
+  /* padding: 50px; */
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
@@ -36,6 +36,8 @@ a {
   max-width: 750px;
   margin: 0 auto;
   box-sizing: border-box;
+  padding-left: 16px;
+  padding-right: 16px;
 }
 
 .img-fluid {
@@ -88,4 +90,8 @@ h6 {
 
 .card {
   margin-bottom: 15px;
+}
+
+nav {
+  margin-bottom: 60px;
 }
