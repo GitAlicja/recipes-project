@@ -1,6 +1,7 @@
 body {
   padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif; }
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
 
 a {
   color: #00B7FF; }
@@ -24,4 +25,67 @@ a {
 .required-field::after {
   content: "*";
   color: red;
+}
+
+.main-recipe-container {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
+  max-width: 750px;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+.img-fluid {
+  max-width: 100%;
+  height: auto;
+  margin-bottom: 30px;
+}
+
+.recipe-details-name {
+  text-transform: uppercase;
+  margin-bottom: 30px;
+}
+
+.recipe-details-icon {
+  width: 60px;
+  margin: 5px;
+}
+
+.icons-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.icons-container > p {
+  margin: 20px;
+}
+
+h6 {
+  background-color: #DFDFDF;
+  padding: 15px 20px;
+  border-radius: 0.25rem;
+}
+
+.instructions-box > ul {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+  line-height: 1.4rem;
+}
+
+.instructions-box > p {
+  padding: 10px 20px;
+  margin-bottom: 20px;
+  line-height: 1.4rem;
+}
+
+.card {
+  margin-bottom: 15px;
 }

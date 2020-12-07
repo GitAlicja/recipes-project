@@ -62,13 +62,20 @@ router.get('/recipes/create', (req, res, next) => {
 // // recipeImage: req.file.path 
 
 router.post('/recipes/create', fileUploader.single('image'), (req, res) => {
-  if (!req.file) {
-    res.send("file not found")
-  }
-  const { createDate, name, instructions, URL, prepTime, cookTime, totalTime, typeOfMeal, typeOfRecipe, portions, ingredients } = req.body;
+  // if (!req.file) {
+  //   res.send("file not found")
+  // }
 
-  Recipe.create({ createDate, name, instructions, URL, prepTime, cookTime, totalTime, typeOfMeal, typeOfRecipe, portions, ingredients, ratings: [], avgRating: 0, createdBy: req.session.userId, recipeImage: req.file.path })
-    .then(() => res.redirect('/recipes'))
+  if (!req.session.userId) {
+    res.redirect('/');
+  } else {
+
+    const { createDate, name, instructions, URL, prepTime, cookTime, totalTime, typeOfMeal, typeOfRecipe, portions, ingredients, level } = req.body;
+
+    Recipe.create({ createDate, name, instructions, URL, prepTime, cookTime, totalTime, typeOfMeal, typeOfRecipe, portions, ingredients, ratings: [], avgRating: 0, createdBy: req.session.userId, recipeImage: req.file.path, level: level })
+      .then(() => res.redirect('/recipes'))
+  }
+
 });
 
 
@@ -83,9 +90,9 @@ router.get('/recipes/:id', (req, res, next) => {
     Recipe.findById(id)
       .populate('createdBy')
       .then(recipeDetails => {
-        let date ="";
-        let d = new Date( recipeDetails.createDate);
-        date = d.getFullYear() + "/" + d.getMonth() + "/"+ d.getDate();
+        let date = "";
+        let d = new Date(recipeDetails.createDate);
+        date = d.getFullYear() + "/" + d.getMonth() + "/" + d.getDate();
         // passing the array of possibleScores added 
         res.render('details', { recipeDetails, possibleScores, selfRatingError: req.query.selfRatingError, date });
       });

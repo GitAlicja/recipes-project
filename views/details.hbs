@@ -1,77 +1,100 @@
 {{> navigationalBar}}
 
-<div>
+<div class="main-recipe-container">
+
   <div>
-    <h4>{{recipeDetails.name}}</h4>
+    <h3 class="recipe-details-name">{{recipeDetails.name}}</h3>
     <p>Created on {{date}} by {{recipeDetails.createdBy.username}}</p>
-
-    <p>AVG. RATING: {{recipeDetails.avgRating}} <span>| NO. OF RATINGS: {{recipeDetails.ratings.length}}</span>
-    </p>
-
-    <p>MEAL TYPE: {{recipeDetails.typeOfMeal}}</p>
-    <p>RECIPE TYPE: {{recipeDetails.typeOfRecipe}}</p>
-
-    <img src="{{#if recipeDetails.recipeImage}}{{recipeDetails.recipeImage}}{{else}}/images/food.jpg{{/if}}">
+    <p>Avg. Rating: {{recipeDetails.avgRating}} (from {{recipeDetails.ratings.length}} votes)</p>
   </div>
 
   <div>
+    <img
+      src="{{#if recipeDetails.recipeImage}}{{recipeDetails.recipeImage}}{{else}}/images/the-creative-exchange-HCZUMu843MQ-unsplash.jpg{{/if}}"
+      class="img-fluid">
+  </div>
 
-    <div>
-      <p>Preparation Time: {{recipeDetails.prepTime}}</p>
-      <p>Cook Time: {{recipeDetails.cookTime}}</p>
-      <p>Total Time: {{recipeDetails.totalTime}}</p>
+  <div>
+    <p><strong>Meal Type</strong>: {{recipeDetails.typeOfMeal}}</p>
+    <p><strong>Recipe Type</strong>: {{recipeDetails.typeOfRecipe}}</p>
+    <p><strong>Difficulty</strong>: {{recipeDetails.level}}</p>
+    <p><strong>Serves</strong>: {{recipeDetails.portions}}</p>
+  </div>
+
+  <div class="icons-container">
+    <p><img src="/images/cutting-board.png" class="recipe-details-icon"><strong>Prep</strong>:
+      {{recipeDetails.prepTime}}</p>
+    <p><img src="/images/cooking.png" class="recipe-details-icon"><strong>Cook</strong>: {{recipeDetails.cookTime}}</p>
+    <p><img src="/images/chef-hat.png" class="recipe-details-icon"><strong>Total</strong>: {{recipeDetails.totalTime}}
+    </p>
+  </div>
+
+  <div class="instructions-box">
+    <h6>INGREDIENTS:</h6>
+    <ul>{{#each recipeDetails.ingredients}} <li>{{this}}</li>{{/each}}</ul>
+    <h6>INSTRUCTIONS:</h6>
+    <p>{{recipeDetails.instructions}}</p>
+  </div>
+
+  <p>Find the <strong>original recipe</strong> <a href="{{recipeDetails.URL}}" target="_blank">here</a>!</p>
+
+  <br>
+  <div class="card">
+    <div class="card-body">
+
+      <form action="{{this.recipeDetails._id}}/save-rating" method="POST">
+        <label for="rating-select">Rate this Recipe</label>
+        <select name="newRating" id="rating-select">
+          {{#each possibleScores}}
+          <option value="{{this}}">{{this}}</option>
+          {{/each}}
+        </select>
+        <button class="btn btn-light btn-sm" type="submit">Save</button>
+        {{#if selfRatingError}}<span>You can't rate your own recipe!</span>{{/if}}
+      </form>
+
+      <form action="/user/shopping-list/{{this.recipeDetails._id}}/add" method="POST">
+        Add Recipe to Your Shopping List
+        <button class="btn btn-light btn-sm" type="submit">Add</button>
+      </form>
 
     </div>
-
-    <p>Serves: {{recipeDetails.portions}}</p>
-    <p>Ingredients: {{#each recipeDetails.ingredients}} <li>{{this}}</li>{{/each}}</p>
-
-
-    <p>Instructions: {{recipeDetails.instructions}}</p>
-    <p>Source: <a href="{{recipeDetails.URL}}" target="_blank">{{recipeDetails.URL}}</a></p>
-
-
-
-
-    <p>
-    <form action="{{this.recipeDetails._id}}/save-rating" method="POST">
-      <label for="rating-select">Rate this Recipe</label>
-      <select name="newRating" id="rating-select">
-        {{#each possibleScores}}
-        <option value="{{this}}">{{this}}</option>
-        {{/each}}
-      </select>
-
-      <button class="save-button" type="submit">Save</button>
-
-      {{#if selfRatingError}}<span>You can't rate your own recipe!</span>{{/if}}
-
-
-
-      {{#if errorMessage1}}<p>{{errorMessage1}}</p>{{/if}}
-    </form>
-    </p>
-
-    <form action="/user/shopping-list/{{this.recipeDetails._id}}/add" method="POST">
-      Add Recipe to Your Shopping List
-      <button class="save-button" type="submit">Add</button>
-    </form>
-
-    <form action="{{this.recipeDetails._id}}/save-bookmark" method="POST">
-      <p>Bookmark this Recipe</p>
-      <button class="save-button" type="submit">Save</button>
-    </form>
-
-    <form action="{{this.recipeDetails._id}}/remove-bookmark" method="POST">
-      <p>Remove Bookmark for this Recipe</p>
-      <button class="save-button" type="submit">Remove</button>
-    </form>
-
-    <p><a href="{{this.recipeDetails._id}}/edit">Edit</a> </p>
-
-    <form action="/recipes/{{this.recipeDetails._id}}/delete" method="POST">
-      <button>Delete</button>
-
-    </form>
-
   </div>
+
+
+  <div class="card">
+    <div class="card-body">
+
+      <form action="{{this.recipeDetails._id}}/save-bookmark" method="POST">
+        Bookmark this Recipe
+        <button class="btn btn-light btn-sm" type="submit">Save</button>
+      </form>
+
+      <form action="{{this.recipeDetails._id}}/remove-bookmark" method="POST">
+        Remove Bookmark for this Recipe
+        <button class="btn btn-light btn-sm" type="submit">Remove</button>
+      </form>
+
+    </div>
+  </div>
+
+
+  <div class="card">
+    <div class="card-body">
+      <p>Manage Your Recipe</p>
+      <form action="{{this.recipeDetails._id}}/edit">
+        <button class="btn btn-info btn-sm" type="submit">Edit Recipe</button>
+      </form>
+      <br>
+
+      {{!-- <p><a href="{{this.recipeDetails._id}}/edit">edit</a></p> --}}
+
+      <form action="/recipes/{{this.recipeDetails._id}}/delete" method="POST">
+        <button class="btn btn-danger btn-sm">Delete Recipe</button>
+        {{#if errorMessage1}}<p>{{errorMessage1}}</p>{{/if}}
+      </form>
+    </div>
+  </div>
+
+
+</div>
