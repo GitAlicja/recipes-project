@@ -1,11 +1,15 @@
 {{> navigationalBar}}
 
 <h2>Your Shopping List</h2>
-
+<br>
+<br>
 {{#each shoppingList}}
-{{this.name}}
+<div class="container">
+  <!-- Content here -->
+<div class="p-3 mb-2 bg-light text-dark">
+ <h3>{{this.name}}</h3>
 <p>
-Ingredients:
+<b>Ingredients:</b>
 <ul>
   {{#each this.ingredients}}
   <li>{{this}}</li>
@@ -14,13 +18,14 @@ Ingredients:
 </p>
 
 <form action="/user/shopping-list/{{this._id}}/delete-from-list" method="POST">
-  <button>Delete</button>
+  <button class="btn btn-primary">Delete</button>
 </form>
-
+</div>
+</div>
 <hr>
 {{/each}}
 
 
 <form action="/user/shopping-list/delete-all-from-list" method="POST">
-  <button>Delete All</button>
+  <button class="btn btn-primary">Delete All</button>
 </form>
