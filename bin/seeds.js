@@ -3,7 +3,7 @@ const Recipe = require('../models/Recipe.Model');
 
 const DB_NAME = "recipes-project";
 
-mongoose.connect(`mongodb://localhost/${DB_NAME}`, {
+mongoose.connect(process.env.MONGO_URI, {
   useCreateIndex: true,
   useNewUrlParser: true,
   useUnifiedTopology: true
