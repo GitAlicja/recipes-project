@@ -15,7 +15,7 @@ const possibleScores = [1, 2, 3, 4, 5];
 // /recipes 
 router.get('/recipes', (req, res, next) => {
 
-  // only looged in user can see this page
+  // only logged in user can see this page
   if (!req.session.userId) {
     res.redirect('/');
   } else {
@@ -245,17 +245,31 @@ router.get('/recipes/:id/edit', (req, res, next) => {
       if (req.session.userId != recipeToEdit.createdBy) {
         res.render('details', { errorMessage: 'You do not have permission to edit this recipe' })
       } else {
-        res.render('edit', { recipeToEdit: recipeToEdit, MealType: MealType, RecipeType: RecipeType })
+        // ["breakfast", "lunch", "dinner", "soup", "snacks", "dessert", "cake"]
+        // [{ name: "breakfast", selected: true }, { name: "lunch", selected: true }, "dinner", "soup", "snacks", "dessert", "cake"]
+        let mealTypesInclSelected = MealType.map((el) => {
+          return {
+            name: el,
+            selected: recipeToEdit.typeOfMeal.includes(el)
+          }
+        })
+        let recipeTypesInclSelected = RecipeType.map((el) => {
+          return {
+            name: el,
+            selected: recipeToEdit.typeOfRecipe.includes(el)
+          }
+        })
+        res.render('edit', { recipeToEdit: recipeToEdit, MealType: mealTypesInclSelected, RecipeType: recipeTypesInclSelected })
       }
     })
   }
 });
 
-router.post('/recipes/:id/edit', (req, res) => {
+router.post('/recipes/:id/edit', fileUploader.single('image'), (req, res) => {
   const { id } = req.params;
-  const { name, instructions, URL, image, prepTime, cookTime, totalTime, typeOfMeal, typeOfRecipe, portions, ingredients } = req.body;
+  const { name, instructions, URL, prepTime, cookTime, totalTime, typeOfMeal, typeOfRecipe, portions, ingredients } = req.body;
 
-  Recipe.findByIdAndUpdate(id, { name, instructions, URL, image, prepTime, cookTime, totalTime, typeOfMeal, typeOfRecipe, portions, ingredients }, { new: true })
+  Recipe.findByIdAndUpdate(id, { name, instructions, URL, prepTime, cookTime, totalTime, typeOfMeal, typeOfRecipe, portions, ingredients, recipeImage: req.file.path }, { new: true })
     .then(() => res.redirect('/recipes'))
 });
 

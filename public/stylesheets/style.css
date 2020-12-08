@@ -1,9 +1,12 @@
 body {
   padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif; }
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background-color: #fcd0ba !important ;
+}
 
 a {
-  color: #00B7FF; }
+  color: #00b7ff;
+}
 
 /*# sourceMappingURL=style.css.map */
 
@@ -15,6 +18,7 @@ a {
   width: 130px;
   border: 1px solid grey;
   border-radius: 50%;
+  margin-bottom: 20px;
 }
 
 .profile-image > img {
@@ -25,3 +29,103 @@ a {
   content: "*";
   color: red;
 }
+.wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  border-top: 10px;
+}
+
+
+
+.form-control-borderless {
+  border: none;
+}
+
+.form-control-borderless:hover,
+.form-control-borderless:active,
+.form-control-borderless:focus {
+  border: none;
+  outline: none;
+  box-shadow: none;
+}
+
+.btn-success {
+  background-color: #f1828d !important;
+  border-color: #f1828d !important;
+}
+
+.btn-primary {
+  background-color: #f1828d !important;
+  border-color: #f1828d !important;
+}
+
+.card-title {
+  text-align: center;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  color: #8fb9a8 !important;
+}
+
+.card-img-top {
+  width: 100%;
+  height: 15vw;
+  object-fit: cover;
+}
+
+
+.card-title {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  justify-content: center;
+}
+
+.card-body {
+  background-image: url("https://cdn1.girlgonegourmet.com/wp-content/uploads/2015/08/Power-Salad-2.jpg");
+  height: 250px;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.card {
+  border-color:#fcd0ba !important;
+}
+
+
+.mul-select {
+  width: 100%;
+
+}
+
+.container-fluid {
+  padding: 15px;
+}
+
+.filter-btn, .save-button {
+  background-color: #f1828d;
+  border-color:#f1828d;
+  margin-top: 15px;
+  border-radius: 5px;
+  padding: 5px;
+  color: white;
+  width: 100px;
+  border-style: none;
+}
+
+.container {
+  margin-top: 20px; 
+}
+
+.mdb-select {
+  width: 100%;
+  height: 40px;
+  border-radius: 5px;
+  border: 1px solid #aaa;
+  color: rgb(118, 118, 118);
+  
+}
+
