@@ -12,35 +12,149 @@
 
 </div>
 <br>
-<div>
-  <form action="/user/profile" method="GET">
+
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-12 col-md-10 col-lg-8">
+      <form class="card card-sm">
+        <div class="card-body row no-gutters align-items-center">
+          <div class="col-auto">
+            <i class="fas fa-search h4 text-body"></i>
+          </div>
+          <div class="col">
+
+            <form action="/search" method="get">
+              <input class="form-control form-control-lg form-control-borderless" type="text" name="searchInput"
+                placeholder="Find a recipe..">
+          </div>
+          <div class="col-auto">
+
+            <button class="btn btn-lg btn-success" type="submit">Search</button>
+          </div>
+        </div>
+
+      </form>
+    </div>
+  </div>
+
+  <div>
+    {{!-- <form action="/user/profile" method="GET">
 
     <input type="text" name="query" placeholder="Find recipes..." value="{{this.query}}">
     <button type="submit" id="search-button">Search</button>
   </form>
-  <br>
-  
-  <h4>Filter recipes</h4>
-  <form action="/user/profile" method="GET">
-    Type of meal:
-    <select name="typeOfMeal" multiple>
-      {{#each this.MealType}}
-      <option value="{{this}}">{{this}}</option>
-      {{/each}}
-    </select>
-    Type of recipe:
-    <select name="typeOfRecipe">
-      <option value="">none</option>
-      {{#each this.RecipeType}}
-      <option value="{{this}}">{{this}}</option>
-      {{/each}}
-    </select>
-    <button type="submit">Filter</button>
-  </form>
+  <br> --}}
 
-</div>
+  <div class="container-fluid h-100">
+    <div class="row justify-content-left align-items-left">
+      <h2>Filter recipes</h2>
+    </div>
+    <br>
+    <div class="row justify-content-left align-items-left h-100">
+      <div class="col col-sm-6 col-md-6 col-lg-4 col-xl-3">
+        <div class="form-group">
 
-<div>
+          <label for='typeOfMealFilter'>Type of meal:</label>
+          <form action="/filter" method="get">
+            <select name="typeOfMeal" class="mul-select" multiple="true">
+
+              {{#each MealType}}
+              <option value="{{this}}">{{this}}</option>
+              {{/each}}
+            </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="row justify-content-left align-items-left h-100">
+      <div class="col col-sm-6 col-md-6 col-lg-4 col-xl-3">
+        <div class="form-group">
+          <label for='typeOfRecipeFilter'>Type of recipe:</label>
+          <select name="typeOfRecipe" class="mdb-select md-form" searchable="Search here..">
+            <option value="" disabled selected>Select your recipe type</option>
+            {{#each RecipeType}}
+            <option value="{{this}}">{{this}}</option>
+            {{/each}}
+          </select>
+          <button class="filter-btn" type="submit">Filter</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+
+    {{!-- <h4>Filter recipes</h4>
+    <form action="/user/profile" method="GET">
+      Type of meal:
+      <select name="typeOfMeal" multiple>
+        {{#each this.MealType}}
+        <option value="{{this}}">{{this}}</option>
+        {{/each}}
+      </select>
+      Type of recipe:
+      <select name="typeOfRecipe">
+        <option value="">none</option>
+        {{#each this.RecipeType}}
+        <option value="{{this}}">{{this}}</option>
+        {{/each}}
+      </select>
+      <button type="submit">Filter</button>
+    </form>
+
+  </div> --}}
+
+  {{!-- <div>
+    <h2>Your recipes</h2>
+
+    {{#if this.recipes}}
+
+    {{#each this.recipes}}
+    <p>{{this.name}}</p>
+    <p>{{this.recipeImage}}</p>
+    <p><a href="/recipes/{{this._id}}">Go to Recipe</a></p>
+    {{/each}}
+
+    {{else}}
+    <p>There are no results matching your query!</p>
+    {{/if}}
+  </div> --}}
+
+  <div class="recipes">
+    <h2>Your recipes</h2>
+    <div class="row">
+      <div class="wrapper">
+        {{!-- {{#if this.recipes}} --}}
+        {{#each this.recipes}}
+        <div class="card-deck col-lg-4 col-sm-12 col-md-5">
+          <div class="card mt-5">
+            <img class ="card-img-top" src="{{#if this.recipeImage}} {{this.recipeImage}}{{else}}/images/food.jpg{{/if}}"
+              alt="Card image cap">
+            <div class="card-body-recipes">
+              <h5 class="card-title">{{this.name}}</h5>
+              <a href="/recipes/{{this._id}}" class="btn btn-primary"> Go to Recipe</a> 
+ </div>
+
+              {{!-- {{else}}
+              <p>There are no results matching your query!</p>
+              {{/if}}
+            --}}
+          </div>
+        </div>
+{{/each}}
+
+      </div>
+
+    </div>
+  </div>
+
+
+  {{!-- <div>
   <h2>Your recipes</h2>
 
   {{#if this.recipes}}
@@ -54,4 +168,4 @@
   {{else}}
   <p>There are no results matching your query!</p>
   {{/if}}
-</div>
+</div> --}}

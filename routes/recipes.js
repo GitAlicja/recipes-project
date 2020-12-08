@@ -14,7 +14,7 @@ const possibleScores = [1, 2, 3, 4, 5];
 // /recipes 
 router.get('/recipes', (req, res, next) => {
 
-  // only looged in user can see this page
+  // only logged in user can see this page
   if (!req.session.userId) {
     res.redirect('/');
   } else {
@@ -153,7 +153,7 @@ router.post('/recipes/:id/save-rating', (req, res, next) => {
 
 // router.get('/create', (req, res) => res.render('create', {recipes: recipeFromDB, MealType: MealType }));
 
-router.get('/create', (req, res, next) => {
+router.get('/recipes/create', (req, res, next) => {
   if (!req.session.userId) {
     res.redirect('/');
   } else {
@@ -163,13 +163,13 @@ router.get('/create', (req, res, next) => {
     Recipe.find()
       .populate('createdBy')
       .then((recipeFromDB) => {
-        res.render('create', { ingredients: [null, null, null, null], recipes: recipeFromDB, MealType: MealType, RecipeType: RecipeType })
+        res.render('/create', { ingredients: [null, null, null, null], recipes: recipeFromDB, MealType: MealType, RecipeType: RecipeType })
       })
     // user: userFromDB
   }
 });
 //post route to save new recipe to DB 
-router.post('/create', fileUploader.single('image'), (req, res) => {
+router.post('/recipes/create', fileUploader.single('image'), (req, res) => {
   if (!req.file) {
     res.send("file not found")
   }
@@ -274,7 +274,6 @@ router.get('/filter', (req, res) => {
     console.log("something went wrong to get filters fromdb", error)
   })
 })
-
 
 
 
