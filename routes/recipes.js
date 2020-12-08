@@ -66,13 +66,18 @@ router.post('/recipes/create', fileUploader.single('image'), (req, res) => {
   //   res.send("file not found")
   // }
 
+  let recipeImage = undefined;
+  if (req.file && req.file.path) {
+    recipeImage = req.file.path;
+  }
+
   if (!req.session.userId) {
     res.redirect('/');
   } else {
 
     const { createDate, name, instructions, URL, prepTime, cookTime, totalTime, typeOfMeal, typeOfRecipe, portions, ingredients, level } = req.body;
 
-    Recipe.create({ createDate, name, instructions, URL, prepTime, cookTime, totalTime, typeOfMeal, typeOfRecipe, portions, ingredients, ratings: [], avgRating: 0, createdBy: req.session.userId, recipeImage: req.file.path, level: level })
+    Recipe.create({ createDate, name, instructions, URL, prepTime, cookTime, totalTime, typeOfMeal, typeOfRecipe, portions, ingredients, ratings: [], avgRating: 0, createdBy: req.session.userId, recipeImage: recipeImage, level: level })
       .then(() => res.redirect('/recipes'))
   }
 
@@ -261,11 +266,16 @@ router.get('/recipes/:id/edit', (req, res, next) => {
   }
 });
 
-router.post('/recipes/:id/edit', (req, res) => {
+router.post('/recipes/:id/edit', fileUploader.single('image'), (req, res) => {
   const { id } = req.params;
-  const { name, instructions, URL, image, prepTime, cookTime, totalTime, typeOfMeal, typeOfRecipe, portions, ingredients } = req.body;
+  const { name, instructions, URL, image, prepTime, cookTime, totalTime, typeOfMeal, typeOfRecipe, portions, ingredients, level } = req.body;
 
-  Recipe.findByIdAndUpdate(id, { name, instructions, URL, image, prepTime, cookTime, totalTime, typeOfMeal, typeOfRecipe, portions, ingredients }, { new: true })
+  let recipeImage = undefined;
+  if (req.file && req.file.path) {
+    recipeImage = req.file.path;
+  }
+
+  Recipe.findByIdAndUpdate(id, { name, instructions, URL, image, prepTime, cookTime, totalTime, typeOfMeal, typeOfRecipe, portions, ingredients, level, recipeImage }, { new: true })
     .then(() => res.redirect('/recipes'))
 });
 

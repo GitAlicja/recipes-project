@@ -1,64 +1,89 @@
 {{> navigationalBar}}
 
+<div class="main-recipe-container">
 
-<h2>Edit your recipe</h2>
+  <h2 class="form-header">Edit Your Recipe</h2>
 
-<form action="/recipes/{{recipeToEdit.id}}/edit" method="post">
-  <ul>
-    <li><label for="name-input">Name:</label>
-      <input type="text" name="name" id="name-input" value="{{recipeToEdit.name}}" /> </li>
+  <form action="/recipes/{{recipeToEdit.id}}/edit" method="post">
 
-    <li> <label for="instructions-input">Instructions:</label>
-      <textarea name="instructions" id="instructions-input" cols="30" rows="4">{{recipeToEdit.instructions}} </textarea>
-    </li>
+    <div class="form-group">
+      <label for="input-file">Upload your recipe photo</label>
+      <input type="file" class="form-control" name="image" id="input-file1" value="{{recipeToEdit.recipeImage}}" />
+    </div>
 
-    <li><label for="source-input">Source:</label>
-      <input type="url" name="URL" id="source-input" value="{{recipeToEdit.URL}}" /></li>
+    <div class="form-group">
+      <label for="name-input">Name:</label>
+      <input type="text" class="form-control" name="name" id="name-input" value="{{recipeToEdit.name}}" />
+    </div>
 
-    {{!-- <li> <label for="image-input">Image:</label>
-      <input type="text" name="image" id="image-input" value="{{recipeToEdit.image}}" /></li> --}}
+    <div class="form-group">
+      <label for="source-input">Source:</label>
+      <input type="text" class="form-control" name="URL" id="source-input" value="{{recipeToEdit.URL}}" />
+    </div>
 
-    <li> <label for="prepTime-input">Preparation Time:</label>
-      <input type="number" name="prepTime" id="prepTime-input" value="{{recipeToEdit.prepTime}}" /></li>
-
-    <li><label for="cookTime-input">Cooking Time:</label>
-      <input type="number" name="cookTime" id="cookTime-input" value="{{recipeToEdit.cookTime}}" /></li>
-
-    <li><label for="totalTime-input">Total Time:</label>
-      <input type="number" name="totalTime" id="totalTime-input" value="{{recipeToEdit.totalTime}}" /></li>
-
-    {{!-- <li><label for="typeOfMeal-input">Type of Meal:</label>
-      <input type="text" name="typeOfMeal" id="typeOfMeal-input" value="{{typeOfMeal}}" /></li> --}}
-
-    <li>Type of Meal: <select name="typeOfMeal" multiple>
+    <div class="form-group">
+      <label for="meal-type">Type of Meal:</label>
+      <select multiple class="form-control" name="typeOfMeal" id="meal-type">
         {{#each MealType}}
         <option value="{{this}}">{{this}}</option>
         {{/each}}
-      </select></li>
+      </select>
+    </div>
 
-
-    <li>Type of Recipe: <select name="typeOfRecipe" multiple>
+    <div class="form-group">
+      <label for="recipe-type">Type of Recipe:</label>
+      <select multiple class="form-control" name="typeOfRecipe" id="recipe-type">
         {{#each RecipeType}}
         <option value="{{this}}">{{this}}</option>
         {{/each}}
-      </select></li>
+      </select>
+    </div>
 
+    <div class="form-group">
+      <label for="portions-input">Serves:</label>
+      <input type="number" class="form-control" name="portions" id="portions-input" min="1"
+        value="{{recipeToEdit.portions}}" />
+    </div>
 
-    <li><label for="portions-input">Portion:</label>
-      <input type="number" name="portions" id="portions-input" value="{{recipeToEdit.portions}}" /></li>
+    <div class="form-group">
+      <label for="prepTime-input">Preparation Time:</label>
+      <input type="text" class="form-control" name="prepTime" id="prepTime-input" value="{{recipeToEdit.prepTime}}" />
+    </div>
 
-    {{!-- <li><label for="ingredients-input"> Ingredients:</label>
-      <input type="text" name="ingredients" id="ingredients-input" value="{{recipeToEdit.ingredients}}" /></li> --}}
-    {{#each recipeToEdit.ingredients}}
+    <div class="form-group">
+      <label for="cookTime-input">Cooking Time:</label>
+      <input type="text" class="form-control" name="cookTime" id="cookTime-input" value="{{recipeToEdit.cookTime}}" />
+    </div>
 
-    <li> <label for="ingredients-input"> Ingredients: </label>
-      <input type="text" name="ingredients" id="ingredients-input" value="{{this}}" /></li>
-    {{/each}}
+    <div class="form-group">
+      <label for="totalTime-input">Total Time:</label>
+      <input type="text" class="form-control" name="totalTime" id="totalTime-input"
+        value="{{recipeToEdit.totalTime}}" />
+    </div>
 
-    <button type="submit">Finished</button>
-  </ul>
-</form>
+    <div class="form-group">
+      <label> Ingredients:</label>
+      {{#each recipeToEdit.ingredients}}
+      <input type="text" class="form-control" name="ingredients" value="{{this}}" />
+      {{/each}}
+    </div>
 
-{{!-- {{else}}
- <h1><a href="/">Login</a></h1>
- {{/if}} --}}
+    <div class="form-group">
+      <label for="instructions-input">Instructions:</label>
+      <textarea class="form-control" name="instructions" id="instructions-input" cols="30"
+        rows="4">{{recipeToEdit.instructions}}</textarea>
+    </div>
+
+    <div class="form-group">
+      <label for="level-input">Level:</label>
+      <select class="form-control" name="level" id="level-input">
+        <option value="easy">Easy</option>
+        <option value="medium">Medium</option>
+        <option value="hard">Hard</option>
+      </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary btn-sm">Update Recipe</button>
+
+  </form>
+</div>
