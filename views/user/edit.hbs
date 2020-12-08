@@ -1,27 +1,30 @@
 {{> navigationalBar}}
 
-<h2>Edit your profile</h2>
+<div class="main-recipe-container">
+  <h2 class="form-header">Edit your profile</h2>
 
-<div class = "profileEdit">
-<form action="/user/profile/edit" method="POST" enctype="multipart/form-data">
+  <form action="/user/profile/edit" method="POST" enctype="multipart/form-data">
+    <div class="form-group">
+      <label for="input-username">Username</label>
+      <input type="text" class="form-control" id="input-username" name="username" value="{{this.username}}" />
+    </div>
 
-  <label for="input-username">Username</label>
-  <input type="text" id="input-username" name="username" value="{{this.username}}" />
+    <div class="form-group">
+      <label for="input-email">Email</label>
+      <input type="text" class="form-control" id="input-email" name="username" value="{{this.email}}" />
+    </div>
 
-  <label for="input-email">Email</label>
-  <input type="email" id="input-email" name="email" value="{{this.email}}" />
+    <div class="form-group">
+      <label for="input-file">Profile Picture</label>
+      <br>
+      <input type="file" name="image" id="input-file" />
+    </div>
 
+    <button class="btn btn-primary btn-sm" type="submit">Update</button>
 
-  <br>
-  <label for="input-file">Profile Picture</label>
-  <input type="file" name="image" id="input-file" />
+    {{#if errorMessage}}
+    <p>{{errorMessage}}</p>
+    {{/if}}
 
-<br>
-  <button class="save-button" type="submit">UPDATE</button>
-
-  {{#if errorMessage}}
-  <p>{{errorMessage}}</p>
-  {{/if}}
-</form>
-
+  </form>
 </div>

@@ -25,16 +25,11 @@
     </form> --}}
 
     {{#if this.recipesFromDB}}
-{{!-- 
-    {{#each recipesFromDB }}
-    <div>
-        <p>Name: {{name}}</p>
-    </div>
-    {{/each}} --}}
 
     {{#each recipesFromDB }}
     <div>
         <p>Name: {{this.name}}</p>
+        <img src="{{this.recipeImage}}">
         <p><a href="/recipes/{{this._id}}">Go to Recipe</a></p>
     </div>
     {{/each}}
