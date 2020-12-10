@@ -36,10 +36,10 @@
     <p>{{recipeDetails.instructions}}</p>
   </div>
 
-  <p>Find the <strong>original recipe</strong> <a href="{{recipeDetails.URL}}" target="_blank">here</a>!</p>
+  <p>Find the <strong>original recipe</strong> <a href="{{recipeDetails.URL}}" class="source-link" target="_blank">here</a>!</p>
 
   <br>
-  <div class="card">
+  <div class="card card-border">
     <div class="card-body">
 
       <form action="{{this.recipeDetails._id}}/save-rating" method="POST">
@@ -61,7 +61,7 @@
     </div>
   </div>
 
-  <div class="card">
+  <div class="card card-border">
     <div class="card-body">
 
       <form action="{{this.recipeDetails._id}}/save-bookmark" method="POST">
@@ -77,20 +77,20 @@
     </div>
   </div>
 
-  <div class="card">
+  <div class="card card-border">
     <div class="card-body">
       <p>Manage Your Recipe</p>
+      <div class="buttons-flex">
       <form action="{{this.recipeDetails._id}}/edit">
         <button class="btn btn-info btn-sm" type="submit">Edit Recipe</button>
       </form>
-      <br>
-
       {{!-- <p><a href="{{this.recipeDetails._id}}/edit">edit</a></p> --}}
 
       <form action="/recipes/{{this.recipeDetails._id}}/delete" method="POST">
         <button class="btn btn-danger btn-sm">Delete Recipe</button>
         {{#if errorMessage1}}<p>{{errorMessage1}}</p>{{/if}}
       </form>
+      </div>
     </div>
   </div>
 

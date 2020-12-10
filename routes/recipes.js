@@ -283,13 +283,15 @@ router.get('/recipes/:id/edit', (req, res, next) => {
 router.post('/recipes/:id/edit', fileUploader.single('image'), (req, res) => {
   const { id } = req.params;
   const { name, instructions, URL, image, prepTime, cookTime, totalTime, typeOfMeal, typeOfRecipe, portions, ingredients, level } = req.body;
+  // an object with properties which are always there
+  const update = { name, instructions, URL, prepTime, cookTime, totalTime, typeOfMeal, typeOfRecipe, portions, ingredients, level };
 
-  let recipeImage = undefined;
+  // if a new file will be chosen for the upload, it will be added to the object called update
   if (req.file && req.file.path) {
-    recipeImage = req.file.path;
+    update.recipeImage = req.file.path;
   }
 
-  Recipe.findByIdAndUpdate(id, { name, instructions, URL, image, prepTime, cookTime, totalTime, typeOfMeal, typeOfRecipe, portions, ingredients, level, recipeImage }, { new: true })
+  Recipe.findByIdAndUpdate(id, update, { new: true })
     .then(() => res.redirect('/recipes'))
 });
 

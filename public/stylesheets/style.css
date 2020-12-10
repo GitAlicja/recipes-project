@@ -14,15 +14,38 @@ a {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 130px;
-  width: 130px;
-  border: 1px solid grey;
+  height: 150px;
+  width: 150px;
+  border: 1px solid #AAAAAA;
   border-radius: 50%;
   margin-bottom: 20px;
+  margin-right: 20px;
 }
 
 .profile-image > img {
   width: 80%;
+}
+
+.profile-info {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: left;
+  align-items: center;
+}
+
+.user-profile-button {
+  margin-right: 5px;
+  margin-bottom: 10px;
+}
+
+.user-profile-buttons-box {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: left;
+  align-items: center;
+  margin-bottom: 30px;
 }
 
 .required-field::after {
@@ -35,8 +58,6 @@ a {
   flex-wrap: wrap;
   border-top: 10px;
 }
-
-
 
 .form-control-borderless {
   border: none;
@@ -60,6 +81,17 @@ a {
   border-color: #f1828d !important;
 }
 
+.btn-info {
+  background-color: #8fb9a8 !important;
+  border-color: #8fb9a8 !important;
+  margin-right: 10px;
+}
+
+.btn-danger {
+  background-color: #f1828d !important;
+  border-color: #f1828d !important;
+}
+
 .card-title {
   text-align: center;
 }
@@ -70,6 +102,10 @@ h3,
 h4,
 h5 {
   color: #8fb9a8 !important;
+}
+
+h1 {
+  padding-bottom: 25px;
 }
 
 .card-img-top {
@@ -85,17 +121,17 @@ h5 {
   justify-content: center;
 }
 
-.card-body {
+.card-backgroung {
   background-image: url("https://cdn1.girlgonegourmet.com/wp-content/uploads/2015/08/Power-Salad-2.jpg");
   height: 250px;
   background-repeat: no-repeat;
+  background-size: cover;
   background-position: center;
 }
 
-.card {
-  border-color:#fcd0ba !important;
+.card-border {
+  border-color: #AAAAAA;
 }
-
 
 .mul-select {
   width: 100%;
@@ -104,6 +140,7 @@ h5 {
 
 .container-fluid {
   padding: 15px;
+  margin-bottom: 20px;
 }
 
 .filter-btn, .save-button {
@@ -119,6 +156,8 @@ h5 {
 
 .container {
   margin-top: 20px; 
+  padding-bottom: 20px;
+  margin-bottom: 30px;
 }
 
 .mdb-select {
@@ -175,7 +214,7 @@ h5 {
 }
 
 h6 {
-  background-color: #DFDFDF;
+  background-color: #8fb9a8;
   padding: 15px 20px;
   border-radius: 0.25rem;
 }
@@ -204,3 +243,21 @@ nav {
 .form-header {
   margin-bottom: 30px;
 }
+
+.buttons-flex {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: left;
+  align-items: center;
+}
+
+.source-link {
+  color: #8fb9a8;
+  text-decoration: none;
+}
+
+.ingredient-input {
+  margin-bottom: 5px;
+}
+

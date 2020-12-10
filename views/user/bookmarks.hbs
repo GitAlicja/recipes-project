@@ -1,15 +1,13 @@
 {{> navigationalBar}}
 
+<div class="container">
 <h2>My bookmarks</h2>
 
-<br>
 <div>
   <form action="/user/bookmarks" method="GET">
-
     <input type="text" name="query" placeholder="Browse your bookmarks..." value="{{this.query}}">
     <button type="submit" id="search-button">Search</button>
   </form>
-
 </div>
 
 
@@ -20,3 +18,5 @@
 <p>Created by: {{this.createdBy.username}}</p>
 <p><a href="/recipes/{{this._id}}">Go to Recipe</a></p>
 {{/each}}
+
+</div>
