@@ -1,10 +1,10 @@
-<div class="container">
+<div class="container start-page">
   <div class="row">
     <div class="col">
       <div>
         <h2 class="display-3">Sign up for Recipe Club</h2>
         <br>
-        <h3>Sign up to find and organize your favourite recipes!</h3>
+        <h3 class="text-secondary">Sign up to find and organize your favourite recipes!</h3>
         <br>
         <form class="pull-left" class="container" class="mx-auto" style="width: 200px;" action="/signup" method="post">
           <label for="input-username">Username</label>
@@ -23,7 +23,7 @@
             <button type="submit" class="btn btn-primary">SIGN UP</button>
           </div>
           {{#if errorMessage}}
-          <p>{{errorMessage}}</p>
+          <p class="alert alert-danger mt-3" role="alert">{{errorMessage}}</p>
           {{/if}}
         </form>
       </div>

@@ -1,27 +1,25 @@
 {{> navigationalBar}}
 
-<h1>Welcome {{user.username}}!</h1>
 
 <div class="container">
-  {{!-- <img class="searchbar-image" src="/images/salad.jpg"> --}}
+
+  <h1>Welcome {{user.username}}!</h1>
 
   <div class="row justify-content-center">
     <div class="col-12 col-md-10 col-lg-8">
-      <form class="card card-sm">
-        <div class="card-body row no-gutters align-items-center">
+      <form class="card card-sm border-light" action="/search" method="get">
+        <div class="card-body row no-gutters align-items-center card-backgroung">
           <div class="col-auto">
             <i class="fas fa-search h4 text-body"></i>
           </div>
 
-          <div class="col">
+          <div class="col mr-3">
 
-            <form action="/search" method="get">
-              <input class="form-control form-control-lg form-control-borderless" type="text" name="query"
-                placeholder="Find a recipe..">
-                </form>
+            <input class="form-control form-control-lg form-control-borderless" type="text" name="query"
+              placeholder="Find a recipe..">
+
           </div>
           <div class="col-auto">
-
             <button class="btn btn-lg btn-success" type="submit">Search</button>
           </div>
         </div>
@@ -29,46 +27,47 @@
       </form>
     </div>
   </div>
-</div>
 
   <div class="container-fluid h-100">
     <div class="row justify-content-left align-items-left">
       <h2>Filter recipes</h2>
     </div>
     <br>
-    <div class="row justify-content-left align-items-left h-100">
-      <div class="col col-sm-6 col-md-6 col-lg-4 col-xl-3">
-        <div class="form-group">
+    <form action="/filter" method="get">
+      <div class="row justify-content-left align-items-left h-100">
+        <div class="col col-sm-6 col-md-6 col-lg-4 col-xl-3">
+          <div class="form-group">
 
-          <label for='typeOfMealFilter'>Type of meal:</label>
-          <form action="/filter" method="get">
+            <label for='typeOfMealFilter'>Type of meal:</label>
+
             <select name="typeOfMeal" class="mul-select" multiple="true">
 
               {{#each MealType}}
               <option value="{{this}}">{{this}}</option>
               {{/each}}
             </select>
-            </form>
-        </div>
-      </div>
-    </div>
 
-    <div class="row justify-content-left align-items-left h-100">
-      <div class="col col-sm-6 col-md-6 col-lg-4 col-xl-3">
-        <div class="form-group">
-          <label for='typeOfRecipeFilter'>Type of recipe:</label>
-          <form>
-          <select name="typeOfRecipe" class="mdb-select md-form" searchable="Search here..">
-            <option value="" disabled selected>Select your recipe type</option>
-            {{#each RecipeType}}
-            <option value="{{this}}">{{this}}</option>
-            {{/each}}
-          </select>
-          <button class="filter-btn" type="submit">Filter</button>
-          </form>
+          </div>
         </div>
       </div>
-    </div>
+
+      <div class="row justify-content-left align-items-left h-100">
+        <div class="col col-sm-6 col-md-6 col-lg-4 col-xl-3">
+          <div class="form-group">
+            <label for='typeOfRecipeFilter'>Type of recipe:</label>
+
+            <select name="typeOfRecipe" class="mdb-select md-form" searchable="Search here..">
+              <option value="" disabled selected>Select your recipe type</option>
+              {{#each RecipeType}}
+              <option value="{{this}}">{{this}}</option>
+              {{/each}}
+            </select>
+            <button class="filter-btn" type="submit">Filter</button>
+
+          </div>
+        </div>
+      </div>
+    </form>
   </div>
 
   {{!-- this doesn't work --}}
@@ -82,12 +81,13 @@
       <div class="wrapper">
         {{#each recipes}}
         <div class="card-deck col-lg-4 col-sm-12 col-md-5 text-center">
-          <div class="card mt-5">
-            <img class="card-img-top rounded mx-auto d-block" src="{{#if this.recipeImage}} {{this.recipeImage}}{{else}}/images/food.jpg{{/if}}"
+          <div class="card mt-4 pb-3 card-border">
+            <img class="card-img-top"
+              src="{{#if this.recipeImage}} {{this.recipeImage}}{{else}}/images/ella-olsson-7EhPbdAQG-s-unsplash.jpg{{/if}}"
               alt="Card image cap">
             <div class="card-body-recipes">
               <h5 class="card-title">{{this.name}}</h5>
-              <a href="/recipes/{{this._id}}" class="btn btn-primary"> Go to Recipe</a>
+              <a href="/recipes/{{this._id}}" class="btn btn-primary">Go to Recipe</a>
             </div>
             {{!-- <div class="card-footer">
               <small class="text-muted">{{createdBy}}</small>
@@ -99,34 +99,8 @@
 
     </div>
   </div>
-  {{!-- {{#each recipes}}
 
-    <p>{{this.name}}</p>
-<img src="{{this.recipeImage}}">
-<p><a href="/recipes/{{this._id}}">Go to Recipe</a></p>
-    </div>
 
-<<<<<<< HEAD
-{{/each}}
-=======
-{{/each}} --}}
+</div>
 
-  {{!-- <div class = "filter-recipe">
-    <h2>Filter recipes</h2>
-    <form action="/filter" method="get">
-      Type of meal:
-      <select name="typeOfMeal" multiple>
-        {{#each MealType}}
-        <option value="{{this}}">{{this}}</option>
-        {{/each}}
-      </select>
-      Type of recipe: <select name="typeOfRecipe">
-        {{#each RecipeType}}
-        <option value="{{this}}">{{this}}</option>
-        {{/each}}
-      </select>
-      <br>
-      <button type="submit">Filter</button>
-    </form>
-</div> --}}
->>>>>>> editing
+{{> footer}}

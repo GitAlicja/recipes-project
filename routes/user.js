@@ -20,7 +20,7 @@ router.get('/profile', (req, res, next) => {
     User.findById(req.session.userId).then(userFromDB => {
 
       let recipesPromise;
-      let filterQuery  = true;
+      let filterQuery = true;
 
       // if the query IS set
       if (req.query.query) {
@@ -48,15 +48,15 @@ router.get('/profile', (req, res, next) => {
       // if the query and filters ARE NOT set find all recipes created by the user
       else {
         recipesPromise = Recipe.find({ createdBy: req.session.userId }, null, { sort: { createdAt: 0 } });
-        filterQuery  = false;
+        filterQuery = false;
       }
 
       recipesPromise.then(recipesFromDB => {
         // console.log({ user: userFromDB, recipes: recipesFromDB }) this is one object with two properties
 
-        
 
-        res.render('user/profile', { query: req.query.query, user: userFromDB, recipes: recipesFromDB, MealType: MealType, RecipeType: RecipeType , filterQuery });
+
+        res.render('user/profile', { query: req.query.query, user: userFromDB, recipes: recipesFromDB, MealType: MealType, RecipeType: RecipeType, filterQuery });
       });
     });
   }
@@ -78,11 +78,13 @@ router.get('/profile/edit', (req, res, next) => {
 // POST /user/profile/edit
 // image is a parameter, the name attribute of the input field with the type of file
 router.post('/profile/edit', fileUploader.single('image'), (req, res, next) => {
-  console.log("user:-------------------->",req.body)
+  // console.log("user:-------------------->",req.body)
 
   if (!req.session.userId) {
     res.redirect('/');
   } else {
+
+console.log(req.body);
 
     // make sure fields are not empty
     if (!req.body.username || req.body.username.trim().length === 0 || !req.body.email || req.body.email.trim().length === 0) {
@@ -198,16 +200,16 @@ router.post('/shopping-list/:id/delete-from-list', (req, res, next) => {
 
   Recipe.findById(req.params.id).then(listEntry => {
 
-      User.findById(req.session.userId).then(userFromDB => {
+    User.findById(req.session.userId).then(userFromDB => {
 
-        // update user in the database 
-        User.update({ _id: userFromDB._id }, { $pull: { shoppingList: listEntry._id } })
-          .exec()
-          .then(() => {
-            res.redirect('/user/shopping-list');
-          });
-      });
+      // update user in the database 
+      User.update({ _id: userFromDB._id }, { $pull: { shoppingList: listEntry._id } })
+        .exec()
+        .then(() => {
+          res.redirect('/user/shopping-list');
+        });
     });
+  });
 });
 
 
@@ -217,16 +219,16 @@ router.post('/shopping-list/delete-all-from-list', (req, res, next) => {
 
   Recipe.find().then(listEntries => {
 
-      User.findById(req.session.userId).then(userFromDB => {
+    User.findById(req.session.userId).then(userFromDB => {
 
-        // update user in the database 
-        User.update({ _id: userFromDB._id }, { $pullAll: { shoppingList: listEntries } })
-          .exec()
-          .then(() => {
-            res.redirect('/user/shopping-list');
-          });
-      });
+      // update user in the database 
+      User.update({ _id: userFromDB._id }, { $pullAll: { shoppingList: listEntries } })
+        .exec()
+        .then(() => {
+          res.redirect('/user/shopping-list');
+        });
     });
+  });
 });
 
 module.exports = router; 

@@ -1,4 +1,6 @@
 {{> navigationalBar}}
+
+<div class="container">
 <div>
   <h2>My bookmarks</h2>
   <br>
@@ -24,8 +26,24 @@
           </div>
         </div>
         {{/each}}
+    <input type="text" name="query" placeholder="Browse your bookmarks..." value="{{this.query}}">
+    <button type="submit" id="search-button">Search</button>
+  </form>
+</div>
 
       </div>
 
     </div>
   </div>
+  
+{{!-- 'this' is the user object --}}
+{{#each this.user.bookmarkedRecipes}}
+<p>{{this.name}}</p>
+<img src="{{this.recipeImage}}">
+<p>Created by: {{this.createdBy.username}}</p>
+<p><a href="/recipes/{{this._id}}">Go to Recipe</a></p>
+{{/each}}
+
+</div>
+
+{{> footer}}
