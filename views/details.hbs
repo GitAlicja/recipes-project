@@ -36,7 +36,8 @@
     <p>{{recipeDetails.instructions}}</p>
   </div>
 
-  <p>Find the <strong>original recipe</strong> <a href="{{recipeDetails.URL}}" class="source-link" target="_blank">here</a>!</p>
+  <p>Find the <strong>original recipe</strong> <a href="{{recipeDetails.URL}}" class="source-link"
+      target="_blank">here</a>!</p>
 
   <br>
   <div class="card card-border">
@@ -50,9 +51,9 @@
           {{/each}}
         </select>
         <button class="btn btn-light btn-sm" type="submit">Save</button>
-        {{#if selfRatingError}}<span>You can't rate your own recipe!</span>{{/if}}
+        {{#if selfRatingError}}<p class="alert alert-danger mt-3" role="alert">You can't rate your own recipe!</p>
+        {{/if}}
       </form>
-
       <form action="/user/shopping-list/{{this.recipeDetails._id}}/add" method="POST">
         Add Recipe to Your Shopping List
         <button class="btn btn-light btn-sm" type="submit">Add</button>
@@ -81,16 +82,17 @@
     <div class="card-body">
       <p>Manage Your Recipe</p>
       <div class="buttons-flex">
-      <form action="{{this.recipeDetails._id}}/edit">
-        <button class="btn btn-info btn-sm" type="submit">Edit Recipe</button>
-      </form>
-      {{!-- <p><a href="{{this.recipeDetails._id}}/edit">edit</a></p> --}}
+        <form action="{{this.recipeDetails._id}}/edit">
+          <button class="btn btn-info btn-sm" type="submit">Edit Recipe</button>
+        </form>
+        {{!-- <p><a href="{{this.recipeDetails._id}}/edit">edit</a></p> --}}
 
-      <form action="/recipes/{{this.recipeDetails._id}}/delete" method="POST">
-        <button class="btn btn-danger btn-sm">Delete Recipe</button>
-        {{#if errorMessage1}}<p>{{errorMessage1}}</p>{{/if}}
-      </form>
+        <form action="/recipes/{{this.recipeDetails._id}}/delete" method="POST">
+          <button class="btn btn-danger btn-sm">Delete Recipe</button>
+        </form>
       </div>
+      {{#if errorMessage}}<p class="alert alert-danger mt-3" role="alert">{{errorMessage}}</p>{{/if}}
+      {{#if errorMessage1}}<p class="alert alert-danger mt-3" role="alert">{{errorMessage1}}</p>{{/if}}
     </div>
   </div>
 

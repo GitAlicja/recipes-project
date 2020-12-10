@@ -258,10 +258,9 @@ router.get('/recipes/:id/edit', (req, res, next) => {
     const { id } = req.params
     Recipe.findById(id).then(recipeToEdit => {
       if (req.session.userId != recipeToEdit.createdBy) {
-        res.render('details', { errorMessage: 'You do not have permission to edit this recipe' })
+        res.render('details', { errorMessage: 'You do not have permission to edit this recipe!' })
       } else {
-        // ["breakfast", "lunch", "dinner", "soup", "snacks", "dessert", "cake"]
-        // [{ name: "breakfast", selected: true }, { name: "lunch", selected: true }, "dinner", "soup", "snacks", "dessert", "cake"]
+        
         let mealTypesInclSelected = MealType.map((el) => {
           return {
             name: el,
@@ -304,7 +303,7 @@ router.post('/recipes/:id/delete', (req, res) => {
     Recipe.findByIdAndDelete(id)
       .then(recipeToDelete => {
         if (req.session.userId != recipeToDelete.createdBy) {
-          res.render('details', { recipeToDelete: recipeToDelete, errorMessage1: 'You do not have permission to delete this recipe' })
+          res.render('details', { recipeToDelete: recipeToDelete, errorMessage1: 'You do not have permission to delete this recipe!' })
         } else {
           res.redirect('/recipes')
         }

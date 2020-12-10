@@ -1,10 +1,10 @@
-<div class="container">
+<div class="container start-page">
   <div class="row">
     <div class="col">
       <div>
         <h2 class="display-3">Welcome to Recipe Club</h2>
         <br>
-        <h3>Try our recipe management app to find and organize your favourite recipes!</h3>
+        <h3 class="text-secondary">Try our recipe management app to find and organize your favourite recipes!</h3>
         <br>
         <form class="pull-left" class="container" class="mx-auto" style="width: 200px;" action="/" method="post">
 
@@ -20,12 +20,12 @@
             <button type="submit" class="btn btn-primary">LOGIN</button>
           </div>
           {{#if errorMessage}}
-          <p>{{errorMessage}}</p>
+          <p class="alert alert-danger mt-3" role="alert">{{errorMessage}}</p>
           {{/if}}
         </form>
         <br>
         <div class="pull-left" class="mx-auto" style="width: 400px;">
-          <p> No account yet? <a href="/signup">Sign up to browse recipes!</a> </p>
+          <p> No account yet? <a href="/signup" class="source-link">Sign up to browse recipes!</a> </p>
         </div>
       </div>
     </div>
