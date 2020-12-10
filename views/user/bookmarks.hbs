@@ -1,22 +1,31 @@
 {{> navigationalBar}}
-
-<h2>My bookmarks</h2>
-
-<br>
 <div>
+  <h2>My bookmarks</h2>
+  <br>
   <form action="/user/bookmarks" method="GET">
-
-    <input type="text" name="query" placeholder="Browse your bookmarks..." value="{{this.query}}">
+    <input type="text" name="query" placeholder="Search my bookmarks" value="{{this.query}}">
     <button type="submit" id="search-button">Search</button>
   </form>
+  <div class="recipes">
 
-</div>
+    <div class="row justify-content-center">
+      <div class="wrapper">
+        {{!-- {{#if this.recipes}} --}}
+        {{#each this.user.bookmarkedRecipes}}
+        <div class="class=“card-deck col-lg-4 col-sm-12 col-md-5 text-center">
+          <div class="card mt-5">
+            <img class="card-img-top" src="{{#if this.recipeImage}} {{this.recipeImage}}{{else}}/images/food.jpg{{/if}}"
+              alt="Card image cap">
+            <div class="card-body-recipes">
+              <h5 class="card-title">{{this.name}}</h5>
+              <a href="/recipes/{{this._id}}" class="btn btn-primary"> Go to Recipe</a>
+            </div>
 
+          </div>
+        </div>
+        {{/each}}
 
-{{!-- 'this' is the user object --}}
-{{#each this.user.bookmarkedRecipes}}
-<p>{{this.name}}</p>
-<img src="{{this.recipeImage}}">
-<p>Created by: {{this.createdBy.username}}</p>
-<p><a href="/recipes/{{this._id}}">Go to Recipe</a></p>
-{{/each}}
+      </div>
+
+    </div>
+  </div>
