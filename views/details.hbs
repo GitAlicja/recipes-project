@@ -91,8 +91,8 @@
           <button class="btn btn-danger btn-sm">Delete Recipe</button>
         </form>
       </div>
-      {{#if errorMessage}}<p class="alert alert-danger mt-3" role="alert">{{errorMessage}}</p>{{/if}}
-      {{#if errorMessage1}}<p class="alert alert-danger mt-3" role="alert">{{errorMessage1}}</p>{{/if}}
+      {{#if noPermissionError}}<p class="alert alert-danger mt-3" role="alert">You do not have permission to edit this recipe!</p>{{/if}}
+      {{#if noPermissionToDeleteError}}<p class="alert alert-danger mt-3" role="alert">You do not have permission to delete this recipe!</p>{{/if}}
     </div>
   </div>
 

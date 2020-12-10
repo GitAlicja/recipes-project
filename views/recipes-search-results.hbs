@@ -4,7 +4,7 @@
     <h2>Recipes</h2>
 
     <form method="get" action="/recipes">
-    <button type="submit">Return to Homepage</button>
+    <button type="submit" class="btn btn-primary">Return to Homepage</button>
 </form>
     {{!-- <h2>Filter recipes</h2>
     <form action="/filter" method="get">
@@ -36,7 +36,7 @@
 
 
     {{else}}
-    <p>There are no results matching your query!</p>
+    <p class="alert alert-danger mt-3" role="alert">There are no results matching your query!</p>
     {{/if}}
 </div>
 

@@ -19,8 +19,6 @@ router.get('/recipes', (req, res, next) => {
   if (!req.session.userId) {
     res.redirect('/');
   } else {
-    // let MealType = ["breakfast", "lunch", "dinner", "soup", "snacks", "dessert", "cake"]
-    // let RecipeType = ["vegetarian", "vegan", "gluten-free", "meat", "fish", "seafood", "low-carb"]
     Recipe.find().then((recipeFromDB) => {
 
       User.findById(req.session.userId).then((user) => {
@@ -47,7 +45,6 @@ router.get('/recipes/create', (req, res, next) => {
       .then((recipeFromDB) => {
         res.render('create', { ingredients: [null, null, null, null, null, null, null, null], recipes: recipeFromDB, MealType: MealType, RecipeType: RecipeType })
       })
-    // user: userFromDB
   }
 });
 
@@ -84,7 +81,6 @@ router.post('/recipes/create', fileUploader.single('image'), (req, res) => {
 });
 
 
-
 // /:id/details
 router.get('/recipes/:id', (req, res, next) => {
 
@@ -99,7 +95,7 @@ router.get('/recipes/:id', (req, res, next) => {
         let d = new Date(recipeDetails.createDate);
         date = d.getFullYear() + "/" + d.getMonth() + "/" + d.getDate();
         // passing the array of possibleScores added 
-        res.render('details', { recipeDetails, possibleScores, selfRatingError: req.query.selfRatingError, date });
+        res.render('details', { recipeDetails, possibleScores, selfRatingError: req.query.selfRatingError, noPermissionError: req.query.noPermissionError, noPermissionToDeleteError: req.query.noPermissionToDeleteError, date });
       });
   }
 });
@@ -243,7 +239,7 @@ router.post('/recipes/:id/save-rating', (req, res, next) => {
 
 
 // /:id/edit
-//How to give permission to the creator of the recipe??//
+// How to give permission to the creator of the recipe??
 // req.session.userID != recipes.createdBy)
 
 router.get('/recipes/:id/edit', (req, res, next) => {
@@ -256,11 +252,14 @@ router.get('/recipes/:id/edit', (req, res, next) => {
     let RecipeType = ["vegetarian", "vegan", "gluten-free", "meat", "fish", "seafood", "low-carb"]
 
     const { id } = req.params
+
     Recipe.findById(id).then(recipeToEdit => {
+
       if (req.session.userId != recipeToEdit.createdBy) {
-        res.render('details', { errorMessage: 'You do not have permission to edit this recipe!' })
+        res.redirect(`/recipes/${id}?noPermissionError=true`);
+        return;
       } else {
-        
+
         let mealTypesInclSelected = MealType.map((el) => {
           return {
             name: el,
@@ -275,38 +274,63 @@ router.get('/recipes/:id/edit', (req, res, next) => {
         })
         res.render('edit', { recipeToEdit: recipeToEdit, MealType: mealTypesInclSelected, RecipeType: recipeTypesInclSelected })
       }
-    })
+    });
   }
 });
+
 
 router.post('/recipes/:id/edit', fileUploader.single('image'), (req, res) => {
-  const { id } = req.params;
-  const { name, instructions, URL, image, prepTime, cookTime, totalTime, typeOfMeal, typeOfRecipe, portions, ingredients, level } = req.body;
-  // an object with properties which are always there
-  const update = { name, instructions, URL, prepTime, cookTime, totalTime, typeOfMeal, typeOfRecipe, portions, ingredients, level };
 
-  // if a new file will be chosen for the upload, it will be added to the object called update
-  if (req.file && req.file.path) {
-    update.recipeImage = req.file.path;
+  if (!req.session.userId) {
+    res.redirect('/');
+  } else {
+
+    Recipe.findById(req.params.id).then(recipe => {
+      if (recipe.createdBy != req.session.userId) {
+        res.redirect(`/recipes/${req.params.id}?noPermissionError=true`);
+        return;
+      }
+      const { id } = req.params;
+      const { name, instructions, URL, prepTime, cookTime, totalTime, typeOfMeal, typeOfRecipe, portions, ingredients, level } = req.body;
+      // an object with properties which are always there
+      const update = { name, instructions, URL, prepTime, cookTime, totalTime, typeOfMeal, typeOfRecipe, portions, ingredients, level };
+
+      // if a new file will be chosen for the upload, it will be added to the object called update
+      if (req.file && req.file.path) {
+        update.recipeImage = req.file.path;
+      }
+
+      Recipe.update(id, update, { new: true })
+        .exec()
+        .then(() => {
+          res.redirect('/recipes/' + req.params.id);
+        });
+    });
   }
-
-  Recipe.findByIdAndUpdate(id, update, { new: true })
-    .then(() => res.redirect('/recipes'))
 });
+
+
 
 //:id/delete
 router.post('/recipes/:id/delete', (req, res) => {
   if (!req.session.userId) {
     res.redirect('/');
   } else {
+
     const { id } = req.params;
-    Recipe.findByIdAndDelete(id)
+    Recipe.findById(id)
       .then(recipeToDelete => {
-        if (req.session.userId != recipeToDelete.createdBy) {
-          res.render('details', { recipeToDelete: recipeToDelete, errorMessage1: 'You do not have permission to delete this recipe!' })
-        } else {
-          res.redirect('/recipes')
+
+        if (recipeToDelete.createdBy != req.session.userId) {
+          res.redirect(`/recipes/${id}?noPermissionToDeleteError=true`);
+          return;
         }
+
+        Recipe.deleteOne({ _id: id })
+          .exec()
+          .then(() => res.redirect('/recipes'));
+
+
       })
   }
 });

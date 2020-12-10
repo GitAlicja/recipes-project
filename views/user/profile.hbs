@@ -30,9 +30,9 @@
               <i class="fas fa-search h4 text-body"></i>
             </div>
             <div class="col mr-3">
-              <form action="/search" method="get">
-                <input class="form-control form-control-lg form-control-borderless" type="text" name="searchInput"
-                  placeholder="Find a recipe..">
+              <form action="/user/profile" method="GET">
+                <input class="form-control form-control-lg form-control-borderless" type="text" name="query"
+                  placeholder="Find a recipe.." value="{{this.query}}">
             </div>
             <div class="col-auto">
 
@@ -55,7 +55,8 @@
           <div class="form-group">
 
             <label for='typeOfMealFilter'>Type of meal:</label>
-            <form action="/filter" method="get">
+
+            <form action="/user/profile" method="GET">
               <select name="typeOfMeal" class="mul-select" multiple="true">
 
                 {{#each MealType}}
@@ -78,12 +79,11 @@
             </select>
             <button class="filter-btn" type="submit">Filter</button>
             </form>
+
           </div>
         </div>
       </div>
     </div>
-
-
 
     <div class="recipes">
       <h2>Your recipes</h2>

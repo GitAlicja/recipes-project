@@ -78,11 +78,13 @@ router.get('/profile/edit', (req, res, next) => {
 // POST /user/profile/edit
 // image is a parameter, the name attribute of the input field with the type of file
 router.post('/profile/edit', fileUploader.single('image'), (req, res, next) => {
-// console.log("user:-------------------->",req.body)
+  // console.log("user:-------------------->",req.body)
 
   if (!req.session.userId) {
     res.redirect('/');
   } else {
+
+console.log(req.body);
 
     // make sure fields are not empty
     if (!req.body.username || req.body.username.trim().length === 0 || !req.body.email || req.body.email.trim().length === 0) {
