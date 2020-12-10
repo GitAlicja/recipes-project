@@ -4,9 +4,9 @@ body {
   /* background-color: #FCD0BA !important ; */
 }
 
-a {
+/* a {
   color: #00b7ff;
-}
+} */
 
 /*# sourceMappingURL=style.css.map */
 
@@ -257,7 +257,29 @@ nav {
   text-decoration: none;
 }
 
+.source-link:hover {
+  color: #8fb9a8;
+  text-decoration: none;
+}
+
+.source-link:visited {
+  color: #8fb9a8;
+  text-decoration: none;
+}
+
 .ingredient-input {
   margin-bottom: 5px;
 }
 
+.footer-icon {
+  width: 17px;
+}
+
+footer {
+  background: #f8f9fa;
+} 
+
+footer > p {
+  font-size: 13px;
+  text-align: center;
+}
