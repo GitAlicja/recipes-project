@@ -300,7 +300,7 @@ router.post('/recipes/:id/edit', fileUploader.single('image'), (req, res) => {
         update.recipeImage = req.file.path;
       }
 
-      Recipe.update(id, update, { new: true })
+      Recipe.update(recipe, update, { new: true })
         .exec()
         .then(() => {
           res.redirect('/recipes/' + req.params.id);
