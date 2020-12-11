@@ -55,7 +55,6 @@ router.get('/profile', (req, res, next) => {
         // console.log({ user: userFromDB, recipes: recipesFromDB }) this is one object with two properties
 
 
-
         res.render('user/profile', { query: req.query.query, user: userFromDB, recipes: recipesFromDB, MealType: MealType, RecipeType: RecipeType, filterQuery });
       });
     });
