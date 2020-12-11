@@ -32,16 +32,12 @@
       <div class="row justify-content-left align-items-left h-100">
         <div class="col col-sm-6 col-md-6 col-lg-4 col-xl-3">
           <div class="form-group">
-
             <label for='typeOfMealFilter'>Type of meal:</label>
-
             <select name="typeOfMeal" class="mul-select" multiple="true">
-
               {{#each MealType}}
               <option value="{{this}}">{{this}}</option>
               {{/each}}
             </select>
-
           </div>
         </div>
       </div>
@@ -50,15 +46,14 @@
         <div class="col col-sm-6 col-md-6 col-lg-4 col-xl-3">
           <div class="form-group">
             <label for='typeOfRecipeFilter'>Type of recipe:</label>
-
-            <select name="typeOfRecipe" class="mdb-select md-form" searchable="Search here..">
+            <select id="typeOfRecipeFilter" name="typeOfRecipe" class="mdb-select md-form" searchable="Search here..">
               <option value="" disabled selected>Select your recipe type</option>
+              <option value="">none</option>
               {{#each RecipeType}}
               <option value="{{this}}">{{this}}</option>
               {{/each}}
             </select>
             <button class="filter-btn" type="submit">Filter</button>
-
           </div>
         </div>
       </div>
@@ -91,7 +86,6 @@
         </div>
         {{/each}}
       </div>
-
     </div>
   </div>
 

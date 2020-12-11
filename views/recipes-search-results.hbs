@@ -1,48 +1,49 @@
 {{> navigationalBar}}
 
-<div>
-    <h2>Recipes</h2>
+<div class="container">
 
-    <form method="get" action="/recipes">
-    <button type="submit" class="btn btn-primary">Return to Homepage</button>
-</form>
-
-
-    {{!-- <h2>Filter recipes</h2>
-    <form action="/filter" method="get">
-        Type of meal:
-        <select name="typeOfMeal" multiple>
-            {{#each MealType}}
-            <option value="{{this}}">{{this}}</option>
-            {{/each}}
-        </select>
-        Type of recipe:
-        <select name="typeOfRecipe">
-            {{#each RecipeType}}
-            <option value="{{this}}">{{this}}</option>
-            {{/each}}
-        </select>
-        <br>
-        <button type="submit">Filter</button>
-    </form> --}}
-
-
-
-
-    {{#if this.recipesFromDB}}
-
-    {{#each recipesFromDB }}
-    <div>
-        <p>Name: {{this.name}}</p>
-        <img src="{{this.recipeImage}}">
-        <p><a href="/recipes/{{this._id}}">Go to Recipe</a></p>
+    <h2 class="mb-3"> Your Search Results</h2>
+    <div class="recipes">
+        <div class="row">
+            <div class="wrapper">
+                {{#each this.recipesFromDB}}
+                <div class="card-deck col-lg-4 col-sm-12 col-md-5 text-center">
+                    <div class="card mt-4 pb-3 card-border">
+                        <img class="card-img-top"
+                            src="{{#if this.recipeImage}} {{this.recipeImage}}{{else}}/images/ella-olsson-7EhPbdAQG-s-unsplash.jpg{{/if}}"
+                            alt="Card image cap">
+                        <div class="card-body-recipes">
+                            <h5 class="card-title">{{this.name}}</h5>
+                            <a href="/recipes/{{this._id}}" class="btn btn-primary">Go to Recipe</a>
+                        </div>
+                    </div>
+                </div>
+                {{/each}}
+            </div>
+        </div>
     </div>
-    {{/each}}
 
+    <form method="get" action="/recipes" class="mt-5">
+        <button type="submit" class="btn btn-primary">Return to Homepage</button>
+    </form>
 
-    {{else}}
-    <p class="alert alert-danger mt-3" role="alert">There are no results matching your query!</p>
-    {{/if}}
 </div>
 
 {{> footer}}
+
+
+
+
+{{!-- {{#if this.recipesFromDB}}
+{{#each recipesFromDB }}
+<div>
+    <p>Name: {{this.name}}</p>
+    <img src="{{this.recipeImage}}">
+    <p><a href="/recipes/{{this._id}}">Go to Recipe</a></p>
+</div>
+{{/each}}
+
+
+{{else}}
+<p class="alert alert-danger mt-3" role="alert">There are no results matching your query!</p>
+{{/if}} --}}

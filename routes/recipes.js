@@ -324,21 +324,22 @@ router.get('/search', (req, res) => {
 router.get('/filter', (req, res) => {
   if (!req.session.userId) {
     res.redirect('/');
-  } else {
+  } else if (req.query.typeOfRecipe || req.query.typeOfMeal) {
 
-    Recipe.find({
-      $and: [
-        { $or: [{ typeOfRecipe: { $in: req.query.typeOfRecipe } }] },
-        { $or: [{ typeOfMeal: { $in: req.query.typeOfMeal } }] }
-      ]
-    }).then((recipesFromDB) => {
-      // if (recipesFromDB.length === 0) {
-      //   res.send("There are no recipes that meet your criteria. Sorry! :(")
-      // }
-      res.render('recipes-search-results', { recipesFromDB })
-    }).catch(error => {
-      console.log("something went wrong to get filters fromdb", error)
-    });
+    const filterByRecipeType = req.query.typeOfRecipe ? req.query.typeOfRecipe : RecipeType
+    const filterByMealType = req.query.typeOfMeal ? req.query.typeOfMeal : MealType
+
+    Recipe.find(
+      {
+        $and: [
+          { typeOfRecipe: { $in: filterByRecipeType } },
+          { typeOfMeal: { $in: filterByMealType } }
+        ]
+      }).then(recipesFromDB => {
+        res.render('recipes-search-results', { recipesFromDB })
+      }).catch(error => {
+        console.log("something went wrong to get filters fromdb", error)
+      });
   }
 });
 
