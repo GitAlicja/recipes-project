@@ -43,7 +43,7 @@ router.get('/recipes/create', (req, res, next) => {
     Recipe.find()
       .populate('createdBy')
       .then((recipeFromDB) => {
-        res.render('create', { ingredients: [null, null, null, null, null, null, null, null], recipes: recipeFromDB, MealType: MealType, RecipeType: RecipeType });
+        res.render('create', { ingredients: [null, null, null, null, null, null, null, null], recipes: recipeFromDB, MealType: MealType, RecipeType: RecipeType, requiredError: req.query.requiredError });
       });
   }
 });
@@ -72,7 +72,11 @@ router.post('/recipes/create', fileUploader.single('image'), (req, res) => {
     const { createDate, name, instructions, URL, prepTime, cookTime, totalTime, typeOfMeal, typeOfRecipe, portions, ingredients, level } = req.body;
 
     Recipe.create({ createDate, name, instructions, URL, prepTime, cookTime, totalTime, typeOfMeal, typeOfRecipe, portions, ingredients, ratings: [], avgRating: 0, createdBy: req.session.userId, recipeImage: recipeImage, level: level })
-      .then(() => res.redirect('/recipes'));
+      .then(() => res.redirect('/recipes'))
+      .catch(() => {
+        res.redirect('/recipes/create?requiredError=true')
+      })
+      ;
   }
 
 });

@@ -83,7 +83,8 @@
       <h2>Your recipes</h2>
       <div class="row">
         <div class="wrapper">
-          {{!-- {{#if this.recipes}} --}}
+          {{#if this.recipes}}
+
           {{#each this.recipes}}
           <div class="card-deck col-lg-4 col-sm-12 col-md-5 text-center">
             <div class="card mt-4 pb-3 card-border">
@@ -94,19 +95,17 @@
                 <h5 class="card-title">{{this.name}}</h5>
                 <a href="/recipes/{{this._id}}" class="btn btn-primary">Go to Recipe</a>
               </div>
-
-              {{!-- {{else}}
-              <p>There are no results matching your query!</p>
-              {{/if}}
-            --}}
             </div>
           </div>
           {{/each}}
 
+          {{else}}
+          <p class="alert alert-danger mt-3" role="alert">{{#if filterQuery}}There are no results matching your
+            query!{{else}}You haven't created any recipes yet!{{/if}}</p>
+          {{/if}}
         </div>
       </div>
     </div>
-
   </div>
 </div>
 

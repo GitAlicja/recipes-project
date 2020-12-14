@@ -2,11 +2,14 @@
 
 <div class="main-recipe-container">
 
-  <h2 class="form-header">Create New Recipe</h2>
+  {{#if requiredError}}<p class="alert alert-danger mt-3" role="alert">Please add all required informations to create a
+    recipe!</p>
+  {{/if}}
 
+  <h2 class="form-header">Create New Recipe</h2>
   <form action="/recipes/create" method="post" enctype="multipart/form-data">
 
-    <div  class="form-group">
+    <div class="form-group">
       <label for="input-file">Upload your recipe photo</label>
       <input type="file" class="form-control border-0 pl-0" name="image" id="input-file1" />
     </div>
