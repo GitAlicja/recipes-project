@@ -2,6 +2,13 @@
 
 <div class="main-recipe-container">
 
+  {{#if selfRatingError}}<p class="alert alert-danger mt-3" role="alert">You can't rate your own recipe!</p>
+  {{/if}}
+  {{#if noPermissionError}}<p class="alert alert-danger mt-3" role="alert">You do not have permission to edit this
+    recipe!</p>{{/if}}
+  {{#if noPermissionToDeleteError}}<p class="alert alert-danger mt-3" role="alert">You do not have permission to delete
+    this recipe!</p>{{/if}}
+
   <div>
     <h2 class="recipe-details-name">{{recipeDetails.name}}</h2>
     <p>Created on {{date}} by {{recipeDetails.createdBy.username}}</p>
@@ -36,10 +43,9 @@
     <p>{{recipeDetails.instructions}}</p>
   </div>
 
-  <p>Find the <strong>original recipe</strong> <a href="{{recipeDetails.URL}}" class="source-link"
+  <p class="mb-3">Find the <strong>original recipe</strong> <a href="{{recipeDetails.URL}}" class="source-link"
       target="_blank">here</a>!</p>
 
-  <br>
   <div class="card card-border">
     <div class="card-body">
 
@@ -51,8 +57,6 @@
           {{/each}}
         </select>
         <button class="btn btn-light btn-sm" type="submit">Save</button>
-        {{#if selfRatingError}}<p class="alert alert-danger mt-3" role="alert">You can't rate your own recipe!</p>
-        {{/if}}
       </form>
       <form action="/user/shopping-list/{{this.recipeDetails._id}}/add" method="POST">
         Add Recipe to Your Shopping List
@@ -69,12 +73,10 @@
         Bookmark this Recipe
         <button class="btn btn-light btn-sm" type="submit">Save</button>
       </form>
-
       <form action="{{this.recipeDetails._id}}/remove-bookmark" method="POST">
         Remove Bookmark for this Recipe
         <button class="btn btn-light btn-sm" type="submit">Remove</button>
       </form>
-
     </div>
   </div>
 
@@ -86,13 +88,10 @@
           <button class="btn btn-info btn-sm" type="submit">Edit Recipe</button>
         </form>
         {{!-- <p><a href="{{this.recipeDetails._id}}/edit">edit</a></p> --}}
-
         <form action="/recipes/{{this.recipeDetails._id}}/delete" method="POST">
           <button class="btn btn-danger btn-sm">Delete Recipe</button>
         </form>
       </div>
-      {{#if noPermissionError}}<p class="alert alert-danger mt-3" role="alert">You do not have permission to edit this recipe!</p>{{/if}}
-      {{#if noPermissionToDeleteError}}<p class="alert alert-danger mt-3" role="alert">You do not have permission to delete this recipe!</p>{{/if}}
     </div>
   </div>
 

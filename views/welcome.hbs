@@ -1,6 +1,5 @@
 {{> navigationalBar}}
 
-
 <div class="container">
 
   <h1>Welcome {{user.username}}!</h1>
@@ -12,18 +11,14 @@
           <div class="col-auto">
             <i class="fas fa-search h4 text-body"></i>
           </div>
-
           <div class="col mr-3">
-
             <input class="form-control form-control-lg form-control-borderless" type="text" name="query"
               placeholder="Find a recipe..">
-
           </div>
           <div class="col-auto">
             <button class="btn btn-lg btn-success" type="submit">Search</button>
           </div>
         </div>
-
       </form>
     </div>
   </div>
@@ -37,16 +32,12 @@
       <div class="row justify-content-left align-items-left h-100">
         <div class="col col-sm-6 col-md-6 col-lg-4 col-xl-3">
           <div class="form-group">
-
             <label for='typeOfMealFilter'>Type of meal:</label>
-
             <select name="typeOfMeal" class="mul-select" multiple="true">
-
               {{#each MealType}}
               <option value="{{this}}">{{this}}</option>
               {{/each}}
             </select>
-
           </div>
         </div>
       </div>
@@ -55,25 +46,20 @@
         <div class="col col-sm-6 col-md-6 col-lg-4 col-xl-3">
           <div class="form-group">
             <label for='typeOfRecipeFilter'>Type of recipe:</label>
-
-            <select name="typeOfRecipe" class="mdb-select md-form" searchable="Search here..">
+            <select id="typeOfRecipeFilter" name="typeOfRecipe" class="mdb-select md-form" searchable="Search here..">
               <option value="" disabled selected>Select your recipe type</option>
+              <option value="">none</option>
               {{#each RecipeType}}
               <option value="{{this}}">{{this}}</option>
               {{/each}}
             </select>
             <button class="filter-btn" type="submit">Filter</button>
-
           </div>
         </div>
       </div>
     </form>
   </div>
 
-  {{!-- this doesn't work --}}
-  {{!-- {{#if noResults}}
- <p>There are no results matching your filters!</p>
-   {{/if}} --}}
 
   <div class="recipes">
     <h2>Recipes</h2>
@@ -96,10 +82,8 @@
         </div>
         {{/each}}
       </div>
-
     </div>
   </div>
-
 
 </div>
 

@@ -1,5 +1,4 @@
 {{> navigationalBar}}
-
 <div class="container">
 
   <div class="profile-info">
@@ -24,71 +23,68 @@
   <div>
     <div class="row justify-content-center">
       <div class="col-12 col-md-10 col-lg-8">
-        <form class="card card-sm border-light">
+        <form class="card card-sm border-light" action="/user/profile" method="GET">
           <div class="card-body row no-gutters align-items-center card-backgroung">
             <div class="col-auto">
               <i class="fas fa-search h4 text-body"></i>
             </div>
             <div class="col mr-3">
-              <form action="/user/profile" method="GET">
-                <input class="form-control form-control-lg form-control-borderless" type="text" name="query"
-                  placeholder="Find a recipe.." value="{{this.query}}">
+              <input class="form-control form-control-lg form-control-borderless" type="text" name="query"
+                placeholder="Find a recipe.." value="{{this.query}}">
             </div>
             <div class="col-auto">
-
               <button class="btn btn-lg btn-success" type="submit">Search</button>
             </div>
           </div>
-
         </form>
       </div>
     </div>
-
 
     <div class="container-fluid h-100">
       <div class="row justify-content-left align-items-left">
         <h2>Filter recipes</h2>
       </div>
       <br>
-      <div class="row justify-content-left align-items-left h-100">
-        <div class="col col-sm-6 col-md-6 col-lg-4 col-xl-3">
-          <div class="form-group">
+      <form action="/user/profile" method="GET">
+        <div class="row justify-content-left align-items-left h-100">
+          <div class="col col-sm-6 col-md-6 col-lg-4 col-xl-3">
+            <div class="form-group">
 
-            <label for='typeOfMealFilter'>Type of meal:</label>
-
-            <form action="/user/profile" method="GET">
+              <label for='typeOfMealFilter'>Type of meal:</label>
               <select name="typeOfMeal" class="mul-select" multiple="true">
-
-                {{#each MealType}}
+                {{#each this.MealType}}
                 <option value="{{this}}">{{this}}</option>
                 {{/each}}
               </select>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div class="row justify-content-left align-items-left h-100">
-        <div class="col col-sm-6 col-md-6 col-lg-4 col-xl-3">
-          <div class="form-group">
-            <label for='typeOfRecipeFilter'>Type of recipe:</label>
-            <select name="typeOfRecipe" class="mdb-select md-form" searchable="Search here..">
-              <option value="" disabled selected>Select your recipe type</option>
-              {{#each RecipeType}}
-              <option value="{{this}}">{{this}}</option>
-              {{/each}}
-            </select>
-            <button class="filter-btn" type="submit">Filter</button>
-            </form>
+        <div class="row justify-content-left align-items-left h-100">
+          <div class="col col-sm-6 col-md-6 col-lg-4 col-xl-3">
+            <div class="form-group">
+              <label for='typeOfRecipeFilter'>Type of recipe:</label>
+              <select name="typeOfRecipe" class="mdb-select md-form" searchable="Search here..">
+                <option value="" disabled selected>Select your recipe type</option>
+                <option value="">none</option>
+                {{#each this.RecipeType}}
+                <option value="{{this}}">{{this}}</option>
+                {{/each}}
+              </select>
+              <button class="filter-btn" type="submit">Filter</button>
+
+            </div>
           </div>
         </div>
-      </div>
+      </form>
     </div>
 
     <div class="recipes">
       <h2>Your recipes</h2>
       <div class="row">
         <div class="wrapper">
-          {{!-- {{#if this.recipes}} --}}
+          {{#if this.recipes}}
+
           {{#each this.recipes}}
           <div class="card-deck col-lg-4 col-sm-12 col-md-5 text-center">
             <div class="card mt-4 pb-3 card-border">
@@ -99,19 +95,17 @@
                 <h5 class="card-title">{{this.name}}</h5>
                 <a href="/recipes/{{this._id}}" class="btn btn-primary">Go to Recipe</a>
               </div>
-
-              {{!-- {{else}}
-              <p>There are no results matching your query!</p>
-              {{/if}}
-            --}}
             </div>
           </div>
           {{/each}}
 
+          {{else}}
+          <p class="alert alert-danger mt-3" role="alert">{{#if filterQuery}}There are no results matching your
+            query!{{else}}You haven't created any recipes yet!{{/if}}</p>
+          {{/if}}
         </div>
       </div>
     </div>
-
   </div>
 </div>
 

@@ -3,7 +3,6 @@ const router = express.Router();
 const User = require('../models/User.Model');
 const Recipe = require('../models/Recipe.Model');
 const fileUploader = require('../configs/cloudinary.config');
-// const { route } = require('./recipes');
 
 const MealType = ["breakfast", "lunch", "dinner", "soup", "snacks", "dessert", "cake"];
 const RecipeType = ["vegetarian", "vegan", "gluten-free", "meat", "fish", "seafood", "low-carb"];
@@ -36,6 +35,14 @@ router.get('/profile', (req, res, next) => {
         // console.log("req.query.typeOfMeal", req.query.typeOfMeal)
         const filterByRecipeType = req.query.typeOfRecipe ? req.query.typeOfRecipe : RecipeType
         const filterByMealType = req.query.typeOfMeal ? req.query.typeOfMeal : MealType
+
+        // let filterByMealType;
+        // if (req.query.typeOfMeal) {
+        //   filterByMealType = req.query.typeOfMeal
+        // } else {
+        //   filterByMealType = MealType
+        // }
+
         recipesPromise = Recipe.find({
           $and: [
             { createdBy: req.session.userId },
@@ -53,7 +60,6 @@ router.get('/profile', (req, res, next) => {
 
       recipesPromise.then(recipesFromDB => {
         // console.log({ user: userFromDB, recipes: recipesFromDB }) this is one object with two properties
-
 
 
         res.render('user/profile', { query: req.query.query, user: userFromDB, recipes: recipesFromDB, MealType: MealType, RecipeType: RecipeType, filterQuery });
@@ -84,7 +90,7 @@ router.post('/profile/edit', fileUploader.single('image'), (req, res, next) => {
     res.redirect('/');
   } else {
 
-console.log(req.body);
+    console.log(req.body);
 
     // make sure fields are not empty
     if (!req.body.username || req.body.username.trim().length === 0 || !req.body.email || req.body.email.trim().length === 0) {
