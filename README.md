@@ -1,6 +1,6 @@
 Backend Project: Recipe Club App
 
-An app written in JavaScript, Handlebars and CSS. Created in order to complete the second module (Backend) at Ironhack Berlin in a team of three. 
+Fully responsive app written in JavaScript, Handlebars and CSS. Created in order to complete the second module (Backend) at Ironhack Berlin in a team of three. The app allows users to add and manage favourite recipes.
 
 Tech stack: Node.js, Express.js, Mongo DB, Mongoose, Handlebars, CSS
 
